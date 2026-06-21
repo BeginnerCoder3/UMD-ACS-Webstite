@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACS Student Chapter at the University of Maryland | Chemistry for Life</title>
+  <meta name="description" content="The American Chemical Society Student Chapter at the University of Maryland. Professional development, mentorship, community outreach, and free chemistry tutoring. Chemistry for Life." />
+  <meta name="theme-color" content="#002F6C" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ACS Student Chapter at the University of Maryland" />
+  <meta property="og:description" content="Chemistry for Life. A student chemistry community at UMD with events, mentorship, and free tutoring." />
+  <meta property="og:type" content="website" />
+
+  <!-- Google Fonts: Poppins + Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            umd: {
+              blue: '#002F6C',
+              navy: '#041E42',
+              gold: '#EAAA00',
+              amber: '#FFC72C',
+              charcoal: '#1F2937',
+              mist: '#F8FAFC',
+            },
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Poppins', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'gold': '0 18px 40px -12px rgba(234, 170, 0, 0.45)',
+            'gold-sm': '0 8px 20px -8px rgba(234, 170, 0, 0.4)',
+            'blue': '0 25px 50px -12px rgba(0, 47, 108, 0.35)',
+            'glow': '0 0 0 1px rgba(234,170,0,0.4), 0 0 30px rgba(234,170,0,0.25)',
+          },
+          keyframes: {
+            float: {
+              '0%,100%': { transform: 'translateY(0) rotate(0deg)' },
+              '50%': { transform: 'translateY(-22px) rotate(8deg)' },
+            },
+            'float-slow': {
+              '0%,100%': { transform: 'translateY(0) translateX(0)' },
+              '50%': { transform: 'translateY(-30px) translateX(15px)' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            },
+            pulseGlow: {
+              '0%,100%': { boxShadow: '0 0 0 0 rgba(234,170,0,0.5)' },
+              '50%': { boxShadow: '0 0 0 14px rgba(234,170,0,0)' },
+            },
+          },
+          animation: {
+            float: 'float 9s ease-in-out infinite',
+            'float-slow': 'float-slow 14s ease-in-out infinite',
+            shimmer: 'shimmer 3s linear infinite',
+            pulseGlow: 'pulseGlow 2.6s ease-in-out infinite',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- Three.js (UMD global build) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    html, body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    body { font-family: 'Inter', system-ui, sans-serif; color: #1F2937; background: #FFFFFF; overflow-x: hidden; }
+    h1,h2,h3,h4,.font-display { font-family: 'Poppins', system-ui, sans-serif; }
+
+    ::selection { background: #EAAA00; color: #002F6C; }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 12px; }
+    ::-webkit-scrollbar-track { background: #F8FAFC; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(#002F6C, #041E42); border-radius: 99px; border: 3px solid #F8FAFC; }
+    ::-webkit-scrollbar-thumb:hover { background: #EAAA00; }
+
+    /* Scroll-reveal */
+    .reveal { opacity: 0; transform: translateY(42px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); will-change: opacity, transform; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .12s; }
+    .reveal-delay-2 { transition-delay: .24s; }
+    .reveal-delay-3 { transition-delay: .36s; }
+    .reveal-delay-4 { transition-delay: .48s; }
+
+    /* Nav underline */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; left: 0; bottom: -6px; height: 2px; width: 100%;
+      background: linear-gradient(90deg, #EAAA00, #FFC72C);
+      transform: scaleX(0); transform-origin: right; transition: transform .35s cubic-bezier(.22,1,.36,1);
+      border-radius: 2px;
+    }
+    .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); transform-origin: left; }
+
+    /* Gradient text */
+    .text-gradient-gold { background: linear-gradient(120deg, #EAAA00, #FFC72C, #EAAA00); -webkit-background-clip: text; background-clip: text; color: transparent; background-size: 200% auto; }
+
+    /* Shiny CTA */
+    .btn-shine { position: relative; overflow: hidden; }
+    .btn-shine::before {
+      content: ''; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,.55), transparent);
+      transform: skewX(-20deg); transition: left .7s ease;
+    }
+    .btn-shine:hover::before { left: 140%; }
+
+    /* Animated gradient hero overlay */
+    .hero-gradient {
+      background:
+        radial-gradient(1200px 600px at 75% 15%, rgba(234,170,0,0.16), transparent 60%),
+        radial-gradient(900px 500px at 10% 80%, rgba(0,47,108,0.55), transparent 55%),
+        linear-gradient(135deg, #001b40 0%, #002F6C 45%, #023a82 100%);
+    }
+
+    /* Section divider */
+    .gold-divider { height: 4px; background: linear-gradient(90deg, transparent, #EAAA00, #FFC72C, #EAAA00, transparent); }
+
+    /* Card hover lift */
+    .lift { transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s ease, border-color .4s ease; }
+    .lift:hover { transform: translateY(-12px); }
+
+    /* Floating atom bg */
+    .atom-bg { position: absolute; opacity: .05; pointer-events: none; }
+
+    /* Animated counter underline shimmer for headings */
+    .shine-text {
+      background: linear-gradient(90deg, #002F6C 0%, #023a82 25%, #EAAA00 50%, #023a82 75%, #002F6C 100%);
+      background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: shimmer 6s linear infinite;
+    }
+
+    /* Hide canvas focus outline */
+    canvas { display: block; outline: none; }
+
+    /* Mobile menu */
+    .mobile-menu { transition: transform .45s cubic-bezier(.22,1,.36,1), opacity .35s ease; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { transition: none; opacity: 1; transform: none; }
+      * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
+    }
+
+    /* Periodic tile */
+    .ptile { transition: transform .3s ease, background .3s ease, color .3s ease, box-shadow .3s ease; }
+    .ptile:hover { transform: translateY(-4px) scale(1.06); background: #EAAA00; color: #002F6C; box-shadow: 0 10px 20px -8px rgba(234,170,0,.6); }
+  </style>
+</head>
+
+<body class="antialiased">
+
+  <!-- ============================= HERO ============================= -->
+  <header id="home" class="relative min-h-screen w-full overflow-hidden hero-gradient">
+
+    <!-- Three.js molecule canvas -->
+    <canvas id="molecule-canvas" class="absolute inset-0 w-full h-full z-0"></canvas>
+
+    <!-- subtle grain / vignette -->
+    <div class="absolute inset-0 z-[1] pointer-events-none" style="background:radial-gradient(ellipse at center, transparent 40%, rgba(0,12,30,0.55) 100%);"></div>
+
+    <!-- Top utility bar -->
+    <div class="relative z-20 w-full">
+      <div class="mx-auto max-w-7xl px-6 lg:px-10 pt-6 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <!-- UMCP crest slot: drop the official UMD seal here, e.g. <img src="umd-seal.png" class="h-11 w-11 object-contain" alt="University of Maryland"> -->
+          <div class="h-11 w-11 rounded-xl bg-white/10 backdrop-blur-md ring-1 ring-white/25 flex items-center justify-center shadow-lg">
+            <span class="font-display font-extrabold text-umd-gold text-xl tracking-tight">M</span>
+          </div>
+          <div class="leading-tight">
+            <p class="text-white/95 font-display font-semibold tracking-wide text-sm sm:text-base">University of Maryland</p>
+            <p class="text-umd-gold/90 text-[11px] sm:text-xs font-medium tracking-[0.2em] uppercase">College Park</p>
+          </div>
+        </div>
+
+        <!-- ACS Logo placeholder slot -->
+        <div class="flex items-center gap-3">
+          <div class="hidden sm:flex flex-col items-end leading-tight">
+            <span class="text-white/90 text-xs font-semibold tracking-widest uppercase">American Chemical Society</span>
+            <span class="text-umd-gold/80 text-[10px] tracking-[0.25em] uppercase">Student Chapter</span>
+          </div>
+          <!-- ACS logo slot: drop the official ACS logo here, e.g. <img src="acs-logo.png" class="h-12 w-12 sm:h-14 sm:w-14 object-contain" alt="American Chemical Society"> -->
+          <div class="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-white flex items-center justify-center ring-2 ring-umd-gold shadow-gold-sm">
+            <span class="font-display font-black text-umd-blue text-base sm:text-lg leading-none">ACS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero content -->
+    <div class="relative z-20 mx-auto max-w-7xl px-6 lg:px-10 flex flex-col justify-center min-h-[calc(100vh-90px)]">
+      <div class="max-w-2xl">
+        <div class="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md ring-1 ring-white/20 px-4 py-1.5 mb-7 animate-float">
+          <span class="h-2 w-2 rounded-full bg-umd-gold animate-pulse"></span>
+          <span class="text-white/90 text-xs font-medium tracking-widest uppercase">Est. 2026 · University of Maryland</span>
+        </div>
+
+        <h1 class="font-display font-black leading-[0.95] tracking-tight text-5xl sm:text-6xl lg:text-7xl">
+          <span class="block text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)]">ACS Student</span>
+          <span class="block text-gradient-gold animate-shimmer">Chapter</span>
+        </h1>
+
+        <p class="mt-5 text-umd-amber font-display font-semibold text-lg sm:text-xl tracking-wide">University of Maryland</p>
+
+        <p class="mt-4 text-white/85 text-lg sm:text-xl max-w-xl font-light leading-relaxed">
+          <span class="font-medium text-white">Chemistry for Life.</span> We're a student community at UMD for anyone into chemistry. Come for the events and tutoring, stay for the people.
+        </p>
+
+        <div class="mt-9 flex flex-col sm:flex-row gap-4">
+          <a href="#join" class="btn-shine group inline-flex items-center justify-center gap-2 rounded-full bg-umd-gold px-8 py-4 font-display font-bold text-umd-blue text-base shadow-gold hover:shadow-glow hover:bg-umd-amber transition-all duration-300 hover:-translate-y-0.5">
+            Join Us
+            <i data-lucide="arrow-right" class="h-5 w-5 transition-transform group-hover:translate-x-1"></i>
+          </a>
+          <a href="#events" class="group inline-flex items-center justify-center gap-2 rounded-full bg-white/10 backdrop-blur-md ring-1 ring-white/30 px-8 py-4 font-display font-semibold text-white text-base hover:bg-white/20 hover:ring-umd-gold transition-all duration-300">
+            Explore Events
+            <i data-lucide="calendar-days" class="h-5 w-5 transition-transform group-hover:scale-110"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Molecule of the Week caption -->
+    <div class="absolute bottom-7 right-6 lg:right-10 z-20 max-w-[15rem] rounded-2xl bg-white/10 backdrop-blur-md ring-1 ring-white/20 px-4 py-3">
+      <p class="text-[10px] tracking-[0.25em] uppercase text-umd-gold font-semibold">Molecule of the Week</p>
+      <p id="motw-name" class="text-white font-display font-bold text-lg leading-tight mt-0.5">Rosuvastatin</p>
+      <p class="text-white/55 text-[10px] mt-1 leading-snug">3D structure from PubChem (NIH). Featured by the ACS Molecule of the Week.</p>
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 hidden sm:flex flex-col items-center gap-2 text-white/70">
+      <span class="text-[10px] tracking-[0.3em] uppercase">Scroll</span>
+      <div class="h-9 w-5 rounded-full ring-1 ring-white/40 flex items-start justify-center p-1">
+        <span class="h-2 w-1 rounded-full bg-umd-gold animate-bounce"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================= STICKY NAV ============================= -->
+  <nav id="navbar" class="sticky top-0 z-50 w-full transition-all duration-300">
+    <div class="backdrop-blur-md bg-white/80 border-b border-slate-200/70 shadow-sm">
+      <div class="mx-auto max-w-7xl px-6 lg:px-10">
+        <div class="flex items-center justify-between h-16">
+          <a href="#home" class="flex items-center gap-2.5 group">
+            <div class="h-9 w-9 rounded-lg bg-umd-blue flex items-center justify-center group-hover:bg-umd-gold transition-colors duration-300">
+              <i data-lucide="atom" class="h-5 w-5 text-umd-gold group-hover:text-umd-blue transition-colors duration-300"></i>
+            </div>
+            <span class="font-display font-bold text-umd-blue tracking-tight">UMD <span class="text-umd-gold">ACS</span></span>
+          </a>
+
+          <div class="hidden md:flex items-center gap-9 font-display font-medium text-[15px] text-umd-blue">
+            <a href="#home" class="nav-link hover:text-umd-gold transition-colors duration-300">Home</a>
+            <a href="#about" class="nav-link hover:text-umd-gold transition-colors duration-300">About</a>
+            <a href="#events" class="nav-link hover:text-umd-gold transition-colors duration-300">Events</a>
+            <a href="#why" class="nav-link hover:text-umd-gold transition-colors duration-300">Why Join</a>
+            <a href="#tutoring" class="nav-link hover:text-umd-gold transition-colors duration-300">Tutoring</a>
+            <a href="#join" class="nav-link hover:text-umd-gold transition-colors duration-300">Join</a>
+          </div>
+
+          <a href="#join" class="hidden md:inline-flex btn-shine items-center gap-2 rounded-full bg-umd-blue px-5 py-2.5 font-display font-semibold text-sm text-white hover:bg-umd-gold hover:text-umd-blue transition-all duration-300">
+            Register
+            <i data-lucide="sparkles" class="h-4 w-4"></i>
+          </a>
+
+          <!-- Mobile toggle -->
+          <button id="menu-btn" aria-label="Open menu" class="md:hidden h-10 w-10 rounded-lg flex items-center justify-center text-umd-blue hover:bg-slate-100 transition">
+            <i data-lucide="menu" class="h-6 w-6"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="mobile-menu md:hidden origin-top opacity-0 -translate-y-3 pointer-events-none absolute w-full">
+      <div class="mx-4 mt-2 rounded-2xl bg-white shadow-xl ring-1 ring-slate-200 p-4 font-display font-medium text-umd-blue">
+        <a href="#home" class="mobile-link block rounded-lg px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">Home</a>
+        <a href="#about" class="mobile-link block rounded-lg px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">About</a>
+        <a href="#events" class="mobile-link block rounded-lg px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">Events</a>
+        <a href="#why" class="mobile-link block rounded-lg px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">Why Join</a>
+        <a href="#tutoring" class="mobile-link block rounded-lg px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">Tutoring</a>
+        <a href="#join" class="mobile-link block rounded-lg px-4 py-3 bg-umd-blue text-white text-center mt-1 hover:bg-umd-gold hover:text-umd-blue transition">Join the Chapter</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================= ABOUT ============================= -->
+  <section id="about" class="relative py-24 lg:py-32 bg-white overflow-hidden">
+    <!-- floating atom backgrounds -->
+    <svg class="atom-bg top-10 left-[5%] w-40 h-40 animate-float-slow text-umd-blue" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="50" cy="50" r="6" fill="currentColor"/>
+      <ellipse cx="50" cy="50" rx="40" ry="16"/>
+      <ellipse cx="50" cy="50" rx="40" ry="16" transform="rotate(60 50 50)"/>
+      <ellipse cx="50" cy="50" rx="40" ry="16" transform="rotate(120 50 50)"/>
+    </svg>
+    <svg class="atom-bg bottom-16 right-[6%] w-56 h-56 animate-float text-umd-gold" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="50" cy="50" r="6" fill="currentColor"/>
+      <ellipse cx="50" cy="50" rx="42" ry="18"/>
+      <ellipse cx="50" cy="50" rx="42" ry="18" transform="rotate(72 50 50)"/>
+      <ellipse cx="50" cy="50" rx="42" ry="18" transform="rotate(144 50 50)"/>
+    </svg>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+
+        <!-- Left: decorative canvas -->
+        <div class="reveal relative">
+          <div class="relative rounded-3xl bg-gradient-to-br from-umd-blue to-umd-navy p-1 shadow-blue">
+            <canvas id="dna-canvas" class="w-full h-[380px] sm:h-[460px] rounded-[22px]"></canvas>
+            <div class="absolute -bottom-5 -right-5 rounded-2xl bg-umd-gold px-5 py-4 shadow-gold animate-float">
+              <p class="font-display font-black text-umd-blue text-2xl leading-none">CHEM</p>
+              <p class="text-umd-blue/80 text-xs font-semibold tracking-widest mt-1">+ BCHM</p>
+            </div>
+            <div class="absolute -top-4 -left-4 rounded-xl bg-white px-4 py-3 shadow-lg ring-1 ring-slate-100 animate-float-slow">
+              <i data-lucide="flask-conical" class="h-7 w-7 text-umd-gold"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: mission -->
+        <div class="reveal reveal-delay-1">
+          <span class="inline-flex items-center gap-2 rounded-full bg-umd-mist px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-umd-blue ring-1 ring-slate-200">
+            <i data-lucide="beaker" class="h-4 w-4 text-umd-gold"></i> About the Chapter
+          </span>
+          <h2 class="mt-6 font-display font-extrabold text-4xl sm:text-5xl text-umd-blue leading-tight tracking-tight">
+            A community built around <span class="shine-text">chemistry.</span>
+          </h2>
+          <p class="mt-6 text-lg text-umd-charcoal/90 leading-relaxed">
+            The ACS Student Chapter at the University of Maryland is open to chemistry and biochemistry students, and to anyone who finds the subject interesting. We want to help you connect what you learn in class with what happens outside of it.
+          </p>
+          <p class="mt-4 text-lg text-umd-charcoal/80 leading-relaxed">
+            We run <span class="font-semibold text-umd-blue">professional development</span> workshops, pair members with <span class="font-semibold text-umd-blue">mentors</span>, organize <span class="font-semibold text-umd-blue">community outreach</span>, and offer free peer <span class="font-semibold text-umd-blue">tutoring</span>. The goal is to give you the people, skills, and support to do well in your courses and after you graduate.
+          </p>
+
+          <div class="mt-8 grid sm:grid-cols-2 gap-4">
+            <div class="flex items-start gap-3 rounded-xl bg-umd-mist p-4 ring-1 ring-slate-100 lift hover:ring-umd-gold hover:shadow-gold-sm">
+              <div class="h-10 w-10 rounded-lg bg-umd-blue/5 flex items-center justify-center shrink-0"><i data-lucide="users" class="h-5 w-5 text-umd-gold"></i></div>
+              <div><p class="font-display font-semibold text-umd-blue">Inclusive Community</p><p class="text-sm text-umd-charcoal/70">Open to every major and skill level.</p></div>
+            </div>
+            <div class="flex items-start gap-3 rounded-xl bg-umd-mist p-4 ring-1 ring-slate-100 lift hover:ring-umd-gold hover:shadow-gold-sm">
+              <div class="h-10 w-10 rounded-lg bg-umd-blue/5 flex items-center justify-center shrink-0"><i data-lucide="graduation-cap" class="h-5 w-5 text-umd-gold"></i></div>
+              <div><p class="font-display font-semibold text-umd-blue">Career-Ready</p><p class="text-sm text-umd-charcoal/70">Skills employers and grad schools want.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= EVENTS ============================= -->
+  <section id="events" class="relative py-24 lg:py-32 bg-umd-mist overflow-hidden">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="reveal text-center max-w-2xl mx-auto">
+        <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-umd-blue ring-1 ring-slate-200 shadow-sm">
+          <i data-lucide="calendar-heart" class="h-4 w-4 text-umd-gold"></i> What's Happening
+        </span>
+        <h2 class="mt-6 font-display font-extrabold text-4xl sm:text-5xl text-umd-blue leading-tight tracking-tight">Events &amp; Programs</h2>
+        <p class="mt-5 text-lg text-umd-charcoal/80">We host speaker events, elementary school outreach, and lab tours throughout the year. Add any of them to your calendar with one click.</p>
+      </div>
+
+      <!-- Filter chips -->
+      <div class="reveal reveal-delay-1 mt-10 flex flex-wrap justify-center gap-3" id="event-filters"></div>
+
+      <!-- Cards grid -->
+      <div id="events-grid" class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+    </div>
+  </section>
+
+  <!-- ============================= WHY JOIN ============================= -->
+  <section id="why" class="relative py-24 lg:py-32 bg-white overflow-hidden">
+    <svg class="atom-bg top-20 right-[10%] w-44 h-44 animate-float text-umd-blue" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="50" cy="50" r="6" fill="currentColor"/><ellipse cx="50" cy="50" rx="40" ry="16"/><ellipse cx="50" cy="50" rx="40" ry="16" transform="rotate(60 50 50)"/><ellipse cx="50" cy="50" rx="40" ry="16" transform="rotate(120 50 50)"/>
+    </svg>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="reveal text-center max-w-2xl mx-auto">
+        <span class="inline-flex items-center gap-2 rounded-full bg-umd-mist px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-umd-blue ring-1 ring-slate-200">
+          <i data-lucide="trophy" class="h-4 w-4 text-umd-gold"></i> The Payoff
+        </span>
+        <h2 class="mt-6 font-display font-extrabold text-4xl sm:text-5xl text-umd-blue leading-tight tracking-tight">Why Join ACS?</h2>
+        <p class="mt-5 text-lg text-umd-charcoal/80">Here is what you get out of being a member.</p>
+      </div>
+
+      <div class="mt-14 grid md:grid-cols-3 gap-8">
+        <!-- Pillar 1 -->
+        <div class="reveal group relative rounded-3xl bg-white p-8 ring-1 ring-slate-200 lift hover:ring-umd-gold hover:shadow-gold overflow-hidden">
+          <div class="absolute -top-10 -right-10 h-28 w-28 rounded-full bg-umd-gold/10 group-hover:bg-umd-gold/20 transition-colors"></div>
+          <div class="relative h-16 w-16 rounded-2xl bg-umd-blue flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-blue">
+            <i data-lucide="briefcase" class="h-8 w-8 text-umd-gold"></i>
+          </div>
+          <h3 class="mt-6 font-display font-bold text-2xl text-umd-blue">Professional Development</h3>
+          <p class="mt-4 text-umd-charcoal/80 leading-relaxed">We run resume workshops, mock interviews, and speaker events with chemists from industry and from the faculty. It is good practice for the skills that come up on grad school and job applications.</p>
+          <span class="mt-6 inline-flex items-center gap-2 text-umd-blue font-semibold group-hover:text-umd-gold transition-colors">Build your skills <i data-lucide="arrow-up-right" class="h-4 w-4"></i></span>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="reveal reveal-delay-1 group relative rounded-3xl bg-white p-8 ring-1 ring-slate-200 lift hover:ring-umd-gold hover:shadow-gold overflow-hidden">
+          <div class="absolute -top-10 -right-10 h-28 w-28 rounded-full bg-umd-gold/10 group-hover:bg-umd-gold/20 transition-colors"></div>
+          <div class="relative h-16 w-16 rounded-2xl bg-umd-blue flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-blue">
+            <i data-lucide="handshake" class="h-8 w-8 text-umd-gold"></i>
+          </div>
+          <h3 class="mt-6 font-display font-bold text-2xl text-umd-blue">Mentorship &amp; Networking</h3>
+          <p class="mt-4 text-umd-charcoal/80 leading-relaxed">Get to know upperclassmen, alumni, and professors who have done what you are trying to do. It is how a lot of our members find research advisors, study partners, and friends.</p>
+          <span class="mt-6 inline-flex items-center gap-2 text-umd-blue font-semibold group-hover:text-umd-gold transition-colors">Find your people <i data-lucide="arrow-up-right" class="h-4 w-4"></i></span>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="reveal reveal-delay-2 group relative rounded-3xl bg-white p-8 ring-1 ring-slate-200 lift hover:ring-umd-gold hover:shadow-gold overflow-hidden">
+          <div class="absolute -top-10 -right-10 h-28 w-28 rounded-full bg-umd-gold/10 group-hover:bg-umd-gold/20 transition-colors"></div>
+          <div class="relative h-16 w-16 rounded-2xl bg-umd-blue flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-blue">
+            <i data-lucide="heart-handshake" class="h-8 w-8 text-umd-gold"></i>
+          </div>
+          <h3 class="mt-6 font-display font-bold text-2xl text-umd-blue">Community Outreach &amp; Service</h3>
+          <p class="mt-4 text-umd-charcoal/80 leading-relaxed">We visit local schools, run demos, and take on service projects. You give back to the community and earn your service hours while you are at it.</p>
+          <span class="mt-6 inline-flex items-center gap-2 text-umd-blue font-semibold group-hover:text-umd-gold transition-colors">Make an impact <i data-lucide="arrow-up-right" class="h-4 w-4"></i></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= TUTORING ============================= -->
+  <section id="tutoring" class="relative py-24 lg:py-32 bg-umd-blue overflow-hidden">
+    <!-- periodic table accent -->
+    <div class="absolute inset-0 opacity-[0.07] pointer-events-none flex items-center justify-end pr-4">
+      <div id="periodic-accent" class="grid grid-cols-6 gap-1 rotate-6 scale-125"></div>
+    </div>
+    <div class="absolute top-10 left-6 text-umd-gold/10 font-display font-black text-[120px] leading-none select-none pointer-events-none animate-float-slow">∑</div>
+
+    <div class="relative mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="reveal max-w-3xl">
+        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-umd-gold ring-1 ring-white/20">
+          <i data-lucide="book-open-check" class="h-4 w-4"></i> Free &amp; Affordable Help
+        </span>
+        <h2 class="mt-6 font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.05] tracking-tight">
+          Need a Chemistry Tutor? <span class="text-gradient-gold animate-shimmer">We've Got You.</span>
+        </h2>
+        <p class="mt-5 text-lg text-white/80 max-w-2xl">Studying for an exam or just need regular help with a course? Our tutors can work with you either way.</p>
+      </div>
+
+      <div class="mt-14 grid lg:grid-cols-2 gap-8">
+        <!-- Card A: Drop-in -->
+        <div class="reveal group relative rounded-3xl bg-white p-8 sm:p-10 lift hover:shadow-gold overflow-hidden">
+          <div class="absolute top-0 left-0 h-1.5 w-full bg-gradient-to-r from-umd-gold to-umd-amber"></div>
+          <div class="flex items-center justify-between">
+            <div class="h-14 w-14 rounded-2xl bg-umd-blue flex items-center justify-center shadow-blue group-hover:scale-110 transition-transform"><i data-lucide="users-round" class="h-7 w-7 text-umd-gold"></i></div>
+            <span class="rounded-full bg-umd-gold/15 px-4 py-1.5 text-sm font-bold text-umd-blue">FREE</span>
+          </div>
+          <h3 class="mt-6 font-display font-bold text-2xl sm:text-3xl text-umd-blue">Drop-In Study Sessions</h3>
+          <div class="mt-3 inline-flex items-center gap-2 text-umd-charcoal font-semibold">
+            <i data-lucide="clock" class="h-5 w-5 text-umd-gold"></i>
+            Every Thursday · 5:00 – 8:00 PM
+          </div>
+          <p class="mt-5 text-umd-charcoal/80 leading-relaxed text-lg">Want to review for an exam or study with others? Stop by our study sessions to get help from one of our tutors.</p>
+          <a href="#join" class="btn-shine mt-7 inline-flex items-center gap-2 rounded-full bg-umd-blue px-6 py-3 font-display font-semibold text-white hover:bg-umd-gold hover:text-umd-blue transition-all duration-300">
+            See the Schedule <i data-lucide="calendar-clock" class="h-5 w-5"></i>
+          </a>
+        </div>
+
+        <!-- Card B: Private -->
+        <div class="reveal reveal-delay-1 group relative rounded-3xl bg-gradient-to-br from-umd-gold to-umd-amber p-8 sm:p-10 lift hover:shadow-gold overflow-hidden">
+          <div class="absolute -bottom-12 -right-12 h-44 w-44 rounded-full bg-white/15"></div>
+          <div class="relative flex items-center justify-between">
+            <div class="h-14 w-14 rounded-2xl bg-umd-blue flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"><i data-lucide="user-round-check" class="h-7 w-7 text-umd-gold"></i></div>
+            <span class="rounded-full bg-umd-blue px-4 py-1.5 text-sm font-bold text-umd-gold">FROM $5</span>
+          </div>
+          <h3 class="relative mt-6 font-display font-bold text-2xl sm:text-3xl text-umd-blue">Private 1-on-1 Tutoring</h3>
+          <div class="relative mt-3 inline-flex items-center gap-2 text-umd-blue/90 font-semibold">
+            <i data-lucide="badge-dollar-sign" class="h-5 w-5"></i>
+            Rates vary · starting at $5 per 1-hour session
+          </div>
+          <p class="relative mt-5 text-umd-blue/90 leading-relaxed text-lg">Need extra help or specialized tutoring? We'll connect you with a private tutor.</p>
+          <p class="relative mt-3 text-umd-blue/80 leading-relaxed">Sessions are one-on-one and scheduled around your availability, so you can focus on the exact topics or courses you are stuck on. Fill out the sign-up sheet and we will match you with a tutor.</p>
+          <a href="https://docs.google.com/forms" target="_blank" rel="noopener" class="btn-shine relative mt-7 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-display font-semibold text-umd-blue ring-1 ring-umd-blue/10 shadow-lg hover:bg-umd-blue hover:text-white transition-all duration-300">
+            Sign-Up Sheet <i data-lucide="pen-line" class="h-5 w-5"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= HOW TO JOIN ============================= -->
+  <section id="join" class="relative py-24 lg:py-32 bg-umd-mist overflow-hidden">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="reveal text-center max-w-2xl mx-auto">
+        <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-umd-blue ring-1 ring-slate-200 shadow-sm">
+          <i data-lucide="user-plus" class="h-4 w-4 text-umd-gold"></i> Onboarding
+        </span>
+        <h2 class="mt-6 font-display font-extrabold text-4xl sm:text-5xl text-umd-blue leading-tight tracking-tight">How to Join</h2>
+        <p class="mt-5 text-lg text-umd-charcoal/80">Getting involved takes about three steps.</p>
+      </div>
+
+      <!-- Steps -->
+      <div class="mt-14 grid md:grid-cols-3 gap-8">
+        <div class="reveal relative rounded-3xl bg-white p-8 ring-2 ring-umd-gold/30 lift hover:ring-umd-gold hover:shadow-gold">
+          <div class="absolute -top-6 left-8 h-12 w-12 rounded-2xl bg-umd-gold flex items-center justify-center font-display font-black text-umd-blue text-xl shadow-gold-sm animate-pulseGlow">1</div>
+          <div class="mt-6">
+            <i data-lucide="clipboard-pen" class="h-9 w-9 text-umd-gold"></i>
+            <h3 class="mt-4 font-display font-bold text-xl text-umd-blue">Register</h3>
+            <p class="mt-3 text-umd-charcoal/80 leading-relaxed">Fill out the membership form to get on our roster and start getting updates about events.</p>
+          </div>
+        </div>
+
+        <div class="reveal reveal-delay-1 relative rounded-3xl bg-white p-8 ring-2 ring-umd-gold/30 lift hover:ring-umd-gold hover:shadow-gold">
+          <div class="absolute -top-6 left-8 h-12 w-12 rounded-2xl bg-umd-gold flex items-center justify-center font-display font-black text-umd-blue text-xl shadow-gold-sm animate-pulseGlow">2</div>
+          <div class="mt-6">
+            <i data-lucide="calendar-check-2" class="h-9 w-9 text-umd-gold"></i>
+            <h3 class="mt-4 font-display font-bold text-xl text-umd-blue">Show Up</h3>
+            <p class="mt-3 text-umd-charcoal/80 leading-relaxed">Come to at least three events a semester. That can be a speaker event, outreach, a lab tour, or a social.</p>
+          </div>
+        </div>
+
+        <div class="reveal reveal-delay-2 relative rounded-3xl bg-white p-8 ring-2 ring-umd-gold/30 lift hover:ring-umd-gold hover:shadow-gold">
+          <div class="absolute -top-6 left-8 h-12 w-12 rounded-2xl bg-umd-gold flex items-center justify-center font-display font-black text-umd-blue text-xl shadow-gold-sm animate-pulseGlow">3</div>
+          <div class="mt-6">
+            <i data-lucide="hand-heart" class="h-9 w-9 text-umd-gold"></i>
+            <h3 class="mt-4 font-display font-bold text-xl text-umd-blue">Give Back</h3>
+            <p class="mt-3 text-umd-charcoal/80 leading-relaxed">Finish your service hours each semester through our outreach events and stay in good standing.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Requirements -->
+      <div class="reveal reveal-delay-2 mt-12 rounded-3xl bg-umd-blue p-8 sm:p-10 lg:p-12 shadow-blue overflow-hidden relative">
+        <div class="absolute top-0 left-0 h-1.5 w-full bg-gradient-to-r from-transparent via-umd-gold to-transparent"></div>
+        <div class="grid lg:grid-cols-2 gap-10 items-center">
+          <div>
+            <h3 class="font-display font-bold text-2xl sm:text-3xl text-white">Membership Requirements</h3>
+            <ul class="mt-6 space-y-4">
+              <li class="flex items-start gap-3 text-white/90">
+                <i data-lucide="check-circle-2" class="h-6 w-6 text-umd-gold shrink-0 mt-0.5"></i>
+                <span>Membership is open to all current University of Maryland undergraduate and graduate students.</span>
+              </li>
+              <li class="flex items-start gap-3 text-white/90">
+                <i data-lucide="check-circle-2" class="h-6 w-6 text-umd-gold shrink-0 mt-0.5"></i>
+                <span>To be considered an active member, students must have taken or currently be taking at least one CHEM or BCHM course during their time at UMD, attend at least three events per semester, complete the required service hours each semester, and be in good standing with the University of Maryland to participate in extracurricular activities.</span>
+              </li>
+              <li class="flex items-start gap-3 text-white/90">
+                <i data-lucide="check-circle-2" class="h-6 w-6 text-umd-gold shrink-0 mt-0.5"></i>
+                <span>National American Chemical Society membership is optional.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="rounded-2xl bg-white/5 backdrop-blur-md ring-1 ring-white/15 p-8 text-center">
+            <i data-lucide="rocket" class="h-12 w-12 text-umd-gold mx-auto"></i>
+            <h4 class="mt-4 font-display font-bold text-xl text-white">Ready to start?</h4>
+            <p class="mt-2 text-white/75 text-sm">It takes less than two minutes.</p>
+            <a href="https://forms.gle/ptvrtdLiYGmafDU37" target="_blank" rel="noopener" class="btn-shine mt-6 w-full inline-flex items-center justify-center gap-2 rounded-full bg-umd-gold px-6 py-3.5 font-display font-bold text-umd-blue hover:bg-umd-amber transition-all duration-300 hover:-translate-y-0.5 shadow-gold">
+              Complete the Signup Form <i data-lucide="arrow-right" class="h-5 w-5"></i>
+            </a>
+            <a href="mailto:acsumcp@gmail.com" class="mt-4 inline-flex items-center justify-center gap-2 text-white/80 hover:text-umd-gold transition-colors text-sm font-medium">
+              <i data-lucide="mail" class="h-4 w-4"></i> Have any questions? Email us at acsumcp@gmail.com
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= RESOURCES ============================= -->
+  <section id="resources" class="relative py-24 lg:py-32 bg-white overflow-hidden">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="reveal text-center max-w-2xl mx-auto">
+        <span class="inline-flex items-center gap-2 rounded-full bg-umd-mist px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-umd-blue ring-1 ring-slate-200">
+          <i data-lucide="award" class="h-4 w-4 text-umd-gold"></i> Highlights
+        </span>
+        <h2 class="mt-6 font-display font-extrabold text-4xl sm:text-5xl text-umd-blue leading-tight tracking-tight">Chapter Wins &amp; Resources</h2>
+        <p class="mt-5 text-lg text-umd-charcoal/80">A bit of what our members are working on, plus where to find help.</p>
+      </div>
+
+      <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="reveal group rounded-3xl bg-umd-mist p-7 ring-1 ring-slate-100 lift hover:ring-umd-gold hover:shadow-gold-sm">
+          <div class="h-12 w-12 rounded-xl bg-umd-blue flex items-center justify-center group-hover:scale-110 transition-transform"><i data-lucide="microscope" class="h-6 w-6 text-umd-gold"></i></div>
+          <h3 class="mt-5 font-display font-bold text-lg text-umd-blue">Undergraduate Research</h3>
+          <p class="mt-2 text-sm text-umd-charcoal/75">Members present posters and publish with UMD faculty in analytical, organic, and biochemistry labs.</p>
+        </div>
+        <div class="reveal reveal-delay-1 group rounded-3xl bg-umd-mist p-7 ring-1 ring-slate-100 lift hover:ring-umd-gold hover:shadow-gold-sm">
+          <div class="h-12 w-12 rounded-xl bg-umd-blue flex items-center justify-center group-hover:scale-110 transition-transform"><i data-lucide="presentation" class="h-6 w-6 text-umd-gold"></i></div>
+          <h3 class="mt-5 font-display font-bold text-lg text-umd-blue">Speaker Series Archive</h3>
+          <p class="mt-2 text-sm text-umd-charcoal/75">Recaps from past talks by industry chemists, grad students, and professors, for members who miss them live.</p>
+        </div>
+        <div class="reveal reveal-delay-2 group rounded-3xl bg-umd-mist p-7 ring-1 ring-slate-100 lift hover:ring-umd-gold hover:shadow-gold-sm">
+          <div class="h-12 w-12 rounded-xl bg-umd-blue flex items-center justify-center group-hover:scale-110 transition-transform"><i data-lucide="library" class="h-6 w-6 text-umd-gold"></i></div>
+          <h3 class="mt-5 font-display font-bold text-lg text-umd-blue">Study Resources</h3>
+          <p class="mt-2 text-sm text-umd-charcoal/75">Study guides, exam strategies, and tutoring materials for CHEM and BCHM courses.</p>
+        </div>
+        <div class="reveal reveal-delay-3 group rounded-3xl bg-umd-mist p-7 ring-1 ring-slate-100 lift hover:ring-umd-gold hover:shadow-gold-sm">
+          <div class="h-12 w-12 rounded-xl bg-umd-blue flex items-center justify-center group-hover:scale-110 transition-transform"><i data-lucide="globe" class="h-6 w-6 text-umd-gold"></i></div>
+          <h3 class="mt-5 font-display font-bold text-lg text-umd-blue">Outreach Impact</h3>
+          <p class="mt-2 text-sm text-umd-charcoal/75">We reach local elementary students through demos and school visits throughout the year.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= FOOTER ============================= -->
+  <footer class="relative bg-umd-navy text-white overflow-hidden">
+    <div class="gold-divider"></div>
+    <div class="mx-auto max-w-7xl px-6 lg:px-10 py-16">
+      <div class="grid md:grid-cols-3 gap-12">
+        <!-- Left: Chapter name + tagline -->
+        <div>
+          <div class="flex items-center gap-3">
+            <div class="h-12 w-12 rounded-xl bg-white/10 ring-1 ring-white/20 flex items-center justify-center">
+              <i data-lucide="atom" class="h-6 w-6 text-umd-gold"></i>
+            </div>
+            <div>
+              <p class="font-display font-bold text-lg leading-tight">ACS Student Chapter</p>
+              <p class="text-umd-gold text-sm">University of Maryland</p>
+            </div>
+          </div>
+          <p class="mt-5 text-white/70 leading-relaxed max-w-xs">Chemistry for Life. A student chemistry community at UMD built around events, mentorship, and service.</p>
+          <a href="mailto:acsumcp@gmail.com" class="mt-5 inline-flex items-center gap-2 text-white/80 hover:text-umd-gold transition-colors text-sm">
+            <i data-lucide="mail" class="h-4 w-4"></i> acsumcp@gmail.com
+          </a>
+        </div>
+
+        <!-- Center: quick links -->
+        <div class="md:justify-self-center">
+          <p class="font-display font-semibold text-umd-gold tracking-widest uppercase text-xs">Navigate</p>
+          <ul class="mt-5 space-y-3 text-white/75">
+            <li><a href="#about" class="hover:text-umd-gold transition-colors inline-flex items-center gap-2"><i data-lucide="chevron-right" class="h-4 w-4 text-umd-gold"></i> About the Chapter</a></li>
+            <li><a href="#events" class="hover:text-umd-gold transition-colors inline-flex items-center gap-2"><i data-lucide="chevron-right" class="h-4 w-4 text-umd-gold"></i> Events &amp; Programs</a></li>
+            <li><a href="#why" class="hover:text-umd-gold transition-colors inline-flex items-center gap-2"><i data-lucide="chevron-right" class="h-4 w-4 text-umd-gold"></i> Why Join</a></li>
+            <li><a href="#tutoring" class="hover:text-umd-gold transition-colors inline-flex items-center gap-2"><i data-lucide="chevron-right" class="h-4 w-4 text-umd-gold"></i> Tutoring</a></li>
+            <li><a href="#join" class="hover:text-umd-gold transition-colors inline-flex items-center gap-2"><i data-lucide="chevron-right" class="h-4 w-4 text-umd-gold"></i> How to Join</a></li>
+          </ul>
+        </div>
+
+        <!-- Right: social -->
+        <div class="md:justify-self-end">
+          <p class="font-display font-semibold text-umd-gold tracking-widest uppercase text-xs">Connect</p>
+          <div class="mt-5 flex gap-3">
+            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" class="group h-12 w-12 rounded-xl bg-gradient-to-br from-umd-gold to-umd-amber flex items-center justify-center hover:scale-110 transition-transform shadow-gold-sm">
+              <i data-lucide="instagram" class="h-6 w-6 text-umd-blue"></i>
+            </a>
+            <a href="mailto:acsumcp@gmail.com" aria-label="Email" class="group h-12 w-12 rounded-xl bg-white/10 ring-1 ring-white/20 flex items-center justify-center hover:bg-white/20 hover:scale-110 transition-all">
+              <i data-lucide="mail" class="h-6 w-6 text-white group-hover:text-umd-gold transition-colors"></i>
+            </a>
+            <a href="https://www.acs.org" target="_blank" rel="noopener" aria-label="National ACS" class="group h-12 w-12 rounded-xl bg-white/10 ring-1 ring-white/20 flex items-center justify-center hover:bg-white/20 hover:scale-110 transition-all">
+              <i data-lucide="globe" class="h-6 w-6 text-white group-hover:text-umd-gold transition-colors"></i>
+            </a>
+          </div>
+          <p class="mt-6 text-white/60 text-sm max-w-xs">Follow us on Instagram for event reminders and recaps.</p>
+        </div>
+      </div>
+
+      <div class="mt-14 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-white/55 text-sm">
+        <p>© <span id="year"></span> ACS Student Chapter · University of Maryland. All rights reserved.</p>
+        <p class="inline-flex items-center gap-2"><i data-lucide="flask-conical" class="h-4 w-4 text-umd-gold"></i> Chemistry for Life.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button id="to-top" aria-label="Back to top" class="fixed bottom-6 right-6 z-50 h-12 w-12 rounded-full bg-umd-blue text-umd-gold shadow-blue flex items-center justify-center opacity-0 translate-y-4 pointer-events-none transition-all duration-300 hover:bg-umd-gold hover:text-umd-blue">
+    <i data-lucide="arrow-up" class="h-6 w-6"></i>
+  </button>
+
+  <!-- ============================= SCRIPTS ============================= -->
+  <script>
+    /* ---------- Lucide icons ---------- */
+    function renderIcons() { if (window.lucide) lucide.createIcons(); }
+    renderIcons();
+
+    /* ---------- Year ---------- */
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* ---------- Mobile menu ---------- */
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let menuOpen = false;
+    function toggleMenu(force) {
+      menuOpen = force !== undefined ? force : !menuOpen;
+      if (menuOpen) {
+        mobileMenu.classList.remove('opacity-0', '-translate-y-3', 'pointer-events-none');
+      } else {
+        mobileMenu.classList.add('opacity-0', '-translate-y-3', 'pointer-events-none');
+      }
+    }
+    menuBtn.addEventListener('click', () => toggleMenu());
+    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => toggleMenu(false)));
+
+    /* ---------- Scroll reveal ---------- */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObserver.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ---------- Active nav highlight + back-to-top ---------- */
+    const sections = ['home','about','events','why','tutoring','join','resources'];
+    const navLinks = document.querySelectorAll('#navbar .nav-link');
+    const toTop = document.getElementById('to-top');
+    const navActiveObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+        }
+      });
+    }, { threshold: 0.5 });
+    sections.forEach(id => { const el = document.getElementById(id); if (el) navActiveObserver.observe(el); });
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) { toTop.classList.remove('opacity-0','translate-y-4','pointer-events-none'); }
+      else { toTop.classList.add('opacity-0','translate-y-4','pointer-events-none'); }
+    });
+    toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    /* ============================================================
+       EVENTS DATA + RENDER + GOOGLE CALENDAR LINK GENERATION
+       ============================================================ */
+    const events = [
+      { title: 'First Look Fair', category: 'Recruitment', date: '2025-09-10', time: '11:00', endTime: '15:00', location: 'McKeldin Mall, UMD', icon: 'sparkles',
+        desc: 'Find our table at the fall org fair. Stop by to meet the team, ask questions, and sign up.' },
+      { title: 'Second Look Fair', category: 'Recruitment', date: '2026-02-04', time: '11:00', endTime: '15:00', location: 'McKeldin Mall, UMD', icon: 'sparkles',
+        desc: 'Did not catch us in the fall? Come by the spring fair to join. You can sign up any time of year.' },
+
+      { title: 'Speaker Series · Vol. 1', category: 'Speaker Series', date: '2025-09-24', time: '18:00', endTime: '19:30', location: 'Chemistry Bldg, Rm 1407', icon: 'mic',
+        desc: 'We open the semester with a talk from a working chemist about their career and current research.' },
+      { title: 'Speaker Series · Vol. 2', category: 'Speaker Series', date: '2025-10-15', time: '18:00', endTime: '19:30', location: 'Chemistry Bldg, Rm 1407', icon: 'mic',
+        desc: 'A look at chemistry careers in industry, with time at the end for questions.' },
+      { title: 'Speaker Series · Vol. 3', category: 'Speaker Series', date: '2025-11-12', time: '18:00', endTime: '19:30', location: 'Chemistry Bldg, Rm 1407', icon: 'mic',
+        desc: 'A grad school panel on applications, research life, and funding, answered by people who went through it.' },
+      { title: 'Speaker Series · Vol. 4', category: 'Speaker Series', date: '2026-02-18', time: '18:00', endTime: '19:30', location: 'Chemistry Bldg, Rm 1407', icon: 'mic',
+        desc: 'Our spring opener, with a UMD alum talking about their path from College Park into the field.' },
+      { title: 'Speaker Series · Vol. 5', category: 'Speaker Series', date: '2026-03-18', time: '18:00', endTime: '19:30', location: 'Chemistry Bldg, Rm 1407', icon: 'mic',
+        desc: 'A closer look at some newer areas of chemistry and where the field is heading.' },
+      { title: 'Speaker Series · Vol. 6', category: 'Speaker Series', date: '2026-04-15', time: '18:00', endTime: '19:30', location: 'Chemistry Bldg, Rm 1407', icon: 'mic',
+        desc: 'We wrap up the series with a researcher sharing what they have learned over their career.' },
+
+      { title: 'Elementary School Visit · 1', category: 'Outreach', date: '2025-10-03', time: '09:00', endTime: '12:00', location: 'Local Elementary School', icon: 'school',
+        desc: 'We visit a local school to run safe, hands-on demos for younger students.' },
+      { title: 'Elementary School Visit · 2', category: 'Outreach', date: '2025-10-31', time: '09:00', endTime: '12:00', location: 'Local Elementary School', icon: 'school',
+        desc: 'A Halloween-themed visit with color-changing reactions and other simple demos.' },
+      { title: 'Elementary School Visit · 3', category: 'Outreach', date: '2025-11-21', time: '09:00', endTime: '12:00', location: 'Local Elementary School', icon: 'school',
+        desc: 'Another school visit, and a good way to give back and earn service hours.' },
+      { title: 'Elementary School Visit · 4', category: 'Outreach', date: '2026-02-27', time: '09:00', endTime: '12:00', location: 'Local Elementary School', icon: 'school',
+        desc: 'Outreach picks back up in the spring with a new set of experiments.' },
+      { title: 'Elementary School Visit · 5', category: 'Outreach', date: '2026-03-27', time: '09:00', endTime: '12:00', location: 'Local Elementary School', icon: 'school',
+        desc: 'More hands-on demos that make chemistry concepts easier for kids to picture.' },
+      { title: 'Elementary School Visit · 6', category: 'Outreach', date: '2026-04-24', time: '09:00', endTime: '12:00', location: 'Local Elementary School', icon: 'school',
+        desc: 'Our last outreach visit of the year.' },
+
+      { title: 'Lab Tour · 1', category: 'Lab Tour', date: '2025-10-09', time: '15:00', endTime: '16:30', location: 'UMD Research Labs', icon: 'flask-conical',
+        desc: 'A behind-the-scenes look at an active research lab on campus.' },
+      { title: 'Lab Tour · 2', category: 'Lab Tour', date: '2025-11-06', time: '15:00', endTime: '16:30', location: 'UMD Research Labs', icon: 'flask-conical',
+        desc: 'See the instruments researchers use day to day and talk with the people running them.' },
+      { title: 'Lab Tour · 3', category: 'Lab Tour', date: '2026-03-05', time: '15:00', endTime: '16:30', location: 'UMD Research Labs', icon: 'flask-conical',
+        desc: 'A spring tour, and a good way to find a lab you might want to join.' },
+    ];
+
+    /* Format a YYYY-MM-DD + HH:mm into Google Calendar UTC-less local format: YYYYMMDDTHHmmSS */
+    function toGCalStamp(dateStr, timeStr) {
+      const d = dateStr.replace(/-/g, '');
+      const t = (timeStr || '00:00').replace(':', '') + '00';
+      return d + 'T' + t;
+    }
+    function googleCalendarUrl(ev) {
+      const start = toGCalStamp(ev.date, ev.time);
+      const end = toGCalStamp(ev.date, ev.endTime || ev.time);
+      const params = new URLSearchParams({
+        action: 'TEMPLATE',
+        text: 'UMD ACS · ' + ev.title,
+        dates: start + '/' + end,
+        details: ev.desc + '\n\nHosted by the ACS Student Chapter at the University of Maryland. Questions? acsumcp@gmail.com',
+        location: ev.location,
+      });
+      return 'https://calendar.google.com/calendar/render?' + params.toString();
+    }
+
+    function prettyDate(dateStr) {
+      const [y,m,d] = dateStr.split('-').map(Number);
+      const dt = new Date(y, m-1, d);
+      return dt.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+    }
+    function prettyTime(t) {
+      if (!t) return '';
+      let [h,min] = t.split(':').map(Number);
+      const ap = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      return h + (min ? ':' + String(min).padStart(2,'0') : '') + ' ' + ap;
+    }
+
+    const categoryStyles = {
+      'Recruitment': 'bg-umd-gold/15 text-umd-blue',
+      'Speaker Series': 'bg-umd-blue/10 text-umd-blue',
+      'Outreach': 'bg-emerald-100 text-emerald-700',
+      'Lab Tour': 'bg-purple-100 text-purple-700',
+    };
+
+    const grid = document.getElementById('events-grid');
+    const filtersWrap = document.getElementById('event-filters');
+    const categories = ['All', ...Array.from(new Set(events.map(e => e.category)))];
+    let activeFilter = 'All';
+
+    function renderFilters() {
+      filtersWrap.innerHTML = categories.map(cat => {
+        const isActive = cat === activeFilter;
+        return `<button data-cat="${cat}" class="filter-chip font-display font-semibold text-sm px-5 py-2 rounded-full transition-all duration-300 ${isActive ? 'bg-umd-blue text-white shadow-blue' : 'bg-white text-umd-blue ring-1 ring-slate-200 hover:ring-umd-gold hover:text-umd-gold'}">${cat}</button>`;
+      }).join('');
+      filtersWrap.querySelectorAll('.filter-chip').forEach(btn => {
+        btn.addEventListener('click', () => { activeFilter = btn.dataset.cat; renderFilters(); renderEvents(); });
+      });
+    }
+
+    function renderEvents() {
+      const list = activeFilter === 'All' ? events : events.filter(e => e.category === activeFilter);
+      grid.innerHTML = list.map((ev, i) => `
+        <article class="event-card group relative bg-white rounded-2xl ring-1 ring-slate-200 overflow-hidden lift hover:ring-umd-gold hover:shadow-gold flex flex-col" style="transition-delay:${(i % 3) * 60}ms">
+          <div class="h-1.5 w-full bg-gradient-to-r from-umd-gold to-umd-amber"></div>
+          <div class="p-6 flex flex-col flex-1">
+            <div class="flex items-start justify-between">
+              <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${categoryStyles[ev.category] || 'bg-slate-100 text-slate-600'}">${ev.category}</span>
+              <div class="h-11 w-11 rounded-xl bg-umd-gold/10 flex items-center justify-center group-hover:bg-umd-gold/20 group-hover:scale-110 transition-all duration-300">
+                <i data-lucide="${ev.icon}" class="h-6 w-6 text-umd-gold"></i>
+              </div>
+            </div>
+            <h3 class="mt-4 font-display font-bold text-xl text-umd-blue leading-snug">${ev.title}</h3>
+            <div class="mt-3 space-y-1.5 text-sm text-umd-charcoal/75">
+              <p class="flex items-center gap-2"><i data-lucide="calendar" class="h-4 w-4 text-umd-gold"></i> ${prettyDate(ev.date)}</p>
+              <p class="flex items-center gap-2"><i data-lucide="clock" class="h-4 w-4 text-umd-gold"></i> ${prettyTime(ev.time)}${ev.endTime ? ' – ' + prettyTime(ev.endTime) : ''}</p>
+              <p class="flex items-center gap-2"><i data-lucide="map-pin" class="h-4 w-4 text-umd-gold"></i> ${ev.location}</p>
+            </div>
+            <p class="mt-4 text-sm text-umd-charcoal/70 leading-relaxed flex-1">${ev.desc}</p>
+            <a href="${googleCalendarUrl(ev)}" target="_blank" rel="noopener" class="btn-shine mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-umd-blue px-5 py-3 font-display font-semibold text-sm text-white hover:bg-umd-gold hover:text-umd-blue transition-all duration-300">
+              <i data-lucide="calendar-plus" class="h-4 w-4"></i> Add to Google Calendar
+            </a>
+          </div>
+        </article>
+      `).join('');
+      renderIcons();
+    }
+    renderFilters();
+    renderEvents();
+
+    /* ---------- Periodic table accent (tutoring bg) ---------- */
+    const ptEls = ['H','He','Li','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Fe','Cu','Zn','Ag','Au','Pb'];
+    const ptWrap = document.getElementById('periodic-accent');
+    if (ptWrap) {
+      ptWrap.innerHTML = ptEls.map(e => `<div class="ptile h-12 w-12 rounded-md bg-white/20 text-white font-display font-bold flex items-center justify-center text-sm">${e}</div>`).join('');
+    }
+
+    /* ============================================================
+       THREE.JS  ·  HERO: MOLECULE OF THE WEEK (3D ball-and-stick)
+       Real 3D coordinates are pulled live from PubChem (NIH) PUG
+       REST by compound name, so the molecule can be swapped every
+       week by editing one string below.
+       Sources: PubChem (pubchem.ncbi.nlm.nih.gov) and the ACS
+       Molecule of the Week (acs.org/molecule-of-the-week.html).
+       ============================================================ */
+    (function initMolecule() {
+      const canvas = document.getElementById('molecule-canvas');
+      if (!canvas || !window.THREE) return;
+
+      /* >>> Change this once a week to match the ACS Molecule of the Week <<< */
+      const MOLECULE_OF_THE_WEEK = 'Rosuvastatin';
+
+      const nameEl = document.getElementById('motw-name');
+      if (nameEl) nameEl.textContent = MOLECULE_OF_THE_WEEK;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+      camera.position.set(0, 0, 42);
+
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+
+      // Soft, modern lighting (PBR standard materials)
+      scene.add(new THREE.AmbientLight(0xbcd4ff, 0.65));
+      const key = new THREE.DirectionalLight(0xffffff, 1.15); key.position.set(6, 10, 14); scene.add(key);
+      const fill = new THREE.DirectionalLight(0xEAAA00, 0.5); fill.position.set(-10, -4, 6); scene.add(fill);
+      const rim = new THREE.DirectionalLight(0x66a3ff, 0.7); rim.position.set(-6, 8, -12); scene.add(rim);
+
+      const molecule = new THREE.Group();
+      scene.add(molecule);
+
+      // Cohesive, modern palette (light atoms read well over the deep-blue hero)
+      const ELEMENT = {
+        C:  { color: 0xdbe6f5, radius: 0.62 },
+        N:  { color: 0x5b9be8, radius: 0.60 },
+        O:  { color: 0xff6f61, radius: 0.58 },
+        F:  { color: 0xEAAA00, radius: 0.54 },
+        S:  { color: 0xFFC72C, radius: 0.82 },
+        P:  { color: 0xf0883e, radius: 0.80 },
+        Cl: { color: 0x7fd17f, radius: 0.78 },
+        Br: { color: 0xc97f5a, radius: 0.85 },
+        DEFAULT: { color: 0xc8d4e6, radius: 0.60 }
+      };
+      const elInfo = (sym) => ELEMENT[sym] || ELEMENT.DEFAULT;
+
+      const sphereGeo = new THREE.SphereGeometry(1, 32, 32);
+      const matCache = {};
+      function atomMat(sym) {
+        if (matCache[sym]) return matCache[sym];
+        const m = new THREE.MeshStandardMaterial({ color: elInfo(sym).color, metalness: 0.25, roughness: 0.35 });
+        return (matCache[sym] = m);
+      }
+      const bondMat = new THREE.MeshStandardMaterial({ color: 0xaebed6, metalness: 0.2, roughness: 0.5 });
+
+      function addBond(p1, p2, radius) {
+        const dir = new THREE.Vector3().subVectors(p2, p1);
+        const len = dir.length();
+        const geo = new THREE.CylinderGeometry(radius, radius, len, 12, 1, true);
+        const mesh = new THREE.Mesh(geo, bondMat);
+        mesh.position.copy(p1).add(dir.clone().multiplyScalar(0.5));
+        mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+        molecule.add(mesh);
+      }
+
+      // Build ball-and-stick from atom/bond lists. Hydrogens hidden for a clean look.
+      function buildFromAtomsBonds(atoms, bonds) {
+        const keep = atoms.map(a => a.el !== 'H');
+
+        const center = new THREE.Vector3();
+        let n = 0;
+        atoms.forEach((a, i) => { if (keep[i]) { center.x += a.x; center.y += a.y; center.z += a.z; n++; } });
+        if (n) center.divideScalar(n);
+
+        const pos = atoms.map(a => new THREE.Vector3(a.x, a.y, a.z).sub(center));
+
+        let maxR = 0;
+        pos.forEach((p, i) => { if (keep[i]) maxR = Math.max(maxR, p.length()); });
+        const scale = maxR > 0 ? 11 / maxR : 1;
+
+        pos.forEach((p, i) => {
+          if (!keep[i]) return;
+          const mesh = new THREE.Mesh(sphereGeo, atomMat(atoms[i].el));
+          mesh.position.copy(p).multiplyScalar(scale);
+          mesh.scale.setScalar(elInfo(atoms[i].el).radius);
+          molecule.add(mesh);
+        });
+
+        bonds.forEach(b => {
+          const i = b.a - 1, j = b.b - 1;
+          if (!keep[i] || !keep[j]) return;
+          const p1 = pos[i].clone().multiplyScalar(scale);
+          const p2 = pos[j].clone().multiplyScalar(scale);
+          const order = Math.min(b.order || 1, 3);
+          if (order === 1) { addBond(p1, p2, 0.13); return; }
+          const dir = new THREE.Vector3().subVectors(p2, p1).normalize();
+          const ref = Math.abs(dir.y) < 0.9 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+          const perp = new THREE.Vector3().crossVectors(dir, ref).normalize().multiplyScalar(0.18);
+          if (order === 2) {
+            addBond(p1.clone().add(perp), p2.clone().add(perp), 0.09);
+            addBond(p1.clone().sub(perp), p2.clone().sub(perp), 0.09);
+          } else {
+            addBond(p1, p2, 0.08);
+            const o = perp.clone().multiplyScalar(1.5);
+            addBond(p1.clone().add(o), p2.clone().add(o), 0.07);
+            addBond(p1.clone().sub(o), p2.clone().sub(o), 0.07);
+          }
+        });
+      }
+
+      // Parse an SDF V2000 record (fixed-column format) into atoms + bonds.
+      function parseSDF(text) {
+        const lines = text.split('\n');
+        const counts = lines[3];
+        const nAtoms = parseInt(counts.substring(0, 3), 10);
+        const nBonds = parseInt(counts.substring(3, 6), 10);
+        const atoms = [], bonds = [];
+        for (let i = 0; i < nAtoms; i++) {
+          const L = lines[4 + i];
+          atoms.push({
+            x: parseFloat(L.substring(0, 10)),
+            y: parseFloat(L.substring(10, 20)),
+            z: parseFloat(L.substring(20, 30)),
+            el: L.substring(31, 34).trim()
+          });
+        }
+        for (let i = 0; i < nBonds; i++) {
+          const L = lines[4 + nAtoms + i];
+          bonds.push({
+            a: parseInt(L.substring(0, 3), 10),
+            b: parseInt(L.substring(3, 6), 10),
+            order: parseInt(L.substring(6, 9), 10)
+          });
+        }
+        return { atoms, bonds };
+      }
+
+      // Fallback shape if the network/API is unavailable: a simple benzene ring.
+      function fallbackBenzene() {
+        const atoms = [], bonds = [];
+        const R = 1.4;
+        for (let i = 0; i < 6; i++) {
+          const a = (i / 6) * Math.PI * 2;
+          atoms.push({ el: 'C', x: Math.cos(a) * R, y: Math.sin(a) * R, z: Math.sin(a * 2) * 0.15 });
+        }
+        for (let i = 0; i < 6; i++) bonds.push({ a: i + 1, b: ((i + 1) % 6) + 1, order: i % 2 ? 1 : 2 });
+        buildFromAtomsBonds(atoms, bonds);
+      }
+
+      const apiUrl = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/'
+        + encodeURIComponent(MOLECULE_OF_THE_WEEK) + '/SDF?record_type=3d';
+      fetch(apiUrl)
+        .then(r => { if (!r.ok) throw new Error('PubChem ' + r.status); return r.text(); })
+        .then(txt => { const { atoms, bonds } = parseSDF(txt); buildFromAtomsBonds(atoms, bonds); })
+        .catch(() => fallbackBenzene());
+
+      // Ambient gold particle field for depth
+      const pCount = 70;
+      const pGeo = new THREE.BufferGeometry();
+      const positions = new Float32Array(pCount * 3);
+      for (let i = 0; i < pCount; i++) {
+        positions[i*3]   = (Math.random() - 0.5) * 70;
+        positions[i*3+1] = (Math.random() - 0.5) * 44;
+        positions[i*3+2] = (Math.random() - 0.5) * 40 - 10;
+      }
+      pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const particles = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0xEAAA00, size: 0.18, transparent: true, opacity: 0.5, sizeAttenuation: true }));
+      scene.add(particles);
+
+      let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+      window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5);
+        mouseY = (e.clientY / window.innerHeight - 0.5);
+      });
+
+      function resize() {
+        const w = canvas.clientWidth, h = canvas.clientHeight;
+        if (canvas.width !== w || canvas.height !== h) {
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        }
+      }
+      window.addEventListener('resize', resize);
+
+      let visible = true;
+      new IntersectionObserver((es) => es.forEach(e => visible = e.isIntersecting), { threshold: 0 }).observe(document.getElementById('home'));
+
+      const clock = new THREE.Clock();
+      function animate() {
+        requestAnimationFrame(animate);
+        if (!visible) return;
+        resize();
+        const t = clock.getElapsedTime();
+
+        molecule.rotation.y = (t / 26) * Math.PI * 2;   // ~26s continuous loop
+        molecule.rotation.x = Math.sin(t * 0.16) * 0.18;
+        particles.rotation.y = t * 0.015;
+
+        targetX += (mouseX - targetX) * 0.04;
+        targetY += (mouseY - targetY) * 0.04;
+        camera.position.x += (targetX * 5 - camera.position.x) * 0.05;
+        camera.position.y += (-targetY * 5 - camera.position.y) * 0.05;
+        camera.lookAt(0, 0, 0);
+
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+
+    /* ============================================================
+       THREE.JS  ·  ABOUT SECTION: DNA DOUBLE HELIX
+       ============================================================ */
+    (function initDNA() {
+      const canvas = document.getElementById('dna-canvas');
+      if (!canvas || !window.THREE) return;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+      camera.position.set(0, 0, 22);
+
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+
+      scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+      const l1 = new THREE.DirectionalLight(0xffffff, 1.0); l1.position.set(5, 8, 12); scene.add(l1);
+      const l2 = new THREE.DirectionalLight(0xEAAA00, 0.6); l2.position.set(-8, -4, 6); scene.add(l2);
+
+      const helix = new THREE.Group();
+      scene.add(helix);
+
+      const GOLD = 0xEAAA00, LIGHT = 0xdbe6f5, BLUE = 0x5b9be8;
+      const sphere = new THREE.SphereGeometry(1, 24, 24);
+      const backboneMat = new THREE.MeshStandardMaterial({ color: GOLD, metalness: 0.3, roughness: 0.35 });
+      const baseMatA = new THREE.MeshStandardMaterial({ color: LIGHT, metalness: 0.2, roughness: 0.4 });
+      const baseMatB = new THREE.MeshStandardMaterial({ color: BLUE, metalness: 0.2, roughness: 0.4 });
+      const rungMat = new THREE.MeshStandardMaterial({ color: 0xaebed6, metalness: 0.2, roughness: 0.5 });
+
+      const perTurn = 12, turns = 3, N = perTurn * turns;
+      const R = 3.2, ySpan = 16, yStep = ySpan / N;
+      const strandPoint = (i, phase) => {
+        const a = (i / perTurn) * Math.PI * 2 + phase;
+        return new THREE.Vector3(Math.cos(a) * R, i * yStep - ySpan / 2, Math.sin(a) * R);
+      };
+
+      function addRung(p1, p2) {
+        const dir = new THREE.Vector3().subVectors(p2, p1);
+        const len = dir.length();
+        const mesh = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, len, 8), rungMat);
+        mesh.position.copy(p1).add(dir.clone().multiplyScalar(0.5));
+        mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+        helix.add(mesh);
+      }
+
+      for (let i = 0; i <= N; i++) {
+        const pA = strandPoint(i, 0);
+        const pB = strandPoint(i, Math.PI);
+        const a = new THREE.Mesh(sphere, backboneMat); a.position.copy(pA); a.scale.setScalar(0.42); helix.add(a);
+        const b = new THREE.Mesh(sphere, backboneMat); b.position.copy(pB); b.scale.setScalar(0.42); helix.add(b);
+        addRung(pA, pB);
+        const baseA = new THREE.Mesh(sphere, i % 2 ? baseMatA : baseMatB); baseA.position.copy(pA.clone().lerp(pB, 0.32)); baseA.scale.setScalar(0.3); helix.add(baseA);
+        const baseB = new THREE.Mesh(sphere, i % 2 ? baseMatB : baseMatA); baseB.position.copy(pA.clone().lerp(pB, 0.68)); baseB.scale.setScalar(0.3); helix.add(baseB);
+      }
+
+      function resize() {
+        const w = canvas.clientWidth, h = canvas.clientHeight;
+        if (canvas.width !== w || canvas.height !== h) {
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h; camera.updateProjectionMatrix();
+        }
+      }
+      window.addEventListener('resize', resize);
+
+      let visible = true;
+      new IntersectionObserver((e) => e.forEach(en => visible = en.isIntersecting), { threshold: 0 }).observe(canvas);
+
+      const clock = new THREE.Clock();
+      function animate() {
+        requestAnimationFrame(animate);
+        if (!visible) return;
+        resize();
+        const t = clock.getElapsedTime();
+        helix.rotation.y = t * 0.5;
+        helix.position.y = Math.sin(t * 0.4) * 0.3;
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+  </script>
+</body>
+</html>
