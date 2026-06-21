@@ -902,6 +902,7 @@
       renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
 
       // Soft, modern lighting (PBR standard materials)
+      molecule.position.x = 7;
       scene.add(new THREE.AmbientLight(0xbcd4ff, 0.65));
       const key = new THREE.DirectionalLight(0xffffff, 1.15); key.position.set(6, 10, 14); scene.add(key);
       const fill = new THREE.DirectionalLight(0xEAAA00, 0.5); fill.position.set(-10, -4, 6); scene.add(fill);
