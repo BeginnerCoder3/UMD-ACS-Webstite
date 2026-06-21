@@ -1104,15 +1104,18 @@
   const helix = new THREE.Group();
   scene.add(helix);
 
-  const LIGHT = 0xdbe6f5, BLUE = 0x5b9be8;
+  const RED = 0xef4444;
+  const BLUE = 0x3b82f6;
+
   const sphere = new THREE.SphereGeometry(1, 24, 24);
 
-  const baseMatA = new THREE.MeshStandardMaterial({ color: LIGHT, metalness: 0.2, roughness: 0.4 });
-  const baseMatB = new THREE.MeshStandardMaterial({ color: BLUE, metalness: 0.2, roughness: 0.4 });
-  const rungMat = new THREE.MeshStandardMaterial({ color: 0xaebed6, metalness: 0.2, roughness: 0.5 });
+  const redMat = new THREE.MeshStandardMaterial({ color: RED, metalness: 0.2, roughness: 0.35 });
+  const blueMat = new THREE.MeshStandardMaterial({ color: BLUE, metalness: 0.2, roughness: 0.35 });
+  const rungMat = new THREE.MeshStandardMaterial({ color: 0xdbe6f5, metalness: 0.15, roughness: 0.45 });
 
   const perTurn = 18, turns = 3.5, N = Math.floor(perTurn * turns);
   const R = 4.0, ySpan = 17, yStep = ySpan / N;
+  const sphereScale = 0.34;
 
   const strandPoint = (i, phase) => {
     const a = (i / perTurn) * Math.PI * 2 + phase;
@@ -1123,10 +1126,11 @@
     );
   };
 
-  function addRung(p1, p2) {
-    const inner1 = p1.clone().lerp(p2, 0.24);
-    const inner2 = p1.clone().lerp(p2, 0.76);
-    const dir = new THREE.Vector3().subVectors(inner2, inner1);
+  function addRung(sphere1, sphere2) {
+    const rodStart = sphere1.clone().lerp(sphere2, 0.42);
+    const rodEnd = sphere1.clone().lerp(sphere2, 0.58);
+
+    const dir = new THREE.Vector3().subVectors(rodEnd, rodStart);
     const len = dir.length();
 
     const mesh = new THREE.Mesh(
@@ -1134,7 +1138,7 @@
       rungMat
     );
 
-    mesh.position.copy(inner1).add(dir.clone().multiplyScalar(0.5));
+    mesh.position.copy(rodStart).add(dir.clone().multiplyScalar(0.5));
     mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
     helix.add(mesh);
   }
@@ -1143,18 +1147,21 @@
     const pA = strandPoint(i, 0);
     const pB = strandPoint(i, Math.PI);
 
+    const sphereApos = pA.clone().lerp(pB, 0.36);
+    const sphereBpos = pA.clone().lerp(pB, 0.64);
+
     if (i % 3 === 0) {
-      addRung(pA, pB);
+      addRung(sphereApos, sphereBpos);
     }
 
-    const baseA = new THREE.Mesh(sphere, i % 2 ? baseMatA : baseMatB);
-    baseA.position.copy(pA.clone().lerp(pB, 0.36));
-    baseA.scale.setScalar(0.34);
+    const baseA = new THREE.Mesh(sphere, i % 2 ? redMat : blueMat);
+    baseA.position.copy(sphereApos);
+    baseA.scale.setScalar(sphereScale);
     helix.add(baseA);
 
-    const baseB = new THREE.Mesh(sphere, i % 2 ? baseMatB : baseMatA);
-    baseB.position.copy(pA.clone().lerp(pB, 0.64));
-    baseB.scale.setScalar(0.34);
+    const baseB = new THREE.Mesh(sphere, i % 2 ? blueMat : redMat);
+    baseB.position.copy(sphereBpos);
+    baseB.scale.setScalar(sphereScale);
     helix.add(baseB);
   }
 
@@ -1188,7 +1195,7 @@
   }
 
   animate();
-})();
+  })();
   </script>
 </body>
 </html>
