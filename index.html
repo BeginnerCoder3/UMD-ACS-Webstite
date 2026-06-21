@@ -1082,7 +1082,7 @@
       animate();
     })();
 
-    /* ============================================================
+/* ============================================================
    THREE.JS  ·  ABOUT SECTION: DNA DOUBLE HELIX
    ============================================================ */
 (function initDNA() {
@@ -1091,7 +1091,7 @@
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
-  camera.position.set(0, 0, 22);
+  camera.position.set(0, 0, 20);
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -1104,15 +1104,15 @@
   const helix = new THREE.Group();
   scene.add(helix);
 
-  const GOLD = 0xEAAA00, LIGHT = 0xdbe6f5, BLUE = 0x5b9be8;
+  const LIGHT = 0xdbe6f5, BLUE = 0x5b9be8;
   const sphere = new THREE.SphereGeometry(1, 24, 24);
-  const backboneMat = new THREE.MeshStandardMaterial({ color: GOLD, metalness: 0.3, roughness: 0.35 });
+
   const baseMatA = new THREE.MeshStandardMaterial({ color: LIGHT, metalness: 0.2, roughness: 0.4 });
   const baseMatB = new THREE.MeshStandardMaterial({ color: BLUE, metalness: 0.2, roughness: 0.4 });
   const rungMat = new THREE.MeshStandardMaterial({ color: 0xaebed6, metalness: 0.2, roughness: 0.5 });
 
   const perTurn = 18, turns = 3.5, N = Math.floor(perTurn * turns);
-  const R = 3.2, ySpan = 16, yStep = ySpan / N;
+  const R = 4.0, ySpan = 17, yStep = ySpan / N;
 
   const strandPoint = (i, phase) => {
     const a = (i / perTurn) * Math.PI * 2 + phase;
@@ -1124,8 +1124,8 @@
   };
 
   function addRung(p1, p2) {
-    const inner1 = p1.clone().lerp(p2, 0.22);
-    const inner2 = p1.clone().lerp(p2, 0.78);
+    const inner1 = p1.clone().lerp(p2, 0.24);
+    const inner2 = p1.clone().lerp(p2, 0.76);
     const dir = new THREE.Vector3().subVectors(inner2, inner1);
     const len = dir.length();
 
@@ -1143,28 +1143,18 @@
     const pA = strandPoint(i, 0);
     const pB = strandPoint(i, Math.PI);
 
-    const a = new THREE.Mesh(sphere, backboneMat);
-    a.position.copy(pA);
-    a.scale.setScalar(0.36);
-    helix.add(a);
-
-    const b = new THREE.Mesh(sphere, backboneMat);
-    b.position.copy(pB);
-    b.scale.setScalar(0.36);
-    helix.add(b);
-
     if (i % 3 === 0) {
       addRung(pA, pB);
     }
 
     const baseA = new THREE.Mesh(sphere, i % 2 ? baseMatA : baseMatB);
-    baseA.position.copy(pA.clone().lerp(pB, 0.38));
-    baseA.scale.setScalar(0.24);
+    baseA.position.copy(pA.clone().lerp(pB, 0.36));
+    baseA.scale.setScalar(0.34);
     helix.add(baseA);
 
     const baseB = new THREE.Mesh(sphere, i % 2 ? baseMatB : baseMatA);
-    baseB.position.copy(pA.clone().lerp(pB, 0.62));
-    baseB.scale.setScalar(0.24);
+    baseB.position.copy(pA.clone().lerp(pB, 0.64));
+    baseB.scale.setScalar(0.34);
     helix.add(baseB);
   }
 
