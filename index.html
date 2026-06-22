@@ -769,13 +769,16 @@
     const sections = ['home','about','events','why','tutoring','join','resources'];
     const navLinks = document.querySelectorAll('#navbar .nav-link');
     const toTop = document.getElementById('to-top');
+    // Detect whichever section crosses a thin band in the middle of the viewport.
+    // (Using a % threshold breaks for tall sections like Events, which never fill
+    //  half the screen, so they'd never become active.)
     const navActiveObserver = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
           navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
         }
       });
-    }, { threshold: 0.5 });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
     sections.forEach(id => { const el = document.getElementById(id); if (el) navActiveObserver.observe(el); });
 
     window.addEventListener('scroll', () => {
