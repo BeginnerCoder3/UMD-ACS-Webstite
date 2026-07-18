@@ -13,10 +13,10 @@
   <meta property="og:description" content="Chemistry for Life. A student chemistry community at UMD with events, mentorship, and free tutoring." />
   <meta property="og:type" content="website" />
 
-  <!-- Google Fonts: Space Grotesk + Space Mono + Inter -->
+  <!-- Google Fonts: Bricolage Grotesque (display) + Inter (body) + JetBrains Mono (data) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS Play CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -27,19 +27,21 @@
           colors: {
             umd: {
               blue: '#002F6C',
-              navy: '#041E42',
-              gold: '#EAAA00',
-              amber: '#FFC72C',
-              ink: '#0E1626',
-              charcoal: '#374151',
-              mist: '#F5F6F8',
-              line: '#E4E7EC',
+              navy: '#0C1220',
+              gold: '#D99A00',
+              amber: '#F0B429',
+              ink: '#0B0E14',
+              charcoal: '#3A3F4B',
+              muted: '#6B7280',
+              paper: '#FCFCFB',
+              mist: '#F6F7F5',
+              line: '#ECEDEF',
             },
           },
           fontFamily: {
             sans: ['Inter', 'system-ui', 'sans-serif'],
-            display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
-            mono: ['"Space Mono"', 'ui-monospace', 'monospace'],
+            display: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
           },
           borderRadius: { xs: '2px' },
         },
@@ -54,20 +56,24 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <style>
+    html { scroll-behavior: smooth; }
     html, body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
-    body { font-family: 'Inter', system-ui, sans-serif; color: #374151; background: #FFFFFF; overflow-x: hidden; }
-    h1, h2, h3, h4, .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; }
+    body { font-family: 'Inter', system-ui, sans-serif; color: #3A3F4B; background: #FCFCFB; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Bricolage Grotesque', system-ui, sans-serif; letter-spacing: -0.02em; }
 
-    ::selection { background: #EAAA00; color: #002F6C; }
+    ::selection { background: #D99A00; color: #ffffff; }
 
-    /* Minimal scrollbar */
-    ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-track { background: #FFFFFF; }
-    ::-webkit-scrollbar-thumb { background: #002F6C; border: 3px solid #FFFFFF; }
-    ::-webkit-scrollbar-thumb:hover { background: #EAAA00; }
+    /* Eyebrow label — quiet, letter-spaced */
+    .eyebrow { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 600; }
+
+    /* Hairline scrollbar */
+    ::-webkit-scrollbar { width: 9px; }
+    ::-webkit-scrollbar-track { background: #FCFCFB; }
+    ::-webkit-scrollbar-thumb { background: #D6D8DC; border-radius: 9px; border: 2px solid #FCFCFB; }
+    ::-webkit-scrollbar-thumb:hover { background: #D99A00; }
 
     /* Scroll-reveal (subtle) */
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); will-change: opacity, transform; }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); will-change: opacity, transform; }
     .reveal.in { opacity: 1; transform: none; }
     .reveal-delay-1 { transition-delay: .08s; }
     .reveal-delay-2 { transition-delay: .16s; }
@@ -76,9 +82,9 @@
     /* Nav underline */
     .nav-link { position: relative; }
     .nav-link::after {
-      content: ''; position: absolute; left: 0; bottom: -4px; height: 2px; width: 100%;
-      background: #EAAA00; transform: scaleX(0); transform-origin: right;
-      transition: transform .3s cubic-bezier(.22,1,.36,1);
+      content: ''; position: absolute; left: 0; bottom: -6px; height: 2px; width: 100%;
+      background: #D99A00; transform: scaleX(0); transform-origin: right;
+      transition: transform .35s cubic-bezier(.22,1,.36,1);
     }
     .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); transform-origin: left; }
 
@@ -87,40 +93,27 @@
     .link-arrow::after {
       content: ''; position: absolute; left: 0; bottom: -2px; height: 1px; width: 100%;
       background: currentColor; transform: scaleX(0); transform-origin: right;
-      transition: transform .3s cubic-bezier(.22,1,.36,1);
+      transition: transform .35s cubic-bezier(.22,1,.36,1);
     }
     .link-arrow:hover::after { transform: scaleX(1); transform-origin: left; }
 
-    /* Hero: lab-notebook grid on deep blue */
-    .hero-bg {
-      background-color: #04204A;
-      background-image:
-        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
-      background-size: 52px 52px;
+    /* Cinematic ink hero with a single soft glow behind the molecule */
+    .hero-ink { background: #0B0E14; }
+    .hero-glow {
+      background:
+        radial-gradient(58% 55% at 68% 40%, rgba(217,154,0,.15), transparent 70%),
+        radial-gradient(52% 55% at 82% 72%, rgba(37,79,168,.24), transparent 72%);
     }
-
-    /* Bond divider: hairline punctuated by a gold node */
-    .bond-rule { height: 1px; width: 100%; background: #E4E7EC; position: relative; }
-    .bond-rule::before {
-      content: ''; position: absolute; left: 0; top: 50%;
-      transform: translate(-1px,-50%) rotate(45deg);
-      width: 6px; height: 6px; background: #EAAA00;
-    }
-
-    /* Periodic-table tile (section wayfinding signature) */
-    .tile { position: relative; display: flex; align-items: center; justify-content: center; border: 1px solid #E4E7EC; background: #FFFFFF; }
-    .tile .num { position: absolute; top: 5px; left: 6px; font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .05em; color: #9AA3B2; }
-    .tile .sym { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #002F6C; line-height: 1; }
 
     /* Periodic accent tiles (tutoring bg) */
     .ptile { transition: transform .3s ease, background .3s ease, color .3s ease; }
-    .ptile:hover { transform: translateY(-3px); background: #EAAA00; color: #002F6C; }
+    .ptile:hover { transform: translateY(-3px); background: #D99A00; color: #0B0E14; }
 
     canvas { display: block; outline: none; }
     .mobile-menu { transition: transform .4s cubic-bezier(.22,1,.36,1), opacity .3s ease; }
 
     @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
       .reveal { transition: none; opacity: 1; transform: none; }
       * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
     }
@@ -130,134 +123,103 @@
 <body class="antialiased">
 
   <!-- ============================= HERO ============================= -->
-  <header id="home" class="relative min-h-screen w-full overflow-hidden hero-bg">
+  <header id="home" class="relative min-h-screen w-full overflow-hidden hero-ink">
 
-    <!-- Three.js molecule canvas -->
+    <!-- single soft glow -->
+    <div class="absolute inset-0 z-[1] hero-glow pointer-events-none"></div>
+
+    <!-- Three.js molecule canvas — the signature -->
     <canvas
       id="molecule-canvas"
-      class="absolute top-0 right-[-8%] z-10 h-full w-[56%] hidden lg:block pointer-events-none"
+      class="absolute top-0 right-[-6%] z-10 h-full w-[58%] hidden lg:block pointer-events-none"
     ></canvas>
-
-    <!-- subtle vignette -->
-    <div class="absolute inset-0 z-[1] pointer-events-none" style="background:radial-gradient(ellipse at 60% 40%, transparent 45%, rgba(2,10,26,0.6) 100%);"></div>
 
     <!-- Top utility bar -->
     <div class="relative z-20 w-full">
-      <div class="mx-auto max-w-7xl px-6 lg:px-10 pt-7 flex items-center justify-between">
+      <div class="mx-auto max-w-6xl px-6 lg:px-8 pt-8 flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <div class="h-11 w-11 bg-white border border-white/20 overflow-hidden">
-            <img src="images/umd-seal.png" alt="University of Maryland Seal" class="h-full w-full object-contain p-0.5">
+          <div class="h-10 w-10 rounded-xl bg-white/95 overflow-hidden flex items-center justify-center">
+            <img src="images/acs-logo.png" alt="ACS Student Chapter logo" class="h-full w-full object-contain p-1">
           </div>
           <div class="leading-tight">
-            <p class="text-white font-display font-semibold text-sm tracking-wide">University of Maryland</p>
-            <p class="text-white/50 font-mono text-[10px] tracking-[0.25em] uppercase mt-0.5">College Park</p>
+            <p class="text-white font-display font-semibold text-sm tracking-tight">UMD ACS</p>
+            <p class="text-white/45 text-[11px] tracking-wide">Student Chapter</p>
           </div>
         </div>
-        <div class="flex items-center gap-3">
-          <div class="hidden sm:flex flex-col items-end leading-tight">
-            <span class="text-white/80 font-mono text-[10px] tracking-[0.2em] uppercase">American Chemical Society</span>
-            <span class="text-umd-gold/80 font-mono text-[10px] tracking-[0.25em] uppercase mt-0.5">Student Chapter</span>
-          </div>
-          <div class="h-11 w-11 bg-white border border-white/20 overflow-hidden">
-            <img src="images/acs-logo.png" alt="American Chemical Society Logo" class="h-full w-full object-contain p-0.5">
-          </div>
-        </div>
+        <a href="#join" class="hidden sm:inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2 text-sm font-medium text-white/90 hover:border-umd-gold hover:text-umd-gold transition-colors">
+          Become a member
+          <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
+        </a>
       </div>
     </div>
 
     <!-- Hero content -->
-    <div class="relative z-20 mx-auto max-w-7xl px-6 lg:px-10 flex flex-col justify-center min-h-[calc(100vh-96px)]">
-      <div class="max-w-2xl">
-        <div class="flex items-center gap-3">
-          <span class="h-2 w-2 bg-umd-gold rotate-45"></span>
-          <p class="font-mono text-[11px] sm:text-xs uppercase tracking-[0.3em] text-umd-gold">American Chemical Society &middot; Student Chapter</p>
-        </div>
+    <div class="relative z-20 mx-auto max-w-6xl px-6 lg:px-8 flex flex-col justify-center min-h-[calc(100vh-104px)]">
+      <div class="max-w-xl">
+        <p class="eyebrow text-umd-gold">American Chemical Society &middot; University of Maryland</p>
 
-        <h1 class="mt-7 font-display font-bold text-white leading-[0.9] tracking-tight text-6xl sm:text-7xl lg:text-8xl">
-          Chemistry<br><span class="text-umd-gold">for Life.</span>
+        <h1 class="mt-6 font-display font-extrabold text-white leading-[0.9] tracking-[-0.03em] text-6xl sm:text-7xl lg:text-[5.5rem]">
+          Chemistry,<br>together.
         </h1>
 
-        <p class="mt-8 text-white/75 text-lg sm:text-xl max-w-xl leading-relaxed">
-          A student community at UMD for anyone into chemistry. Come for the events and tutoring, stay for the people.
+        <p class="mt-7 text-white/65 text-lg leading-relaxed max-w-md">
+          A student community at UMD for anyone curious about chemistry. Come for the events and free tutoring, stay for the people.
         </p>
 
-        <p class="mt-6 font-mono text-[11px] uppercase tracking-[0.25em] text-white/45">University of Maryland &middot; Est. 2026</p>
-
-        <div class="mt-9 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-8">
-          <a href="#join" class="group inline-flex items-center justify-center gap-2 bg-umd-gold px-8 py-4 font-display font-semibold text-umd-blue text-base rounded-xs hover:bg-umd-amber transition-colors duration-300">
-            Join Us
+        <div class="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
+          <a href="#join" class="group inline-flex items-center gap-2 rounded-full bg-umd-gold px-7 py-3.5 font-display font-semibold text-umd-ink hover:bg-umd-amber transition-colors">
+            Join the chapter
             <i data-lucide="arrow-right" class="h-5 w-5 transition-transform group-hover:translate-x-1"></i>
           </a>
-          <a href="#events" class="group inline-flex items-center gap-2 font-display font-semibold text-white text-base link-arrow">
-            Explore Events
-            <i data-lucide="arrow-up-right" class="h-5 w-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+          <a href="#events" class="group inline-flex items-center gap-2 font-medium text-white link-arrow">
+            See what's happening
+            <i data-lucide="arrow-up-right" class="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
           </a>
         </div>
       </div>
     </div>
 
     <!-- Molecule of the Week caption -->
-<<<<<<< HEAD
-<a href="https://www.acs.org/molecule-of-the-week.html"
-   class="absolute bottom-7 right-6 lg:right-10 z-20 max-w-[15rem] rounded-2xl bg-white/10 backdrop-blur-md ring-1 ring-white/20 px-4 py-3 hover:bg-white/20 hover:ring-umd-gold transition-all duration-300 cursor-pointer">
-
-  <p class="text-[10px] tracking-[0.25em] uppercase text-umd-gold font-semibold">
-    Molecule of the Week
-  </p>
-
-  <p id="motw-name" class="text-white font-display font-bold text-lg leading-tight mt-0.5">
-    Homogentisic acid
-  </p>
-
-  <p class="text-white/55 text-[10px] mt-1 leading-snug">
-    3D structure from PubChem (NIH). Featured by the ACS Molecule of the Week.
-  </p>
-
-</a>
-=======
-    <a href="https://www.acs.org/molecule-of-the-week.html"
-       class="absolute bottom-8 right-6 lg:right-10 z-20 max-w-[15rem] border border-white/15 bg-white/[0.04] backdrop-blur-sm px-4 py-3 hover:border-umd-gold transition-colors duration-300">
-      <p class="font-mono text-[10px] tracking-[0.25em] uppercase text-umd-gold">Molecule of the Week</p>
-      <p id="motw-name" class="text-white font-display font-bold text-lg leading-tight mt-1">Acetophenone</p>
-      <p class="text-white/45 font-mono text-[10px] mt-1.5 tracking-wide">Fig.01 &middot; 3D from PubChem (NIH)</p>
+    <a href="https://www.acs.org/molecule-of-the-week.html" target="_blank" rel="noopener"
+       class="group absolute bottom-8 right-6 lg:right-8 z-20 hidden sm:block max-w-[15rem] text-right">
+      <p class="eyebrow text-umd-gold/90">Molecule of the week</p>
+      <p id="motw-name" class="text-white font-display font-semibold text-lg leading-tight mt-1.5 group-hover:text-umd-gold transition-colors">Homogentisic acid</p>
+      <p class="text-white/40 font-mono text-[11px] mt-1.5">Live 3D &middot; PubChem (NIH)</p>
     </a>
->>>>>>> d7489b5 (visual upgrade)
 
     <!-- Scroll cue -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 hidden sm:flex items-center gap-3 text-white/45">
-      <span class="font-mono text-[10px] tracking-[0.3em] uppercase">Scroll</span>
-      <span class="h-8 w-px bg-white/25"></span>
+    <div class="absolute bottom-9 left-6 lg:left-8 z-20 hidden sm:flex items-center gap-3 text-white/40">
+      <span class="eyebrow">Scroll</span>
+      <span class="h-8 w-px bg-white/20"></span>
     </div>
   </header>
 
   <!-- ============================= STICKY NAV ============================= -->
   <nav id="navbar" class="sticky top-0 z-50 w-full">
-    <div class="bg-white/90 backdrop-blur-md border-b border-umd-line">
-      <div class="mx-auto max-w-7xl px-6 lg:px-10">
+    <div class="bg-umd-paper/80 backdrop-blur-md border-b border-umd-line">
+      <div class="mx-auto max-w-6xl px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <a href="#home" class="flex items-center gap-2.5 group">
-            <div class="h-8 w-8 border border-umd-line overflow-hidden bg-white">
-              <img src="images/acs-logo.png" alt="ACS Logo" class="h-full w-full object-contain p-0.5">
+            <div class="h-8 w-8 rounded-lg overflow-hidden bg-white ring-1 ring-umd-line flex items-center justify-center">
+              <img src="images/acs-logo.png" alt="ACS logo" class="h-full w-full object-contain p-1">
             </div>
             <span class="font-display font-bold text-umd-blue tracking-tight">UMD <span class="text-umd-gold">ACS</span></span>
           </a>
 
-          <div class="hidden md:flex items-center gap-9 font-display font-medium text-[15px] text-umd-blue">
-            <a href="#home" class="nav-link hover:text-umd-gold transition-colors duration-300">Home</a>
-            <a href="#about" class="nav-link hover:text-umd-gold transition-colors duration-300">About</a>
-            <a href="#events" class="nav-link hover:text-umd-gold transition-colors duration-300">Events</a>
-            <a href="#why" class="nav-link hover:text-umd-gold transition-colors duration-300">Why Join</a>
-            <a href="#tutoring" class="nav-link hover:text-umd-gold transition-colors duration-300">Tutoring</a>
-            <a href="#join" class="nav-link hover:text-umd-gold transition-colors duration-300">Join</a>
+          <div class="hidden md:flex items-center gap-8 text-[14px] font-medium text-umd-blue/80">
+            <a href="#about" class="nav-link hover:text-umd-blue transition-colors">About</a>
+            <a href="#events" class="nav-link hover:text-umd-blue transition-colors">Events</a>
+            <a href="#why" class="nav-link hover:text-umd-blue transition-colors">Why join</a>
+            <a href="#tutoring" class="nav-link hover:text-umd-blue transition-colors">Tutoring</a>
           </div>
 
-          <a href="#join" class="hidden md:inline-flex items-center gap-2 border border-umd-blue px-5 py-2 font-display font-semibold text-sm text-umd-blue rounded-xs hover:bg-umd-blue hover:text-white transition-colors duration-300">
-            Register
+          <a href="#join" class="hidden md:inline-flex items-center gap-2 rounded-full bg-umd-blue px-5 py-2 font-semibold text-sm text-white hover:bg-umd-gold hover:text-umd-ink transition-colors">
+            Join
             <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
           </a>
 
           <!-- Mobile toggle -->
-          <button id="menu-btn" aria-label="Open menu" class="md:hidden h-10 w-10 flex items-center justify-center text-umd-blue hover:bg-umd-mist transition">
+          <button id="menu-btn" aria-label="Open menu" class="md:hidden h-10 w-10 flex items-center justify-center text-umd-blue rounded-lg hover:bg-black/5 transition">
             <i data-lucide="menu" class="h-6 w-6"></i>
           </button>
         </div>
@@ -266,67 +228,56 @@
 
     <!-- Mobile menu -->
     <div id="mobile-menu" class="mobile-menu md:hidden origin-top opacity-0 -translate-y-3 pointer-events-none absolute w-full">
-      <div class="mx-4 mt-2 bg-white border border-umd-line shadow-lg p-3 font-display font-medium text-umd-blue">
-        <a href="#home" class="mobile-link block px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">Home</a>
-        <a href="#about" class="mobile-link block px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">About</a>
-        <a href="#events" class="mobile-link block px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">Events</a>
-        <a href="#why" class="mobile-link block px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">Why Join</a>
-        <a href="#tutoring" class="mobile-link block px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">Tutoring</a>
-        <a href="#join" class="mobile-link block px-4 py-3 mt-1 bg-umd-blue text-white text-center hover:bg-umd-gold hover:text-umd-blue transition">Join the Chapter</a>
+      <div class="mx-4 mt-2 rounded-2xl bg-white border border-umd-line shadow-xl p-2 font-medium text-umd-blue">
+        <a href="#about" class="mobile-link block px-4 py-3 rounded-xl hover:bg-umd-mist transition">About</a>
+        <a href="#events" class="mobile-link block px-4 py-3 rounded-xl hover:bg-umd-mist transition">Events</a>
+        <a href="#why" class="mobile-link block px-4 py-3 rounded-xl hover:bg-umd-mist transition">Why join</a>
+        <a href="#tutoring" class="mobile-link block px-4 py-3 rounded-xl hover:bg-umd-mist transition">Tutoring</a>
+        <a href="#join" class="mobile-link block px-4 py-3 mt-1 rounded-xl bg-umd-blue text-white text-center hover:bg-umd-gold hover:text-umd-ink transition">Join the chapter</a>
       </div>
     </div>
   </nav>
 
   <!-- ============================= ABOUT ============================= -->
-  <section id="about" class="relative py-24 lg:py-32 bg-white">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+  <section id="about" class="relative py-28 lg:py-40 bg-umd-paper">
+    <div class="mx-auto max-w-6xl px-6 lg:px-8">
 
       <!-- Section header -->
-      <div class="reveal flex items-end gap-5">
-        <div class="tile w-14 h-14 shrink-0">
-          <span class="num">01</span>
-          <span class="sym text-xl">Ab</span>
-        </div>
-        <div class="flex-1">
-          <p class="font-mono text-[11px] uppercase tracking-[0.3em] text-umd-gold">About the chapter</p>
-          <h2 class="mt-2 font-display font-bold text-4xl sm:text-5xl text-umd-blue tracking-tight leading-none">A community built around chemistry.</h2>
-        </div>
+      <div class="reveal max-w-3xl">
+        <p class="eyebrow text-umd-gold">About the chapter</p>
+        <h2 class="mt-3 font-display font-bold text-umd-blue text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">A community built around chemistry.</h2>
       </div>
-      <div class="reveal bond-rule mt-8"></div>
 
-      <div class="mt-14 grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+      <div class="mt-16 grid lg:grid-cols-[1.1fr_1fr] gap-14 lg:gap-20 items-center">
 
         <!-- Left: DNA canvas -->
         <div class="reveal">
-          <div class="border border-umd-line bg-umd-navy">
-            <canvas id="dna-canvas" class="w-full h-[380px] sm:h-[460px]"></canvas>
+          <div class="rounded-3xl overflow-hidden bg-umd-navy ring-1 ring-black/5 shadow-2xl shadow-umd-blue/10">
+            <canvas id="dna-canvas" class="w-full h-[380px] sm:h-[480px]"></canvas>
           </div>
-          <div class="mt-3 flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em] text-slate-400">
-            <span>Fig.02 &middot; DNA double helix</span>
-            <span class="text-umd-gold">All majors welcome</span>
-          </div>
+          <p class="mt-4 text-sm text-umd-muted">A DNA double helix, rendered live. Every major welcome.</p>
         </div>
 
         <!-- Right: mission -->
         <div class="reveal reveal-delay-1">
-          <p class="text-lg text-umd-charcoal leading-relaxed">
-            The ACS Student Chapter at the University of Maryland is open to undergraduate and graduate students enrolled at UMD who are interested in the field of chemistry. Our chapter is dedicated to promoting chemistry and its related fields through scientific excellence and rigor, professional mentorship, and meaningful community engagement.
+          <p class="text-xl text-umd-charcoal leading-relaxed">
+            The ACS Student Chapter at UMD is open to any undergraduate or graduate student curious about chemistry. We promote the field through scientific rigor, professional mentorship, and real community engagement.
           </p>
 
-          <p class="mt-5 text-lg text-umd-charcoal/80 leading-relaxed">
-            We strive to provide members with career and educational guidance, cultivate networking opportunities within and outside our university, and develop a lasting commitment to service and outreach. The goal is to prepare you for your future career in STEM.
+          <p class="mt-5 text-lg text-umd-muted leading-relaxed">
+            We help members find career and research guidance, build a network on and off campus, and develop a lasting commitment to service — so you leave ready for whatever comes next in STEM.
           </p>
 
-          <div class="mt-10 grid sm:grid-cols-2 gap-px bg-umd-line border border-umd-line">
-            <div class="bg-white p-5">
+          <div class="mt-10 grid sm:grid-cols-2 gap-4">
+            <div class="rounded-2xl border border-umd-line p-6">
               <i data-lucide="users" class="h-5 w-5 text-umd-gold"></i>
-              <p class="mt-3 font-display font-semibold text-umd-blue">Inclusive Community</p>
-              <p class="mt-1 text-sm text-umd-charcoal/70">Open to every major and skill level.</p>
+              <p class="mt-4 font-display font-semibold text-umd-blue">Every major welcome</p>
+              <p class="mt-1 text-sm text-umd-muted">No prerequisites — just curiosity.</p>
             </div>
-            <div class="bg-white p-5">
+            <div class="rounded-2xl border border-umd-line p-6">
               <i data-lucide="graduation-cap" class="h-5 w-5 text-umd-gold"></i>
-              <p class="mt-3 font-display font-semibold text-umd-blue">Career-Ready</p>
-              <p class="mt-1 text-sm text-umd-charcoal/70">Skills employers and grad schools want.</p>
+              <p class="mt-4 font-display font-semibold text-umd-blue">Career-ready</p>
+              <p class="mt-1 text-sm text-umd-muted">Skills grad schools and employers want.</p>
             </div>
           </div>
         </div>
@@ -335,154 +286,118 @@
   </section>
 
   <!-- ============================= EVENTS ============================= -->
-  <section id="events" class="relative py-24 lg:py-32 bg-umd-mist">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
-<<<<<<< HEAD
-      <div class="reveal text-center max-w-2xl mx-auto">
-        <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-umd-blue ring-1 ring-slate-200 shadow-sm">
-          <i data-lucide="calendar-heart" class="h-4 w-4 text-umd-gold"></i> What's Happening
-        </span>
-        <h2 class="mt-6 font-display font-extrabold text-4xl sm:text-5xl text-umd-blue leading-tight tracking-tight">Events &amp; Programs</h2>
-        <p class="mt-5 text-lg text-umd-charcoal/80">We host speaker events, community service opportunities, and lab tours throughout the year. Add any of them to your calendar and come join us! All are welcome.</p>
-=======
+  <section id="events" class="relative py-28 lg:py-40 bg-umd-paper border-t border-umd-line">
+    <div class="mx-auto max-w-6xl px-6 lg:px-8">
 
       <!-- Section header -->
-      <div class="reveal flex items-end gap-5">
-        <div class="tile w-14 h-14 shrink-0 bg-umd-mist">
-          <span class="num">02</span>
-          <span class="sym text-xl">Ev</span>
-        </div>
-        <div class="flex-1">
-          <p class="font-mono text-[11px] uppercase tracking-[0.3em] text-umd-gold">What's happening</p>
-          <h2 class="mt-2 font-display font-bold text-4xl sm:text-5xl text-umd-blue tracking-tight leading-none">Events &amp; Programs</h2>
-        </div>
->>>>>>> d7489b5 (visual upgrade)
+      <div class="reveal max-w-3xl">
+        <p class="eyebrow text-umd-gold">What's happening</p>
+        <h2 class="mt-3 font-display font-bold text-umd-blue text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">Events &amp; programs.</h2>
+        <p class="mt-6 text-lg text-umd-muted leading-relaxed">Speaker nights, elementary-school outreach, and lab tours throughout the year. Add any of them to your calendar in one click.</p>
       </div>
-      <div class="reveal bond-rule mt-8" style="background:#Dfe3ea"></div>
-
-      <p class="reveal mt-8 max-w-2xl text-lg text-umd-charcoal/80 leading-relaxed">We host speaker events, elementary school outreach, and lab tours throughout the year. Add any of them to your calendar with one click.</p>
 
       <!-- Filter chips -->
-      <div class="reveal reveal-delay-1 mt-10 flex flex-wrap gap-x-7 gap-y-3" id="event-filters"></div>
+      <div class="reveal reveal-delay-1 mt-10 flex flex-wrap gap-x-6 gap-y-3" id="event-filters"></div>
 
       <!-- Cards grid -->
-      <div id="events-grid" class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      <div id="events-grid" class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </div>
   </section>
 
   <!-- ============================= WHY JOIN ============================= -->
-  <section id="why" class="relative py-24 lg:py-32 bg-white">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+  <section id="why" class="relative py-28 lg:py-40 bg-umd-paper border-t border-umd-line">
+    <div class="mx-auto max-w-6xl px-6 lg:px-8">
 
       <!-- Section header -->
-      <div class="reveal flex items-end gap-5">
-        <div class="tile w-14 h-14 shrink-0">
-          <span class="num">03</span>
-          <span class="sym text-lg">Wj</span>
-        </div>
-        <div class="flex-1">
-          <p class="font-mono text-[11px] uppercase tracking-[0.3em] text-umd-gold">The payoff</p>
-          <h2 class="mt-2 font-display font-bold text-4xl sm:text-5xl text-umd-blue tracking-tight leading-none">Why Join ACS?</h2>
-        </div>
+      <div class="reveal max-w-3xl">
+        <p class="eyebrow text-umd-gold">Why join</p>
+        <h2 class="mt-3 font-display font-bold text-umd-blue text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">Three good reasons.</h2>
       </div>
-      <div class="reveal bond-rule mt-8"></div>
 
-      <div class="mt-14 grid md:grid-cols-3 border-t-2 border-umd-blue md:border-t-0">
+      <div class="mt-16 grid md:grid-cols-3 gap-8 lg:gap-12">
         <!-- Pillar 1 -->
-        <div class="reveal border-t-2 border-umd-blue pt-8 md:pr-10 md:mr-0 lg:pr-12">
-          <div class="flex items-center gap-3">
-            <span class="font-mono text-xs text-umd-gold">01</span>
+        <div class="reveal">
+          <div class="h-12 w-12 rounded-2xl bg-umd-blue/5 flex items-center justify-center">
             <i data-lucide="briefcase" class="h-6 w-6 text-umd-blue"></i>
           </div>
-          <h3 class="mt-5 font-display font-bold text-2xl text-umd-blue leading-tight">Professional Development</h3>
-          <p class="mt-4 text-umd-charcoal/80 leading-relaxed">We run resume workshops, mock interviews, and speaker events with chemists from industry and from the faculty. It is good practice for the skills that come up on grad school and job applications.</p>
-          <span class="mt-6 inline-flex items-center gap-2 font-display font-semibold text-umd-blue link-arrow w-fit">Build your skills <i data-lucide="arrow-up-right" class="h-4 w-4"></i></span>
+          <h3 class="mt-6 font-display font-bold text-2xl text-umd-blue leading-tight">Professional development</h3>
+          <p class="mt-3 text-umd-muted leading-relaxed">Resume workshops, mock interviews, and talks with chemists from industry and the faculty — real practice for the skills grad-school and job applications ask for.</p>
         </div>
 
         <!-- Pillar 2 -->
-        <div class="reveal reveal-delay-1 border-t-2 border-umd-blue pt-8 md:px-10 md:border-l md:border-l-umd-line">
-          <div class="flex items-center gap-3">
-            <span class="font-mono text-xs text-umd-gold">02</span>
+        <div class="reveal reveal-delay-1">
+          <div class="h-12 w-12 rounded-2xl bg-umd-blue/5 flex items-center justify-center">
             <i data-lucide="handshake" class="h-6 w-6 text-umd-blue"></i>
           </div>
-          <h3 class="mt-5 font-display font-bold text-2xl text-umd-blue leading-tight">Mentorship &amp; Networking</h3>
-          <p class="mt-4 text-umd-charcoal/80 leading-relaxed">Get to know upperclassmen, alumni, and professors who have done what you are trying to do. It is how a lot of our members find research advisors, study partners, and friends.</p>
-          <span class="mt-6 inline-flex items-center gap-2 font-display font-semibold text-umd-blue link-arrow w-fit">Find your people <i data-lucide="arrow-up-right" class="h-4 w-4"></i></span>
+          <h3 class="mt-6 font-display font-bold text-2xl text-umd-blue leading-tight">Mentorship &amp; networking</h3>
+          <p class="mt-3 text-umd-muted leading-relaxed">Get to know upperclassmen, alumni, and professors who've done what you're trying to do. It's how members find research advisors, study partners, and friends.</p>
         </div>
 
         <!-- Pillar 3 -->
-        <div class="reveal reveal-delay-2 border-t-2 border-umd-blue pt-8 md:pl-10 md:border-l md:border-l-umd-line">
-          <div class="flex items-center gap-3">
-            <span class="font-mono text-xs text-umd-gold">03</span>
+        <div class="reveal reveal-delay-2">
+          <div class="h-12 w-12 rounded-2xl bg-umd-blue/5 flex items-center justify-center">
             <i data-lucide="heart-handshake" class="h-6 w-6 text-umd-blue"></i>
           </div>
-          <h3 class="mt-5 font-display font-bold text-2xl text-umd-blue leading-tight">Community Outreach &amp; Service</h3>
-          <p class="mt-4 text-umd-charcoal/80 leading-relaxed">We visit local schools, run demos, and take on service projects. You give back to the community and earn your service hours while you are at it.</p>
-          <span class="mt-6 inline-flex items-center gap-2 font-display font-semibold text-umd-blue link-arrow w-fit">Make an impact <i data-lucide="arrow-up-right" class="h-4 w-4"></i></span>
+          <h3 class="mt-6 font-display font-bold text-2xl text-umd-blue leading-tight">Outreach &amp; service</h3>
+          <p class="mt-3 text-umd-muted leading-relaxed">We visit local schools, run demos, and take on service projects. You give back to the community — and earn your service hours while you're at it.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============================= TUTORING ============================= -->
-  <section id="tutoring" class="relative py-24 lg:py-32 bg-umd-navy overflow-hidden">
+  <section id="tutoring" class="relative py-28 lg:py-40 bg-umd-ink text-white overflow-hidden">
     <!-- periodic table accent -->
-    <div class="absolute inset-0 opacity-[0.06] pointer-events-none flex items-center justify-end pr-4">
+    <div class="absolute inset-0 opacity-[0.05] pointer-events-none flex items-center justify-end pr-4">
       <div id="periodic-accent" class="grid grid-cols-6 gap-1 rotate-6 scale-125"></div>
     </div>
 
-    <div class="relative mx-auto max-w-7xl px-6 lg:px-10">
+    <div class="relative mx-auto max-w-6xl px-6 lg:px-8">
 
       <!-- Section header (on dark) -->
-      <div class="reveal flex items-end gap-5">
-        <div class="tile w-14 h-14 shrink-0 bg-transparent border-white/25">
-          <span class="num" style="color:rgba(255,255,255,.5)">04</span>
-          <span class="sym text-xl" style="color:#fff">Tu</span>
-        </div>
-        <div class="flex-1">
-          <p class="font-mono text-[11px] uppercase tracking-[0.3em] text-umd-gold">Free &amp; affordable help</p>
-          <h2 class="mt-2 font-display font-bold text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-none">Need a Chemistry Tutor?</h2>
-        </div>
+      <div class="reveal max-w-3xl">
+        <p class="eyebrow text-umd-gold">Free &amp; affordable help</p>
+        <h2 class="mt-3 font-display font-bold text-white text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">Need a chemistry tutor?</h2>
+        <p class="mt-6 text-lg text-white/60 leading-relaxed">Studying for an exam or just need steady help with a course? Our tutors can work with you either way.</p>
       </div>
-      <div class="reveal mt-8 h-px w-full bg-white/15"></div>
 
-      <p class="reveal mt-8 max-w-2xl text-lg text-white/70 leading-relaxed">Studying for an exam or just need regular help with a course? Our tutors can work with you either way.</p>
-
-      <div class="mt-12 grid lg:grid-cols-2 gap-5">
+      <div class="mt-14 grid lg:grid-cols-2 gap-5">
         <!-- Card A: Drop-in -->
-        <div class="reveal bg-white p-8 sm:p-10 border-t-2 border-umd-gold">
+        <div class="reveal rounded-3xl bg-white/[0.04] ring-1 ring-white/10 p-8 sm:p-10 hover:ring-umd-gold/40 transition">
           <div class="flex items-center justify-between">
-            <i data-lucide="users-round" class="h-8 w-8 text-umd-blue"></i>
-            <span class="font-mono text-xs font-bold tracking-[0.2em] uppercase text-umd-blue">Free</span>
+            <div class="h-12 w-12 rounded-2xl bg-white/5 flex items-center justify-center">
+              <i data-lucide="users-round" class="h-6 w-6 text-umd-gold"></i>
+            </div>
+            <span class="rounded-full bg-umd-gold/15 text-umd-gold text-xs font-semibold px-3 py-1">Free</span>
           </div>
-          <h3 class="mt-6 font-display font-bold text-2xl sm:text-3xl text-umd-blue">Drop-In Study Sessions</h3>
-          <p class="mt-3 inline-flex items-center gap-2 font-mono text-sm text-umd-charcoal">
+          <h3 class="mt-6 font-display font-bold text-2xl sm:text-3xl text-white">Drop-in study sessions</h3>
+          <p class="mt-3 inline-flex items-center gap-2 font-mono text-sm text-white/70">
             <i data-lucide="clock" class="h-4 w-4 text-umd-gold"></i>
-            Every Thursday &middot; 5:00 – 8:00 PM
+            Thursdays &middot; 5:00 – 8:00 PM
           </p>
-          <p class="mt-5 text-umd-charcoal/80 leading-relaxed text-lg">Want to review for an exam or study with others? Stop by our study sessions to get help from one of our tutors.</p>
-          <p class="mt-3 text-umd-charcoal/70 leading-relaxed">Hungry? Light refreshments will be provided on select sessions. Grab a friend and come join us!</p>
-          <a href="#events" class="mt-8 inline-flex items-center gap-2 bg-umd-blue px-6 py-3 font-display font-semibold text-white text-sm rounded-xs hover:bg-umd-gold hover:text-umd-blue transition-colors duration-300">
-            See the Schedule
+          <p class="mt-5 text-white/70 leading-relaxed">Review for an exam or study alongside others — stop by and get help from one of our tutors. Light refreshments at select sessions. Grab a friend and come through.</p>
+          <a href="#events" class="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-sm text-umd-ink hover:bg-umd-gold transition-colors">
+            See the schedule
             <i data-lucide="arrow-right" class="h-4 w-4"></i>
           </a>
         </div>
 
         <!-- Card B: Private -->
-        <div class="reveal reveal-delay-1 bg-umd-gold p-8 sm:p-10 border-t-2 border-umd-amber">
+        <div class="reveal reveal-delay-1 rounded-3xl bg-umd-gold p-8 sm:p-10">
           <div class="flex items-center justify-between">
-            <i data-lucide="user-round-check" class="h-8 w-8 text-umd-blue"></i>
-            <span class="font-mono text-xs font-bold tracking-[0.2em] uppercase text-umd-blue">From $5</span>
+            <div class="h-12 w-12 rounded-2xl bg-umd-ink/10 flex items-center justify-center">
+              <i data-lucide="user-round-check" class="h-6 w-6 text-umd-ink"></i>
+            </div>
+            <span class="rounded-full bg-umd-ink/10 text-umd-ink text-xs font-semibold px-3 py-1">From $5</span>
           </div>
-          <h3 class="mt-6 font-display font-bold text-2xl sm:text-3xl text-umd-blue">Private 1-on-1 Tutoring</h3>
-          <p class="mt-3 inline-flex items-center gap-2 font-mono text-sm text-umd-blue/90">
+          <h3 class="mt-6 font-display font-bold text-2xl sm:text-3xl text-umd-ink">Private 1-on-1 tutoring</h3>
+          <p class="mt-3 inline-flex items-center gap-2 font-mono text-sm text-umd-ink/80">
             <i data-lucide="badge-dollar-sign" class="h-4 w-4"></i>
-            Rates vary &middot; starting at $5 / 1-hour session
+            Starting at $5 / 1-hour session
           </p>
-          <p class="mt-5 text-umd-blue/90 leading-relaxed text-lg">Need extra help or specialized tutoring? We'll connect you with a private tutor.</p>
-          <p class="mt-3 text-umd-blue/80 leading-relaxed">Sessions are one-on-one and scheduled around your availability, so you can focus on the exact topics or courses you are stuck on. Fill out the sign-up sheet and we will match you with a tutor.</p>
-          <a href="https://docs.google.com/forms" target="_blank" rel="noopener" class="mt-8 inline-flex items-center gap-2 bg-umd-blue px-6 py-3 font-display font-semibold text-white text-sm rounded-xs hover:bg-white hover:text-umd-blue transition-colors duration-300">
-            Sign-Up Sheet
+          <p class="mt-5 text-umd-ink/80 leading-relaxed">Need specialized or extra help? Sessions are one-on-one and scheduled around you, so you can focus on the exact topics you're stuck on. Fill out the sign-up sheet and we'll match you with a tutor.</p>
+          <a href="https://docs.google.com/forms" target="_blank" rel="noopener" class="mt-8 inline-flex items-center gap-2 rounded-full bg-umd-ink px-6 py-3 font-semibold text-sm text-white hover:bg-white hover:text-umd-ink transition-colors">
+            Sign-up sheet
             <i data-lucide="pen-line" class="h-4 w-4"></i>
           </a>
         </div>
@@ -491,95 +406,89 @@
   </section>
 
   <!-- ============================= HOW TO JOIN ============================= -->
-  <section id="join" class="relative py-24 lg:py-32 bg-white">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+  <section id="join" class="relative py-28 lg:py-40 bg-umd-paper border-t border-umd-line">
+    <div class="mx-auto max-w-6xl px-6 lg:px-8">
 
       <!-- Section header -->
-      <div class="reveal flex items-end gap-5">
-        <div class="tile w-14 h-14 shrink-0">
-          <span class="num">05</span>
-          <span class="sym text-xl">Jn</span>
-        </div>
-        <div class="flex-1">
-          <p class="font-mono text-[11px] uppercase tracking-[0.3em] text-umd-gold">Registration</p>
-          <h2 class="mt-2 font-display font-bold text-4xl sm:text-5xl text-umd-blue tracking-tight leading-none">How to Join</h2>
-        </div>
+      <div class="reveal max-w-3xl">
+        <p class="eyebrow text-umd-gold">Registration</p>
+        <h2 class="mt-3 font-display font-bold text-umd-blue text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">How to join.</h2>
+        <p class="mt-6 text-lg text-umd-muted leading-relaxed">Getting involved takes about three steps.</p>
       </div>
-      <div class="reveal bond-rule mt-8"></div>
 
-      <p class="reveal mt-8 max-w-2xl text-lg text-umd-charcoal/80 leading-relaxed">Getting involved takes about three steps.</p>
-
-      <!-- Steps -->
-      <div class="reveal mt-12 grid md:grid-cols-3 gap-px bg-umd-line border border-umd-line">
-        <div class="bg-white p-8">
-          <div class="flex items-center gap-4">
-            <span class="font-display font-bold text-4xl text-umd-gold leading-none">1</span>
-            <i data-lucide="clipboard-pen" class="h-7 w-7 text-umd-blue"></i>
+      <!-- Steps (a real sequence) -->
+      <div class="mt-16 grid md:grid-cols-3 gap-8 lg:gap-12">
+        <div class="reveal">
+          <div class="flex items-baseline gap-4">
+            <span class="font-display font-bold text-5xl text-umd-gold leading-none">1</span>
+            <div class="h-px flex-1 bg-umd-line translate-y-[-6px]"></div>
           </div>
           <h3 class="mt-5 font-display font-bold text-xl text-umd-blue">Register</h3>
-          <p class="mt-3 text-umd-charcoal/80 leading-relaxed">Fill out the membership form to get on our roster and start getting updates about events.</p>
+          <p class="mt-2 text-umd-muted leading-relaxed">Fill out the membership form to get on our roster and start receiving event updates.</p>
         </div>
-        <div class="bg-white p-8">
-          <div class="flex items-center gap-4">
-            <span class="font-display font-bold text-4xl text-umd-gold leading-none">2</span>
-            <i data-lucide="calendar-check-2" class="h-7 w-7 text-umd-blue"></i>
+        <div class="reveal reveal-delay-1">
+          <div class="flex items-baseline gap-4">
+            <span class="font-display font-bold text-5xl text-umd-gold leading-none">2</span>
+            <div class="h-px flex-1 bg-umd-line translate-y-[-6px]"></div>
           </div>
-          <h3 class="mt-5 font-display font-bold text-xl text-umd-blue">Attend Events</h3>
-          <p class="mt-3 text-umd-charcoal/80 leading-relaxed">Come to at least three events a semester. That can be a speaker event, community service, a lab tour, or a social gathering.</p>
+          <h3 class="mt-5 font-display font-bold text-xl text-umd-blue">Attend events</h3>
+          <p class="mt-2 text-umd-muted leading-relaxed">Come to at least three events a semester — a speaker night, community service, a lab tour, or a social.</p>
         </div>
-        <div class="bg-white p-8">
-          <div class="flex items-center gap-4">
-            <span class="font-display font-bold text-4xl text-umd-gold leading-none">3</span>
-            <i data-lucide="hand-heart" class="h-7 w-7 text-umd-blue"></i>
+        <div class="reveal reveal-delay-2">
+          <div class="flex items-baseline gap-4">
+            <span class="font-display font-bold text-5xl text-umd-gold leading-none">3</span>
+            <div class="h-px flex-1 bg-umd-line translate-y-[-6px]"></div>
           </div>
-          <h3 class="mt-5 font-display font-bold text-xl text-umd-blue">Give Back</h3>
-          <p class="mt-3 text-umd-charcoal/80 leading-relaxed">Finish your service hours each semester through our outreach events and stay in good standing.</p>
+          <h3 class="mt-5 font-display font-bold text-xl text-umd-blue">Give back</h3>
+          <p class="mt-2 text-umd-muted leading-relaxed">Finish your service hours each semester through our outreach events and stay in good standing.</p>
         </div>
       </div>
 
       <!-- Requirements -->
-      <div class="reveal reveal-delay-1 mt-5 bg-umd-blue p-8 sm:p-10 lg:p-12 border-t-2 border-umd-gold">
+      <div class="reveal reveal-delay-1 mt-14 rounded-3xl bg-umd-ink text-white p-8 sm:p-12">
         <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div>
-            <p class="font-mono text-[11px] uppercase tracking-[0.3em] text-umd-gold">Eligibility</p>
-            <h3 class="mt-3 font-display font-bold text-2xl sm:text-3xl text-white">Membership Requirements</h3>
-            <ul class="mt-7 space-y-4">
-              <li class="flex items-start gap-3 text-white/90">
-                <i data-lucide="check" class="h-5 w-5 text-umd-gold shrink-0 mt-1"></i>
-                <span>Be a current University of Maryland undergraduate or graduate student.</span>
+            <p class="eyebrow text-umd-gold">Eligibility</p>
+            <h3 class="mt-3 font-display font-bold text-2xl sm:text-3xl text-white">Membership requirements</h3>
+            <ul class="mt-7 space-y-3.5">
+              <li class="flex items-start gap-3 text-white/80">
+                <i data-lucide="check" class="h-5 w-5 text-umd-gold shrink-0 mt-0.5"></i>
+                <span>Current UMD undergraduate or graduate student.</span>
               </li>
-              <li class="flex items-start gap-3 text-white/90">
-                <i data-lucide="check" class="h-5 w-5 text-umd-gold shrink-0 mt-1"></i>
-                <span>Be registered to take or have previously taken at least one CHEM or BCHM course at UMD.</span>
+              <li class="flex items-start gap-3 text-white/80">
+                <i data-lucide="check" class="h-5 w-5 text-umd-gold shrink-0 mt-0.5"></i>
+                <span>Taking, or having taken, at least one CHEM or BCHM course at UMD.</span>
               </li>
-              <li class="flex items-start gap-3 text-white/90">
-                <i data-lucide="check" class="h-5 w-5 text-umd-gold shrink-0 mt-1"></i>
-                <span>Attend at least three events per semester and complete the required service hours.</span>
+              <li class="flex items-start gap-3 text-white/80">
+                <i data-lucide="check" class="h-5 w-5 text-umd-gold shrink-0 mt-0.5"></i>
+                <span>Attend three events per semester and complete the service hours.</span>
               </li>
-              <li class="flex items-start gap-3 text-white/90">
-                <i data-lucide="check" class="h-5 w-5 text-umd-gold shrink-0 mt-1"></i>
+              <li class="flex items-start gap-3 text-white/80">
+                <i data-lucide="check" class="h-5 w-5 text-umd-gold shrink-0 mt-0.5"></i>
                 <span>Maintain at least a 2.0 GPA.</span>
               </li>
-              <li class="flex items-start gap-3 text-white/90">
-                <i data-lucide="check" class="h-5 w-5 text-umd-gold shrink-0 mt-1"></i>
-                <span>Be excited about STEM, networking, and community service.</span>
+              <li class="flex items-start gap-3 text-white/80">
+                <i data-lucide="check" class="h-5 w-5 text-umd-gold shrink-0 mt-0.5"></i>
+                <span>Genuine interest in STEM, networking, and community service.</span>
               </li>
-              <li class="flex items-start gap-3 text-white/90">
-                <i data-lucide="check" class="h-5 w-5 text-umd-gold shrink-0 mt-1"></i>
-                <span>National American Chemical Society membership is optional.</span>
+              <li class="flex items-start gap-3 text-white/80">
+                <i data-lucide="check" class="h-5 w-5 text-umd-gold shrink-0 mt-0.5"></i>
+                <span>National ACS membership is optional.</span>
               </li>
             </ul>
           </div>
 
-          <div class="border border-white/15 bg-white/[0.04] p-8 text-center">
-            <i data-lucide="rocket" class="h-10 w-10 text-umd-gold mx-auto"></i>
-            <h4 class="mt-4 font-display font-bold text-xl text-white">Ready to start?</h4>
-            <p class="mt-2 text-white/70 text-sm">It takes less than two minutes.</p>
-            <a href="https://forms.gle/ptvrtdLiYGmafDU37" target="_blank" rel="noopener" class="mt-6 w-full inline-flex items-center justify-center gap-2 bg-umd-gold px-6 py-3.5 font-display font-bold text-umd-blue rounded-xs hover:bg-umd-amber transition-colors duration-300">
-              Complete the Signup Form <i data-lucide="arrow-right" class="h-5 w-5"></i>
+          <div class="rounded-2xl bg-white/[0.04] ring-1 ring-white/10 p-8 text-center">
+            <div class="h-12 w-12 rounded-2xl bg-umd-gold/15 flex items-center justify-center mx-auto">
+              <i data-lucide="rocket" class="h-6 w-6 text-umd-gold"></i>
+            </div>
+            <h4 class="mt-5 font-display font-bold text-xl text-white">Ready to start?</h4>
+            <p class="mt-2 text-white/55 text-sm">It takes less than two minutes.</p>
+            <a href="https://forms.gle/ptvrtdLiYGmafDU37" target="_blank" rel="noopener" class="mt-6 w-full inline-flex items-center justify-center gap-2 rounded-full bg-umd-gold px-6 py-3.5 font-display font-semibold text-umd-ink hover:bg-umd-amber transition-colors">
+              Complete the signup form <i data-lucide="arrow-right" class="h-5 w-5"></i>
             </a>
-            <a href="mailto:acsumcp@gmail.com" class="mt-5 inline-flex items-center justify-center gap-2 text-white/70 hover:text-umd-gold transition-colors text-sm">
-              <i data-lucide="mail" class="h-4 w-4"></i> Questions? acsumcp@gmail.com
+            <a href="mailto:acsumcp@gmail.com" class="mt-5 inline-flex items-center justify-center gap-2 text-white/55 hover:text-umd-gold transition-colors text-sm">
+              <i data-lucide="mail" class="h-4 w-4"></i> acsumcp@gmail.com
             </a>
           </div>
         </div>
@@ -588,110 +497,101 @@
   </section>
 
   <!-- ============================= RESOURCES ============================= -->
-  <section id="resources" class="relative py-24 lg:py-32 bg-umd-mist">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+  <section id="resources" class="relative py-28 lg:py-40 bg-umd-paper border-t border-umd-line">
+    <div class="mx-auto max-w-6xl px-6 lg:px-8">
 
       <!-- Section header -->
-      <div class="reveal flex items-end gap-5">
-        <div class="tile w-14 h-14 shrink-0 bg-umd-mist">
-          <span class="num">06</span>
-          <span class="sym text-xl">Rs</span>
-        </div>
-        <div class="flex-1">
-          <p class="font-mono text-[11px] uppercase tracking-[0.3em] text-umd-gold">Highlights</p>
-          <h2 class="mt-2 font-display font-bold text-4xl sm:text-5xl text-umd-blue tracking-tight leading-none">Featured Events &amp; Resources</h2>
-        </div>
+      <div class="reveal max-w-3xl">
+        <p class="eyebrow text-umd-gold">Highlights</p>
+        <h2 class="mt-3 font-display font-bold text-umd-blue text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">Featured events &amp; resources.</h2>
+        <p class="mt-6 text-lg text-umd-muted leading-relaxed">A look at what we're up to.</p>
       </div>
-      <div class="reveal bond-rule mt-8" style="background:#Dfe3ea"></div>
 
-      <p class="reveal mt-8 max-w-2xl text-lg text-umd-charcoal/80 leading-relaxed">Learn about what we're up to!</p>
-
-      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-umd-line border border-umd-line">
-        <div class="reveal group bg-white p-7 hover:bg-white transition-colors">
-          <i data-lucide="microscope" class="h-7 w-7 text-umd-blue group-hover:text-umd-gold transition-colors"></i>
-          <h3 class="mt-5 font-display font-bold text-lg text-umd-blue">Undergraduate Research</h3>
-          <p class="mt-2 text-sm text-umd-charcoal/75 leading-relaxed">Members present posters and publish with UMD faculty in analytical, organic, and biochemistry labs.</p>
+      <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="reveal group rounded-2xl border border-umd-line p-6 hover:border-umd-blue/30 hover:shadow-xl hover:shadow-umd-blue/5 transition-all">
+          <i data-lucide="microscope" class="h-6 w-6 text-umd-blue group-hover:text-umd-gold transition-colors"></i>
+          <h3 class="mt-5 font-display font-bold text-lg text-umd-blue">Undergraduate research</h3>
+          <p class="mt-2 text-sm text-umd-muted leading-relaxed">Members present posters and publish with UMD faculty across analytical, organic, and biochemistry labs.</p>
         </div>
-        <div class="reveal reveal-delay-1 group bg-white p-7">
-          <i data-lucide="presentation" class="h-7 w-7 text-umd-blue group-hover:text-umd-gold transition-colors"></i>
-          <h3 class="mt-5 font-display font-bold text-lg text-umd-blue">Speaker Series Archive</h3>
-          <p class="mt-2 text-sm text-umd-charcoal/75 leading-relaxed">Recaps from past talks by industry chemists, grad students, and professors, for members who miss them live.</p>
+        <div class="reveal reveal-delay-1 group rounded-2xl border border-umd-line p-6 hover:border-umd-blue/30 hover:shadow-xl hover:shadow-umd-blue/5 transition-all">
+          <i data-lucide="presentation" class="h-6 w-6 text-umd-blue group-hover:text-umd-gold transition-colors"></i>
+          <h3 class="mt-5 font-display font-bold text-lg text-umd-blue">Speaker series archive</h3>
+          <p class="mt-2 text-sm text-umd-muted leading-relaxed">Recaps from past talks by industry chemists, grad students, and professors — for anyone who missed them live.</p>
         </div>
-        <div class="reveal reveal-delay-2 group bg-white p-7">
-          <i data-lucide="library" class="h-7 w-7 text-umd-blue group-hover:text-umd-gold transition-colors"></i>
-          <h3 class="mt-5 font-display font-bold text-lg text-umd-blue">Study Resources</h3>
-          <p class="mt-2 text-sm text-umd-charcoal/75 leading-relaxed">Study guides, exam strategies, and tutoring materials for CHEM and BCHM courses.</p>
+        <div class="reveal reveal-delay-2 group rounded-2xl border border-umd-line p-6 hover:border-umd-blue/30 hover:shadow-xl hover:shadow-umd-blue/5 transition-all">
+          <i data-lucide="library" class="h-6 w-6 text-umd-blue group-hover:text-umd-gold transition-colors"></i>
+          <h3 class="mt-5 font-display font-bold text-lg text-umd-blue">Study resources</h3>
+          <p class="mt-2 text-sm text-umd-muted leading-relaxed">Study guides, exam strategies, and tutoring materials for CHEM and BCHM courses.</p>
         </div>
-        <div class="reveal reveal-delay-3 group bg-white p-7">
-          <i data-lucide="globe" class="h-7 w-7 text-umd-blue group-hover:text-umd-gold transition-colors"></i>
-          <h3 class="mt-5 font-display font-bold text-lg text-umd-blue">Outreach Impact</h3>
-          <p class="mt-2 text-sm text-umd-charcoal/75 leading-relaxed">We reach local elementary students through demos and school visits throughout the year.</p>
+        <div class="reveal reveal-delay-3 group rounded-2xl border border-umd-line p-6 hover:border-umd-blue/30 hover:shadow-xl hover:shadow-umd-blue/5 transition-all">
+          <i data-lucide="globe" class="h-6 w-6 text-umd-blue group-hover:text-umd-gold transition-colors"></i>
+          <h3 class="mt-5 font-display font-bold text-lg text-umd-blue">Outreach impact</h3>
+          <p class="mt-2 text-sm text-umd-muted leading-relaxed">We reach local elementary students through demos and school visits throughout the year.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============================= FOOTER ============================= -->
-  <footer class="relative bg-umd-navy text-white">
-    <div class="h-1 w-full bg-umd-gold"></div>
-    <div class="mx-auto max-w-7xl px-6 lg:px-10 py-16">
+  <footer class="relative bg-umd-ink text-white">
+    <div class="mx-auto max-w-6xl px-6 lg:px-8 py-16">
       <div class="grid md:grid-cols-3 gap-12">
         <!-- Left: Chapter name + tagline -->
         <div>
           <div class="flex items-center gap-3">
-            <div class="h-11 w-11 border border-white/20 overflow-hidden bg-white">
-              <img src="images/acs-logo.png" alt="ACS Logo" class="h-full w-full object-contain p-0.5">
+            <div class="h-11 w-11 rounded-xl overflow-hidden bg-white flex items-center justify-center">
+              <img src="images/acs-logo.png" alt="ACS logo" class="h-full w-full object-contain p-1">
             </div>
             <div>
               <p class="font-display font-bold text-lg leading-tight">ACS Student Chapter</p>
-              <p class="text-umd-gold font-mono text-xs tracking-wide mt-0.5">University of Maryland</p>
+              <p class="text-umd-gold text-xs tracking-wide mt-0.5">University of Maryland</p>
             </div>
           </div>
-          <p class="mt-5 text-white/70 leading-relaxed max-w-xs">Chemistry for Life. A student chemistry community at UMD built around events, mentorship, and service.</p>
-          <a href="mailto:acsumcp@gmail.com" class="mt-5 inline-flex items-center gap-2 text-white/80 hover:text-umd-gold transition-colors text-sm font-mono">
+          <p class="mt-5 text-white/60 leading-relaxed max-w-xs">A student chemistry community at UMD, built around events, mentorship, and service.</p>
+          <a href="mailto:acsumcp@gmail.com" class="mt-5 inline-flex items-center gap-2 text-white/70 hover:text-umd-gold transition-colors text-sm font-mono">
             <i data-lucide="mail" class="h-4 w-4"></i> acsumcp@gmail.com
           </a>
         </div>
 
         <!-- Center: quick links -->
         <div class="md:justify-self-center">
-          <p class="font-mono font-semibold text-umd-gold tracking-[0.25em] uppercase text-xs">Navigate</p>
-          <ul class="mt-5 space-y-3 text-white/75">
-            <li><a href="#about" class="hover:text-umd-gold transition-colors inline-flex items-center gap-2"><i data-lucide="chevron-right" class="h-4 w-4 text-umd-gold"></i> About the Chapter</a></li>
-            <li><a href="#events" class="hover:text-umd-gold transition-colors inline-flex items-center gap-2"><i data-lucide="chevron-right" class="h-4 w-4 text-umd-gold"></i> Events &amp; Programs</a></li>
-            <li><a href="#why" class="hover:text-umd-gold transition-colors inline-flex items-center gap-2"><i data-lucide="chevron-right" class="h-4 w-4 text-umd-gold"></i> Why Join</a></li>
-            <li><a href="#tutoring" class="hover:text-umd-gold transition-colors inline-flex items-center gap-2"><i data-lucide="chevron-right" class="h-4 w-4 text-umd-gold"></i> Tutoring</a></li>
-            <li><a href="#join" class="hover:text-umd-gold transition-colors inline-flex items-center gap-2"><i data-lucide="chevron-right" class="h-4 w-4 text-umd-gold"></i> How to Join</a></li>
+          <p class="eyebrow text-umd-gold">Navigate</p>
+          <ul class="mt-5 space-y-3 text-white/70">
+            <li><a href="#about" class="hover:text-umd-gold transition-colors">About the chapter</a></li>
+            <li><a href="#events" class="hover:text-umd-gold transition-colors">Events &amp; programs</a></li>
+            <li><a href="#why" class="hover:text-umd-gold transition-colors">Why join</a></li>
+            <li><a href="#tutoring" class="hover:text-umd-gold transition-colors">Tutoring</a></li>
+            <li><a href="#join" class="hover:text-umd-gold transition-colors">How to join</a></li>
           </ul>
         </div>
 
         <!-- Right: social -->
         <div class="md:justify-self-end">
-          <p class="font-mono font-semibold text-umd-gold tracking-[0.25em] uppercase text-xs">Connect</p>
+          <p class="eyebrow text-umd-gold">Connect</p>
           <div class="mt-5 flex gap-3">
-            <a href="https://www.instagram.com/umd_acs/" target="_blank" rel="noopener" aria-label="Instagram" class="h-11 w-11 border border-white/20 flex items-center justify-center hover:border-umd-gold hover:bg-white/5 transition-colors">
+            <a href="https://www.instagram.com/umd_acs/" target="_blank" rel="noopener" aria-label="Instagram" class="h-11 w-11 rounded-xl border border-white/15 flex items-center justify-center hover:border-umd-gold hover:bg-white/5 transition-colors">
               <img src="images/instagram.png" alt="Instagram" class="h-5 w-5 object-contain">
             </a>
-            <a href="mailto:acsumcp@gmail.com" aria-label="Email" class="group h-11 w-11 border border-white/20 flex items-center justify-center hover:border-umd-gold hover:bg-white/5 transition-colors">
+            <a href="mailto:acsumcp@gmail.com" aria-label="Email" class="group h-11 w-11 rounded-xl border border-white/15 flex items-center justify-center hover:border-umd-gold hover:bg-white/5 transition-colors">
               <i data-lucide="mail" class="h-5 w-5 text-white group-hover:text-umd-gold transition-colors"></i>
             </a>
-            <a href="https://www.acs.org" target="_blank" rel="noopener" aria-label="National ACS" class="group h-11 w-11 border border-white/20 flex items-center justify-center hover:border-umd-gold hover:bg-white/5 transition-colors">
+            <a href="https://www.acs.org" target="_blank" rel="noopener" aria-label="National ACS" class="group h-11 w-11 rounded-xl border border-white/15 flex items-center justify-center hover:border-umd-gold hover:bg-white/5 transition-colors">
               <i data-lucide="globe" class="h-5 w-5 text-white group-hover:text-umd-gold transition-colors"></i>
             </a>
           </div>
-          <p class="mt-6 text-white/60 text-sm max-w-xs">Follow us on Instagram for event reminders and recaps.</p>
+          <p class="mt-6 text-white/55 text-sm max-w-xs">Follow us on Instagram for event reminders and recaps.</p>
         </div>
       </div>
 
-      <div class="mt-14 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-white/55 text-sm font-mono">
-        <p>© <span id="year"></span> ACS Student Chapter · University of Maryland</p>
+      <div class="mt-14 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-white/45 text-sm">
+        <p class="font-mono">© <span id="year"></span> ACS Student Chapter · University of Maryland</p>
         <p class="inline-flex items-center gap-2"><i data-lucide="flask-conical" class="h-4 w-4 text-umd-gold"></i> Chemistry for Life.</p>
       </div>
     </div>
   </footer>
 
   <!-- Back to top -->
-  <button id="to-top" aria-label="Back to top" class="fixed bottom-6 right-6 z-50 h-11 w-11 bg-umd-blue text-umd-gold border border-umd-blue flex items-center justify-center opacity-0 translate-y-4 pointer-events-none transition-all duration-300 hover:bg-umd-gold hover:text-umd-blue hover:border-umd-gold">
+  <button id="to-top" aria-label="Back to top" class="fixed bottom-6 right-6 z-50 h-11 w-11 rounded-full bg-umd-blue text-white shadow-lg flex items-center justify-center opacity-0 translate-y-4 pointer-events-none transition-all duration-300 hover:bg-umd-gold hover:text-umd-ink">
     <i data-lucide="arrow-up" class="h-5 w-5"></i>
   </button>
 
@@ -839,7 +739,7 @@
     function renderFilters() {
       filtersWrap.innerHTML = categories.map(cat => {
         const isActive = cat === activeFilter;
-        return `<button data-cat="${cat}" class="filter-chip font-mono text-[11px] uppercase tracking-[0.2em] pb-1 border-b-2 transition-colors duration-300 ${isActive ? 'border-umd-gold text-umd-blue' : 'border-transparent text-slate-400 hover:text-umd-blue'}">${cat}</button>`;
+        return `<button data-cat="${cat}" class="filter-chip text-[13px] font-medium pb-1 border-b-2 transition-colors ${isActive ? 'border-umd-gold text-umd-blue' : 'border-transparent text-umd-muted hover:text-umd-blue'}">${cat}</button>`;
       }).join('');
       filtersWrap.querySelectorAll('.filter-chip').forEach(btn => {
         btn.addEventListener('click', () => { activeFilter = btn.dataset.cat; renderFilters(); renderEvents(); });
@@ -849,22 +749,22 @@
     function renderEvents() {
       const list = activeFilter === 'All' ? events : events.filter(e => e.category === activeFilter);
       grid.innerHTML = list.map((ev, i) => `
-        <article class="event-card group bg-white border border-umd-line rounded-xs p-6 flex flex-col hover:border-umd-blue transition-colors duration-300" style="transition-delay:${(i % 3) * 50}ms">
+        <article class="event-card group rounded-2xl bg-white border border-umd-line p-6 flex flex-col hover:border-umd-blue/30 hover:shadow-xl hover:shadow-umd-blue/5 transition-all duration-300" style="transition-delay:${(i % 3) * 40}ms">
           <div class="flex items-start justify-between gap-3">
-            <span class="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.15em] text-slate-500">
-              <span class="h-1.5 w-1.5 rounded-full" style="background:${dotColor(ev.category)}"></span>${ev.category}
+            <span class="inline-flex items-center gap-2 text-[12px] font-medium text-umd-muted">
+              <span class="h-2 w-2 rounded-full" style="background:${dotColor(ev.category)}"></span>${ev.category}
             </span>
-            <i data-lucide="${ev.icon}" class="h-5 w-5 text-umd-blue/70 group-hover:text-umd-gold transition-colors"></i>
+            <i data-lucide="${ev.icon}" class="h-5 w-5 text-umd-blue/40 group-hover:text-umd-gold transition-colors"></i>
           </div>
           <h3 class="mt-4 font-display font-bold text-xl text-umd-blue leading-snug">${ev.title}</h3>
-          <dl class="mt-4 space-y-1.5 font-mono text-[12px] text-slate-500">
+          <dl class="mt-4 space-y-1.5 font-mono text-[12px] text-umd-muted">
             <div class="flex items-center gap-2"><i data-lucide="calendar" class="h-3.5 w-3.5 text-umd-gold shrink-0"></i>${prettyDate(ev.date)}</div>
             <div class="flex items-center gap-2"><i data-lucide="clock" class="h-3.5 w-3.5 text-umd-gold shrink-0"></i>${prettyTime(ev.time)}${ev.endTime ? ' – ' + prettyTime(ev.endTime) : ''}</div>
             <div class="flex items-center gap-2"><i data-lucide="map-pin" class="h-3.5 w-3.5 text-umd-gold shrink-0"></i>${ev.location}</div>
           </dl>
           <p class="mt-4 text-sm text-umd-charcoal/80 leading-relaxed flex-1">${ev.desc}</p>
-          <a href="${googleCalendarUrl(ev)}" target="_blank" rel="noopener" class="mt-6 inline-flex items-center gap-2 font-display font-semibold text-sm text-umd-blue link-arrow w-fit">
-            Add to Calendar <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
+          <a href="${googleCalendarUrl(ev)}" target="_blank" rel="noopener" class="mt-6 inline-flex items-center gap-2 font-semibold text-sm text-umd-blue link-arrow w-fit">
+            Add to calendar <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
           </a>
         </article>
       `).join('');
@@ -893,11 +793,7 @@
       if (!canvas || !window.THREE) return;
 
       /* >>> Change this once a week to match the ACS Molecule of the Week <<< */
-<<<<<<< HEAD
       const MOLECULE_OF_THE_WEEK = 'Homogentisic acid';
-=======
-      const MOLECULE_OF_THE_WEEK = 'Acetophenone';
->>>>>>> d7489b5 (visual upgrade)
 
       const nameEl = document.getElementById('motw-name');
       if (nameEl) nameEl.textContent = MOLECULE_OF_THE_WEEK;
