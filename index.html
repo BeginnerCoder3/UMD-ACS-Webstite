@@ -43,6 +43,11 @@
             'gold-sm': '0 8px 20px -8px rgba(234, 170, 0, 0.4)',
             'blue': '0 25px 50px -12px rgba(0, 47, 108, 0.35)',
             'glow': '0 0 0 1px rgba(234,170,0,0.4), 0 0 30px rgba(234,170,0,0.25)',
+            // Aardvark-style tactile offset shadows
+            'solid-blue': '10px 10px 0 0 rgba(0,47,108,0.10)',
+            'solid-blue-lg': '14px 14px 0 0 rgba(0,47,108,0.12)',
+            'solid-gold': '8px 8px 0 0 rgba(234,170,0,0.30)',
+            'solid-navy': '6px 6px 0 0 rgba(4,30,66,1)',
           },
           keyframes: {
             float: {
@@ -61,12 +66,31 @@
               '0%,100%': { boxShadow: '0 0 0 0 rgba(234,170,0,0.5)' },
               '50%': { boxShadow: '0 0 0 14px rgba(234,170,0,0)' },
             },
+            // Aardvark-style playful motion
+            jiggle: {
+              '0%,100%': { transform: 'rotate(0deg) scale(1)' },
+              '20%': { transform: 'rotate(-3.5deg) scale(1.03)' },
+              '45%': { transform: 'rotate(2.5deg) scale(1.03)' },
+              '70%': { transform: 'rotate(-1.5deg) scale(1.01)' },
+              '85%': { transform: 'rotate(0.8deg) scale(1)' },
+            },
+            'bounce-soft': {
+              '0%,100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-7px)' },
+            },
+            'pop-in': {
+              '0%': { transform: 'scale(.9) translateY(16px)', opacity: '0' },
+              '100%': { transform: 'scale(1) translateY(0)', opacity: '1' },
+            },
           },
           animation: {
             float: 'float 9s ease-in-out infinite',
             'float-slow': 'float-slow 14s ease-in-out infinite',
             shimmer: 'shimmer 3s linear infinite',
             pulseGlow: 'pulseGlow 2.6s ease-in-out infinite',
+            jiggle: 'jiggle .55s ease-in-out',
+            'bounce-soft': 'bounce-soft 2.4s ease-in-out infinite',
+            'pop-in': 'pop-in .5s cubic-bezier(.34,1.56,.64,1) both',
           },
         },
       },
@@ -161,6 +185,44 @@
     /* Periodic tile */
     .ptile { transition: transform .3s ease, background .3s ease, color .3s ease, box-shadow .3s ease; }
     .ptile:hover { transform: translateY(-4px) scale(1.06); background: #EAAA00; color: #002F6C; box-shadow: 0 10px 20px -8px rgba(234,170,0,.6); }
+
+    /* ===== Aardvark playful layer ===== */
+
+    /* Jiggly, squishy CTAs — jiggle on hover, squish on press */
+    .jiggle:hover { animation: jiggle .55s ease-in-out; }
+    .jiggle:active { transform: scale(.95) rotate(-1deg); }
+
+    /* "Ear-pop" tag / chip hover */
+    .tag-pop { transition: transform .28s cubic-bezier(.34,1.56,.64,1), box-shadow .28s ease; }
+    .tag-pop:hover { transform: translateY(-3px) scale(1.07) rotate(-2deg); box-shadow: 0 8px 18px -8px rgba(0,47,108,.35); }
+
+    /* Tactile offset card: solid drop-shadow that snaps closer on hover */
+    .card-offset { transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s cubic-bezier(.22,1,.36,1), border-color .35s ease; box-shadow: 10px 10px 0 0 rgba(0,47,108,.10); }
+    .card-offset:hover { transform: translate(-4px,-4px); box-shadow: 16px 16px 0 0 rgba(234,170,0,.28); }
+
+    /* Card tilt (molecule cards) — subtle 3D lean toward cursor */
+    .tilt { transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s ease; transform-style: preserve-3d; }
+
+    /* Molecule thumbnail frame */
+    .mol-thumb { background:
+        radial-gradient(120% 120% at 30% 20%, rgba(234,170,0,.14), transparent 55%),
+        linear-gradient(160deg, #f2f6fd 0%, #e8eef8 100%); }
+    .mol-thumb img { mix-blend-mode: multiply; }
+
+    /* Ribbon badge (tutoring) */
+    .ribbon { position: absolute; top: 18px; right: -42px; width: 168px; transform: rotate(45deg);
+      text-align: center; font-weight: 800; letter-spacing: .12em; font-size: 12px; padding: 6px 0;
+      box-shadow: 0 6px 14px -6px rgba(0,0,0,.35); font-family: 'Poppins', sans-serif; }
+
+    /* 3D inspect modal */
+    #mol-modal { transition: opacity .3s ease; }
+    #mol-modal.open { display: flex; }
+    #mol-modal .modal-card { animation: pop-in .45s cubic-bezier(.34,1.56,.64,1) both; }
+    #mol-modal-canvas { display: block; }
+
+    /* Marquee-ish underline swipe for section eyebrows */
+    .eyebrow-pop { transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+    .eyebrow-pop:hover { transform: translateY(-2px) rotate(-1.5deg); }
   </style>
 </head>
 
@@ -214,46 +276,52 @@
           <span class="text-white/90 text-xs font-medium tracking-widest uppercase">Est. 2026 · University of Maryland</span>
         </div>
 
-        <h1 class="font-display font-black leading-[0.95] tracking-tight text-5xl sm:text-6xl lg:text-7xl">
-          <span class="block text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)]">ACS Student</span>
-          <span class="block text-gradient-gold animate-shimmer">Chapter</span>
+        <h1 class="font-display font-black leading-[0.92] tracking-tight text-5xl sm:text-6xl lg:text-7xl">
+          <span class="block text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)]">Unbox Chemistry</span>
+          <span class="block text-gradient-gold animate-shimmer">Worth Talking About.</span>
         </h1>
 
-        <p class="mt-5 text-umd-amber font-display font-semibold text-lg sm:text-xl tracking-wide">University of Maryland</p>
-
-        <p class="mt-4 text-white/85 text-lg sm:text-xl max-w-xl font-light leading-relaxed">
-          <span class="font-medium text-white">Chemistry for Life.</span> We're a student community at UMD for anyone into chemistry. Come for the events and tutoring, stay for the people.
+        <p class="mt-6 text-white/85 text-lg sm:text-xl max-w-xl font-light leading-relaxed">
+          <span class="font-medium text-umd-amber">University of Maryland ACS Student Chapter.</span> Events, mentorship, free tutoring, and molecular discovery — open to every major.
         </p>
 
         <div class="mt-9 flex flex-col sm:flex-row gap-4">
-          <a href="#join" class="btn-shine group inline-flex items-center justify-center gap-2 rounded-full bg-umd-gold px-8 py-4 font-display font-bold text-umd-blue text-base shadow-gold hover:shadow-glow hover:bg-umd-amber transition-all duration-300 hover:-translate-y-0.5">
-            Join Us
+          <a href="#join" class="btn-shine jiggle group inline-flex items-center justify-center gap-2 rounded-full bg-umd-gold px-8 py-4 font-display font-bold text-umd-blue text-base shadow-gold hover:shadow-glow hover:bg-umd-amber transition-all duration-300">
+            Join the Chapter
             <i data-lucide="arrow-right" class="h-5 w-5 transition-transform group-hover:translate-x-1"></i>
           </a>
-          <a href="#events" class="group inline-flex items-center justify-center gap-2 rounded-full bg-white/10 backdrop-blur-md ring-1 ring-white/30 px-8 py-4 font-display font-semibold text-white text-base hover:bg-white/20 hover:ring-umd-gold transition-all duration-300">
-            Explore Events
-            <i data-lucide="calendar-days" class="h-5 w-5 transition-transform group-hover:scale-110"></i>
+          <a href="#molecules" class="group inline-flex items-center justify-center gap-2 rounded-full bg-white/10 backdrop-blur-md ring-1 ring-white/30 px-8 py-4 font-display font-semibold text-white text-base hover:bg-white/20 hover:ring-umd-gold transition-all duration-300">
+            Explore Molecules
+            <i data-lucide="atom" class="h-5 w-5 transition-transform group-hover:rotate-90"></i>
           </a>
         </div>
       </div>
     </div>
 
-    <!-- Molecule of the Week caption -->
-<a href="https://www.acs.org/molecule-of-the-week.html"
-   class="absolute bottom-7 right-6 lg:right-10 z-20 max-w-[15rem] rounded-2xl bg-white/10 backdrop-blur-md ring-1 ring-white/20 px-4 py-3 hover:bg-white/20 hover:ring-umd-gold transition-all duration-300 cursor-pointer">
+    <!-- Molecule of the Week caption — glossy editorial "featured discovery" badge -->
+<a href="https://www.acs.org/molecule-of-the-week.html" target="_blank" rel="noopener"
+   class="jiggle group absolute bottom-7 right-6 lg:right-10 z-20 max-w-[16rem] rounded-2xl bg-white/95 backdrop-blur-md ring-1 ring-umd-gold/40 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)] p-1 hover:ring-umd-gold transition-all duration-300 cursor-pointer">
 
-  <p class="text-[10px] tracking-[0.25em] uppercase text-umd-gold font-semibold">
-    Molecule of the Week
-  </p>
+  <div class="rounded-[14px] bg-gradient-to-br from-white to-umd-mist px-4 py-3.5 relative overflow-hidden">
+    <div class="absolute -top-6 -right-6 h-16 w-16 rounded-full bg-umd-gold/15"></div>
 
-  <p id="motw-name" class="text-white font-display font-bold text-lg leading-tight mt-0.5">
-    Homogentisic acid
-  </p>
+    <span class="relative inline-flex items-center gap-1.5 rounded-full bg-umd-blue px-2.5 py-1 text-[9px] tracking-[0.22em] uppercase text-umd-gold font-bold">
+      <span class="h-1.5 w-1.5 rounded-full bg-umd-gold animate-pulse"></span>
+      Featured Discovery
+    </span>
 
-  <p class="text-white/55 text-[10px] mt-1 leading-snug">
-    3D structure from PubChem (NIH). Featured by the ACS Molecule of the Week.
-  </p>
+    <p class="relative mt-2.5 text-[10px] tracking-[0.25em] uppercase text-umd-charcoal/50 font-semibold">
+      Molecule of the Week
+    </p>
 
+    <p id="motw-name" class="relative text-umd-blue font-display font-black text-lg leading-tight mt-0.5">
+      Homogentisic acid
+    </p>
+
+    <p class="relative text-umd-charcoal/55 text-[10px] mt-1.5 leading-snug">
+      Live 3D structure from PubChem (NIH). Rotating in the stage behind.
+    </p>
+  </div>
 </a>
 
     <!-- Scroll cue -->
@@ -280,16 +348,17 @@
             <span class="font-display font-bold text-umd-blue tracking-tight">UMD <span class="text-umd-gold">ACS</span></span>
           </a>
 
-          <div class="hidden md:flex items-center gap-9 font-display font-medium text-[15px] text-umd-blue">
+          <div class="hidden md:flex items-center gap-7 font-display font-medium text-[15px] text-umd-blue">
             <a href="#home" class="nav-link hover:text-umd-gold transition-colors duration-300">Home</a>
             <a href="#about" class="nav-link hover:text-umd-gold transition-colors duration-300">About</a>
+            <a href="#molecules" class="nav-link hover:text-umd-gold transition-colors duration-300">Molecules</a>
             <a href="#events" class="nav-link hover:text-umd-gold transition-colors duration-300">Events</a>
             <a href="#why" class="nav-link hover:text-umd-gold transition-colors duration-300">Why Join</a>
             <a href="#tutoring" class="nav-link hover:text-umd-gold transition-colors duration-300">Tutoring</a>
             <a href="#join" class="nav-link hover:text-umd-gold transition-colors duration-300">Join</a>
           </div>
 
-          <a href="#join" class="hidden md:inline-flex btn-shine items-center gap-2 rounded-full bg-umd-blue px-5 py-2.5 font-display font-semibold text-sm text-white hover:bg-umd-gold hover:text-umd-blue transition-all duration-300">
+          <a href="#join" class="hidden md:inline-flex btn-shine jiggle items-center gap-2 rounded-full bg-umd-blue px-5 py-2.5 font-display font-semibold text-sm text-white hover:bg-umd-gold hover:text-umd-blue transition-all duration-300">
             Register
             <i data-lucide="sparkles" class="h-4 w-4"></i>
           </a>
@@ -307,6 +376,7 @@
       <div class="mx-4 mt-2 rounded-2xl bg-white shadow-xl ring-1 ring-slate-200 p-4 font-display font-medium text-umd-blue">
         <a href="#home" class="mobile-link block rounded-lg px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">Home</a>
         <a href="#about" class="mobile-link block rounded-lg px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">About</a>
+        <a href="#molecules" class="mobile-link block rounded-lg px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">Molecules</a>
         <a href="#events" class="mobile-link block rounded-lg px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">Events</a>
         <a href="#why" class="mobile-link block rounded-lg px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">Why Join</a>
         <a href="#tutoring" class="mobile-link block rounded-lg px-4 py-3 hover:bg-umd-mist hover:text-umd-gold transition">Tutoring</a>
@@ -380,6 +450,87 @@
               <div><p class="font-display font-semibold text-umd-blue">Career-Ready</p><p class="text-sm text-umd-charcoal/70">Skills employers and grad schools want.</p></div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= MOLECULES OF THE MONTH ============================= -->
+  <section id="molecules" class="relative py-24 lg:py-32 bg-umd-mist overflow-hidden">
+    <!-- faint molecular scaffolding -->
+    <svg class="atom-bg top-16 left-[4%] w-52 h-52 animate-float-slow text-umd-blue" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="50" cy="50" r="6" fill="currentColor"/><ellipse cx="50" cy="50" rx="42" ry="17"/><ellipse cx="50" cy="50" rx="42" ry="17" transform="rotate(72 50 50)"/><ellipse cx="50" cy="50" rx="42" ry="17" transform="rotate(144 50 50)"/>
+    </svg>
+
+    <div class="relative mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="reveal max-w-3xl">
+        <span class="eyebrow-pop inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-umd-blue ring-1 ring-slate-200 shadow-sm">
+          <i data-lucide="atom" class="h-4 w-4 text-umd-gold"></i> Unbox the Lab
+        </span>
+        <h2 class="mt-6 font-display font-black text-4xl sm:text-5xl lg:text-6xl text-umd-blue leading-[1.02] tracking-tight">
+          This Month's <span class="text-gradient-gold animate-shimmer">Molecular Selections.</span>
+        </h2>
+        <p class="mt-5 text-lg text-umd-charcoal/80 max-w-2xl">
+          A fresh set of molecules to unbox each month. Tap any card to spin its real 3D structure, pulled live from PubChem. No lab coat required.
+        </p>
+      </div>
+
+      <div id="molecule-grid" class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-7"></div>
+
+      <p class="reveal mt-8 text-xs text-umd-charcoal/50 inline-flex items-center gap-2">
+        <i data-lucide="database" class="h-4 w-4 text-umd-gold"></i>
+        Structures &amp; images courtesy of PubChem (NIH National Library of Medicine).
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================= HOW MEMBERSHIP WORKS (4 STEPS) ============================= -->
+  <section id="how" class="relative py-24 lg:py-32 bg-white overflow-hidden">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="reveal text-center max-w-2xl mx-auto">
+        <span class="eyebrow-pop inline-flex items-center gap-2 rounded-full bg-umd-mist px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-umd-blue ring-1 ring-slate-200">
+          <i data-lucide="package-open" class="h-4 w-4 text-umd-gold"></i> The Unboxing
+        </span>
+        <h2 class="mt-6 font-display font-black text-4xl sm:text-5xl text-umd-blue leading-tight tracking-tight">How Membership Works</h2>
+        <p class="mt-5 text-lg text-umd-charcoal/80">Four steps from curious newcomer to chapter leader.</p>
+      </div>
+
+      <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Step 1 -->
+        <div class="reveal card-offset group relative rounded-3xl bg-white p-7 ring-2 ring-umd-navy/10 hover:ring-umd-gold">
+          <span class="font-display font-black text-6xl text-umd-blue/10 leading-none group-hover:text-umd-gold/25 transition-colors">01</span>
+          <div class="mt-2 h-12 w-12 rounded-2xl bg-umd-blue flex items-center justify-center shadow-blue group-hover:animate-jiggle">
+            <i data-lucide="compass" class="h-6 w-6 text-umd-gold"></i>
+          </div>
+          <h3 class="mt-4 font-display font-bold text-lg text-umd-blue">Explore Our Selections</h3>
+          <p class="mt-2 text-sm text-umd-charcoal/75 leading-relaxed">Discover molecules of the week, research spotlights, and the next round of event drops.</p>
+        </div>
+        <!-- Step 2 -->
+        <div class="reveal reveal-delay-1 card-offset group relative rounded-3xl bg-white p-7 ring-2 ring-umd-navy/10 hover:ring-umd-gold">
+          <span class="font-display font-black text-6xl text-umd-blue/10 leading-none group-hover:text-umd-gold/25 transition-colors">02</span>
+          <div class="mt-2 h-12 w-12 rounded-2xl bg-umd-blue flex items-center justify-center shadow-blue group-hover:animate-jiggle">
+            <i data-lucide="users" class="h-6 w-6 text-umd-gold"></i>
+          </div>
+          <h3 class="mt-4 font-display font-bold text-lg text-umd-blue">Build Your Network</h3>
+          <p class="mt-2 text-sm text-umd-charcoal/75 leading-relaxed">Show up for weekly meetings, lab tours, and guest speaker panels. Meet your people.</p>
+        </div>
+        <!-- Step 3 -->
+        <div class="reveal reveal-delay-2 card-offset group relative rounded-3xl bg-white p-7 ring-2 ring-umd-navy/10 hover:ring-umd-gold">
+          <span class="font-display font-black text-6xl text-umd-blue/10 leading-none group-hover:text-umd-gold/25 transition-colors">03</span>
+          <div class="mt-2 h-12 w-12 rounded-2xl bg-umd-blue flex items-center justify-center shadow-blue group-hover:animate-jiggle">
+            <i data-lucide="gift" class="h-6 w-6 text-umd-gold"></i>
+          </div>
+          <h3 class="mt-4 font-display font-bold text-lg text-umd-blue">Unbox Chapter Perks</h3>
+          <p class="mt-2 text-sm text-umd-charcoal/75 leading-relaxed">Free Thursday drop-in tutoring, private tutoring matches, and outreach hours on tap.</p>
+        </div>
+        <!-- Step 4 -->
+        <div class="reveal reveal-delay-3 card-offset group relative rounded-3xl bg-umd-blue p-7 ring-2 ring-umd-blue hover:ring-umd-gold">
+          <span class="font-display font-black text-6xl text-white/15 leading-none group-hover:text-umd-gold/40 transition-colors">04</span>
+          <div class="mt-2 h-12 w-12 rounded-2xl bg-umd-gold flex items-center justify-center shadow-gold-sm group-hover:animate-jiggle">
+            <i data-lucide="megaphone" class="h-6 w-6 text-umd-blue"></i>
+          </div>
+          <h3 class="mt-4 font-display font-bold text-lg text-white">Share &amp; Lead</h3>
+          <p class="mt-2 text-sm text-white/80 leading-relaxed">Mentor lowerclassmen, run elementary school demos, and present your own research.</p>
         </div>
       </div>
     </div>
@@ -477,14 +628,14 @@
 
       <div class="mt-14 grid lg:grid-cols-2 gap-8">
 <!-- Card A: Drop-in -->
-<div class="reveal group relative rounded-3xl bg-white p-8 sm:p-10 lift hover:shadow-gold overflow-hidden">
+<div class="reveal group relative rounded-3xl bg-white p-8 sm:p-10 lift hover:shadow-gold overflow-hidden ring-2 ring-umd-navy/5 hover:ring-umd-gold">
   <div class="absolute top-0 left-0 h-1.5 w-full bg-gradient-to-r from-umd-gold to-umd-amber"></div>
+  <div class="ribbon bg-umd-gold text-umd-blue">FREE</div>
 
-  <div class="flex items-center justify-between">
-    <div class="h-14 w-14 rounded-2xl bg-umd-blue flex items-center justify-center shadow-blue group-hover:scale-110 transition-transform">
+  <div class="flex items-center justify-start">
+    <div class="h-14 w-14 rounded-2xl bg-umd-blue flex items-center justify-center shadow-blue group-hover:scale-110 group-hover:-rotate-6 transition-transform">
       <i data-lucide="users-round" class="h-7 w-7 text-umd-gold"></i>
     </div>
-    <span class="rounded-full bg-umd-gold/15 px-4 py-1.5 text-sm font-bold text-umd-blue">FREE</span>
   </div>
 
   <h3 class="mt-6 font-display font-bold text-2xl sm:text-3xl text-umd-blue">
@@ -513,11 +664,11 @@
 <!-- Card B: Private -->
 
         <!-- Card B: Private -->
-        <div class="reveal reveal-delay-1 group relative rounded-3xl bg-gradient-to-br from-umd-gold to-umd-amber p-8 sm:p-10 lift hover:shadow-gold overflow-hidden">
+        <div class="reveal reveal-delay-1 group relative rounded-3xl bg-gradient-to-br from-umd-gold to-umd-amber p-8 sm:p-10 lift hover:shadow-gold overflow-hidden ring-2 ring-umd-blue/10 hover:ring-umd-blue">
+          <div class="ribbon bg-umd-blue text-umd-gold">FROM $5/HR</div>
           <div class="absolute -bottom-12 -right-12 h-44 w-44 rounded-full bg-white/15"></div>
-          <div class="relative flex items-center justify-between">
-            <div class="h-14 w-14 rounded-2xl bg-umd-blue flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"><i data-lucide="user-round-check" class="h-7 w-7 text-umd-gold"></i></div>
-            <span class="rounded-full bg-umd-blue px-4 py-1.5 text-sm font-bold text-umd-gold">FROM $5</span>
+          <div class="relative flex items-center justify-start">
+            <div class="h-14 w-14 rounded-2xl bg-umd-blue flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:-rotate-6 transition-transform"><i data-lucide="user-round-check" class="h-7 w-7 text-umd-gold"></i></div>
           </div>
           <h3 class="relative mt-6 font-display font-bold text-2xl sm:text-3xl text-umd-blue">Private 1-on-1 Tutoring</h3>
           <div class="relative mt-3 inline-flex items-center gap-2 text-umd-blue/90 font-semibold">
@@ -618,7 +769,7 @@
             <i data-lucide="rocket" class="h-12 w-12 text-umd-gold mx-auto"></i>
             <h4 class="mt-4 font-display font-bold text-xl text-white">Ready to start?</h4>
             <p class="mt-2 text-white/75 text-sm">It takes less than two minutes.</p>
-            <a href="https://forms.gle/ptvrtdLiYGmafDU37" target="_blank" rel="noopener" class="btn-shine mt-6 w-full inline-flex items-center justify-center gap-2 rounded-full bg-umd-gold px-6 py-3.5 font-display font-bold text-umd-blue hover:bg-umd-amber transition-all duration-300 hover:-translate-y-0.5 shadow-gold">
+            <a href="https://forms.gle/ptvrtdLiYGmafDU37" target="_blank" rel="noopener" class="btn-shine jiggle mt-6 w-full inline-flex items-center justify-center gap-2 rounded-full bg-umd-gold px-6 py-3.5 font-display font-bold text-umd-blue hover:bg-umd-amber transition-all duration-300 shadow-gold">
               Complete the Signup Form <i data-lucide="arrow-right" class="h-5 w-5"></i>
             </a>
             <a href="mailto:acsumcp@gmail.com" class="mt-4 inline-flex items-center justify-center gap-2 text-white/80 hover:text-umd-gold transition-colors text-sm font-medium">
@@ -730,6 +881,38 @@
     </div>
   </footer>
 
+  <!-- ============================= 3D MOLECULE INSPECTOR MODAL ============================= -->
+  <div id="mol-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="mol-modal-name">
+    <div id="mol-backdrop" class="absolute inset-0 bg-umd-navy/70 backdrop-blur-sm"></div>
+    <div class="modal-card relative w-full max-w-2xl rounded-3xl bg-white ring-2 ring-umd-gold shadow-2xl overflow-hidden">
+      <button id="mol-close" aria-label="Close inspector" class="absolute top-4 right-4 z-20 h-10 w-10 rounded-full bg-white/90 ring-1 ring-slate-200 flex items-center justify-center text-umd-blue hover:bg-umd-gold hover:text-umd-blue transition">
+        <i data-lucide="x" class="h-5 w-5"></i>
+      </button>
+
+      <!-- 3D stage -->
+      <div class="hero-gradient relative">
+        <canvas id="mol-modal-canvas" class="w-full h-[320px] cursor-grab active:cursor-grabbing touch-none"></canvas>
+        <span id="mol-modal-loading" class="absolute inset-0 flex items-center justify-center gap-2 text-white/80 text-sm font-display font-medium pointer-events-none">
+          <i data-lucide="loader" class="h-5 w-5 animate-spin"></i> Loading 3D structure…
+        </span>
+        <span class="absolute bottom-3 left-4 text-[10px] tracking-widest uppercase text-white/50 font-semibold pointer-events-none">Drag to rotate</span>
+      </div>
+
+      <!-- info -->
+      <div class="p-6 sm:p-8">
+        <div class="flex items-center gap-3 flex-wrap">
+          <span id="mol-modal-tag" class="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wide bg-umd-blue/10 text-umd-blue"></span>
+          <span id="mol-modal-formula" class="font-mono text-sm font-semibold text-umd-gold"></span>
+        </div>
+        <h3 id="mol-modal-name" class="mt-3 font-display font-black text-2xl sm:text-3xl text-umd-blue"></h3>
+        <p id="mol-modal-fact" class="mt-3 text-umd-charcoal/80 leading-relaxed"></p>
+        <a id="mol-modal-link" href="#" target="_blank" rel="noopener" class="btn-shine jiggle mt-5 inline-flex items-center gap-2 rounded-full bg-umd-blue px-5 py-3 font-display font-semibold text-sm text-white hover:bg-umd-gold hover:text-umd-blue transition-all duration-300">
+          <i data-lucide="external-link" class="h-4 w-4"></i> View full entry on PubChem
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- Back to top -->
   <button id="to-top" aria-label="Back to top" class="fixed bottom-6 right-6 z-50 h-12 w-12 rounded-full bg-umd-blue text-umd-gold shadow-blue flex items-center justify-center opacity-0 translate-y-4 pointer-events-none transition-all duration-300 hover:bg-umd-gold hover:text-umd-blue">
     <i data-lucide="arrow-up" class="h-6 w-6"></i>
@@ -766,7 +949,7 @@
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
     /* ---------- Active nav highlight + back-to-top ---------- */
-    const sections = ['home','about','events','why','tutoring','join','resources'];
+    const sections = ['home','about','molecules','how','events','why','tutoring','join','resources'];
     const navLinks = document.querySelectorAll('#navbar .nav-link');
     const toTop = document.getElementById('to-top');
     // Detect whichever section crosses a thin band in the middle of the viewport.
@@ -877,7 +1060,7 @@
     function renderFilters() {
       filtersWrap.innerHTML = categories.map(cat => {
         const isActive = cat === activeFilter;
-        return `<button data-cat="${cat}" class="filter-chip font-display font-semibold text-sm px-5 py-2 rounded-full transition-all duration-300 ${isActive ? 'bg-umd-blue text-white shadow-blue' : 'bg-white text-umd-blue ring-1 ring-slate-200 hover:ring-umd-gold hover:text-umd-gold'}">${cat}</button>`;
+        return `<button data-cat="${cat}" class="filter-chip tag-pop font-display font-semibold text-sm px-5 py-2 rounded-full transition-all duration-300 ${isActive ? 'bg-umd-blue text-white shadow-solid-navy' : 'bg-white text-umd-blue ring-2 ring-umd-navy/10 hover:ring-umd-gold hover:text-umd-gold'}">${cat}</button>`;
       }).join('');
       filtersWrap.querySelectorAll('.filter-chip').forEach(btn => {
         btn.addEventListener('click', () => { activeFilter = btn.dataset.cat; renderFilters(); renderEvents(); });
@@ -887,23 +1070,23 @@
     function renderEvents() {
       const list = activeFilter === 'All' ? events : events.filter(e => e.category === activeFilter);
       grid.innerHTML = list.map((ev, i) => `
-        <article class="event-card group relative bg-white rounded-2xl ring-1 ring-slate-200 overflow-hidden lift hover:ring-umd-gold hover:shadow-gold flex flex-col" style="transition-delay:${(i % 3) * 60}ms">
+        <article class="event-card group relative bg-white rounded-2xl ring-2 ring-umd-navy/10 overflow-hidden lift hover:ring-umd-gold hover:shadow-gold flex flex-col" style="transition-delay:${(i % 3) * 60}ms">
           <div class="h-1.5 w-full bg-gradient-to-r from-umd-gold to-umd-amber"></div>
           <div class="p-6 flex flex-col flex-1">
             <div class="flex items-start justify-between">
-              <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${categoryStyles[ev.category] || 'bg-slate-100 text-slate-600'}">${ev.category}</span>
-              <div class="h-11 w-11 rounded-xl bg-umd-gold/10 flex items-center justify-center group-hover:bg-umd-gold/20 group-hover:scale-110 transition-all duration-300">
+              <span class="tag-pop inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wide ${categoryStyles[ev.category] || 'bg-slate-100 text-slate-600'}">${ev.category}</span>
+              <div class="h-11 w-11 rounded-xl bg-umd-gold/10 flex items-center justify-center group-hover:bg-umd-gold/20 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-300">
                 <i data-lucide="${ev.icon}" class="h-6 w-6 text-umd-gold"></i>
               </div>
             </div>
             <h3 class="mt-4 font-display font-bold text-xl text-umd-blue leading-snug">${ev.title}</h3>
             <div class="mt-3 space-y-1.5 text-sm text-umd-charcoal/75">
-              <p class="flex items-center gap-2"><i data-lucide="calendar" class="h-4 w-4 text-umd-gold"></i> ${prettyDate(ev.date)}</p>
+              <p class="flex items-center gap-2 font-display font-semibold text-umd-blue"><i data-lucide="calendar" class="h-4 w-4 text-umd-gold"></i> ${prettyDate(ev.date)}</p>
               <p class="flex items-center gap-2"><i data-lucide="clock" class="h-4 w-4 text-umd-gold"></i> ${prettyTime(ev.time)}${ev.endTime ? ' – ' + prettyTime(ev.endTime) : ''}</p>
               <p class="flex items-center gap-2"><i data-lucide="map-pin" class="h-4 w-4 text-umd-gold"></i> ${ev.location}</p>
             </div>
             <p class="mt-4 text-sm text-umd-charcoal/70 leading-relaxed flex-1">${ev.desc}</p>
-            <a href="${googleCalendarUrl(ev)}" target="_blank" rel="noopener" class="btn-shine mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-umd-blue px-5 py-3 font-display font-semibold text-sm text-white hover:bg-umd-gold hover:text-umd-blue transition-all duration-300">
+            <a href="${googleCalendarUrl(ev)}" target="_blank" rel="noopener" class="btn-shine jiggle mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-umd-blue px-5 py-3 font-display font-semibold text-sm text-white hover:bg-umd-gold hover:text-umd-blue transition-all duration-300">
               <i data-lucide="calendar-plus" class="h-4 w-4"></i> Add to Google Calendar
             </a>
           </div>
@@ -1255,6 +1438,253 @@ function addRung(sphere1, sphere2) {
 
   animate();
   })();
+
+    /* ============================================================
+       MOLECULES OF THE MONTH  ·  deck + live PubChem thumbnails
+       + 3D inspector modal (ball-and-stick from PubChem SDF).
+       Kept separate from the hero initMolecule so neither can
+       break the other. Data: PubChem (NIH).
+       ============================================================ */
+    (function moleculesOfTheMonth() {
+      const MOLS = [
+        { name: 'Caffeine', display: 'Caffeine', cid: 2519, formula: 'C₈H₁₀N₄O₂', tag: 'Alkaloid',
+          tagClass: 'bg-umd-blue/10 text-umd-blue',
+          fact: "The planet's favorite psychoactive molecule. It wakes you up by blocking adenosine, the signal that tells your brain it's tired." },
+        { name: 'Homogentisic acid', display: 'Homogentisic acid', cid: 780, formula: 'C₈H₈O₄', tag: 'Metabolite',
+          tagClass: 'bg-emerald-100 text-emerald-700',
+          fact: "A tyrosine breakdown product. When the body can't clear it, urine darkens on standing, the classic sign of alkaptonuria." },
+        { name: 'Levodopa', display: 'L-DOPA', cid: 6047, formula: 'C₉H₁₁NO₄', tag: 'Neurochemistry',
+          tagClass: 'bg-purple-100 text-purple-700',
+          fact: "The direct precursor to dopamine and a frontline Parkinson's therapy. Unlike dopamine, it can cross the blood-brain barrier." },
+        { name: 'Fluorescein', display: 'Fluorescein', cid: 16850, formula: 'C₂₀H₁₂O₅', tag: 'Fluorophore',
+          tagClass: 'bg-umd-gold/20 text-umd-blue',
+          fact: "Glows brilliant green under blue light. It maps the retina, traces water flow, and once dyed the Chicago River." },
+      ];
+
+      const delays = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3'];
+      const grid = document.getElementById('molecule-grid');
+      if (grid) {
+        grid.innerHTML = MOLS.map((m, i) => `
+          <article class="reveal ${delays[i] || ''} mol-card group relative flex flex-col rounded-3xl bg-white p-4 ring-2 ring-umd-navy/10 hover:ring-umd-gold card-offset">
+            <span class="tag-pop absolute top-6 left-6 z-10 inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wide ${m.tagClass}">${m.tag}</span>
+            <div class="mol-thumb relative rounded-2xl h-44 flex items-center justify-center overflow-hidden">
+              <img src="https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(m.name)}/PNG?image_size=300x300"
+                   alt="2D structure of ${m.display}" loading="lazy"
+                   class="h-40 w-40 object-contain transition-transform duration-500 group-hover:scale-105"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+              <div class="hidden absolute inset-0 items-center justify-center font-display font-black text-2xl text-umd-blue/40">${m.formula}</div>
+            </div>
+            <div class="mt-4 px-2 flex flex-1 flex-col">
+              <h3 class="font-display font-black text-lg text-umd-blue leading-tight">${m.display}</h3>
+              <p class="mt-0.5 font-mono text-sm font-semibold text-umd-gold">${m.formula}</p>
+              <p class="mt-3 text-sm text-umd-charcoal/75 leading-relaxed flex-1">${m.fact}</p>
+              <button data-mol="${i}" class="mol-inspect btn-shine jiggle mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-umd-blue px-4 py-2.5 font-display font-semibold text-sm text-white hover:bg-umd-gold hover:text-umd-blue transition-all duration-300">
+                <i data-lucide="orbit" class="h-4 w-4"></i> Inspect 3D Structure
+              </button>
+            </div>
+          </article>`).join('');
+
+        renderIcons();
+        grid.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        grid.querySelectorAll('.mol-inspect').forEach(btn =>
+          btn.addEventListener('click', () => openModal(MOLS[+btn.dataset.mol])));
+
+        // Subtle pointer tilt on the molecule cards (skipped for reduced motion)
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          grid.querySelectorAll('.mol-card').forEach(card => {
+            card.addEventListener('pointermove', e => {
+              const r = card.getBoundingClientRect();
+              const px = (e.clientX - r.left) / r.width - 0.5;
+              const py = (e.clientY - r.top) / r.height - 0.5;
+              card.style.transform = `translate(-4px,-4px) perspective(700px) rotateX(${(-py * 5).toFixed(2)}deg) rotateY(${(px * 6).toFixed(2)}deg)`;
+            });
+            card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+          });
+        }
+      }
+
+      /* ----------------- 3D inspector modal ----------------- */
+      const modal = document.getElementById('mol-modal');
+      const mCanvas = document.getElementById('mol-modal-canvas');
+      const mLoading = document.getElementById('mol-modal-loading');
+      if (!modal || !mCanvas) return;
+
+      const ELEM = {
+        C:{c:0xdbe6f5,r:0.62}, N:{c:0x5b9be8,r:0.60}, O:{c:0xff6f61,r:0.58}, F:{c:0xEAAA00,r:0.54},
+        S:{c:0xFFC72C,r:0.82}, P:{c:0xf0883e,r:0.80}, Cl:{c:0x7fd17f,r:0.78}, Br:{c:0xc97f5a,r:0.85},
+        DEFAULT:{c:0xc8d4e6,r:0.60}
+      };
+      const einfo = s => ELEM[s] || ELEM.DEFAULT;
+
+      let scene, camera, renderer, group, raf, ready = false;
+      let dragging = false, prevX = 0, prevY = 0, rotY = 0, rotX = 0, autoSpin = true;
+      const sphereGeo = window.THREE ? new THREE.SphereGeometry(1, 28, 28) : null;
+      const matCache = {};
+      const bondMat = window.THREE ? new THREE.MeshStandardMaterial({ color: 0xaebed6, metalness: 0.2, roughness: 0.5 }) : null;
+      const atomMat = s => matCache[s] || (matCache[s] = new THREE.MeshStandardMaterial({ color: einfo(s).c, metalness: 0.25, roughness: 0.35 }));
+
+      function initRenderer() {
+        if (ready || !window.THREE) return;
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(45, 2, 0.1, 1000);
+        camera.position.set(0, 0, 42);
+        renderer = new THREE.WebGLRenderer({ canvas: mCanvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        scene.add(new THREE.AmbientLight(0xbcd4ff, 0.7));
+        const k = new THREE.DirectionalLight(0xffffff, 1.2); k.position.set(6, 10, 14); scene.add(k);
+        const f = new THREE.DirectionalLight(0xEAAA00, 0.5); f.position.set(-10, -4, 6); scene.add(f);
+        const rim = new THREE.DirectionalLight(0x66a3ff, 0.6); rim.position.set(-6, 8, -12); scene.add(rim);
+        group = new THREE.Group(); scene.add(group);
+        ready = true;
+      }
+
+      function sizeRenderer() {
+        const w = mCanvas.clientWidth, h = mCanvas.clientHeight;
+        if (w && h && (mCanvas.width !== w || mCanvas.height !== h)) {
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h; camera.updateProjectionMatrix();
+        }
+      }
+
+      function clearGroup() {
+        if (!group) return;
+        for (let i = group.children.length - 1; i >= 0; i--) {
+          const o = group.children[i];
+          if (o.geometry) o.geometry.dispose();
+          group.remove(o);
+        }
+      }
+
+      function addBond(p1, p2, radius) {
+        const dir = new THREE.Vector3().subVectors(p2, p1);
+        const geo = new THREE.CylinderGeometry(radius, radius, dir.length(), 12, 1, true);
+        const mesh = new THREE.Mesh(geo, bondMat);
+        mesh.position.copy(p1).add(dir.clone().multiplyScalar(0.5));
+        mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+        group.add(mesh);
+      }
+
+      function build(atoms, bonds) {
+        clearGroup();
+        const keep = atoms.map(a => a.el !== 'H');
+        const center = new THREE.Vector3(); let n = 0;
+        atoms.forEach((a, i) => { if (keep[i]) { center.x += a.x; center.y += a.y; center.z += a.z; n++; } });
+        if (n) center.divideScalar(n);
+        const pos = atoms.map(a => new THREE.Vector3(a.x, a.y, a.z).sub(center));
+        let maxR = 0; pos.forEach((p, i) => { if (keep[i]) maxR = Math.max(maxR, p.length()); });
+        const scale = maxR > 0 ? 11 / maxR : 1;
+        pos.forEach((p, i) => {
+          if (!keep[i]) return;
+          const mesh = new THREE.Mesh(sphereGeo, atomMat(atoms[i].el));
+          mesh.position.copy(p).multiplyScalar(scale);
+          mesh.scale.setScalar(einfo(atoms[i].el).r);
+          group.add(mesh);
+        });
+        bonds.forEach(b => {
+          const i = b.a - 1, j = b.b - 1;
+          if (!keep[i] || !keep[j]) return;
+          const p1 = pos[i].clone().multiplyScalar(scale);
+          const p2 = pos[j].clone().multiplyScalar(scale);
+          const order = Math.min(b.order || 1, 3);
+          if (order === 1) { addBond(p1, p2, 0.13); return; }
+          const dir = new THREE.Vector3().subVectors(p2, p1).normalize();
+          const ref = Math.abs(dir.y) < 0.9 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+          const perp = new THREE.Vector3().crossVectors(dir, ref).normalize().multiplyScalar(0.18);
+          if (order === 2) {
+            addBond(p1.clone().add(perp), p2.clone().add(perp), 0.09);
+            addBond(p1.clone().sub(perp), p2.clone().sub(perp), 0.09);
+          } else {
+            addBond(p1, p2, 0.08);
+            const o = perp.clone().multiplyScalar(1.5);
+            addBond(p1.clone().add(o), p2.clone().add(o), 0.07);
+            addBond(p1.clone().sub(o), p2.clone().sub(o), 0.07);
+          }
+        });
+      }
+
+      function parseSDF(text) {
+        const lines = text.split('\n');
+        const counts = lines[3];
+        const nAtoms = parseInt(counts.substring(0, 3), 10);
+        const nBonds = parseInt(counts.substring(3, 6), 10);
+        const atoms = [], bonds = [];
+        for (let i = 0; i < nAtoms; i++) {
+          const L = lines[4 + i];
+          atoms.push({ x:+L.substring(0,10), y:+L.substring(10,20), z:+L.substring(20,30), el:L.substring(31,34).trim() });
+        }
+        for (let i = 0; i < nBonds; i++) {
+          const L = lines[4 + nAtoms + i];
+          bonds.push({ a: parseInt(L.substring(0,3),10), b: parseInt(L.substring(3,6),10), order: parseInt(L.substring(6,9),10) });
+        }
+        return { atoms, bonds };
+      }
+
+      function loop() {
+        raf = requestAnimationFrame(loop);
+        if (!ready) return;
+        sizeRenderer();
+        if (autoSpin && !dragging) rotY += 0.006;
+        group.rotation.y = rotY;
+        group.rotation.x = rotX;
+        renderer.render(scene, camera);
+      }
+
+      // Drag to rotate
+      mCanvas.addEventListener('pointerdown', e => { dragging = true; autoSpin = false; prevX = e.clientX; prevY = e.clientY; mCanvas.setPointerCapture(e.pointerId); });
+      mCanvas.addEventListener('pointermove', e => {
+        if (!dragging) return;
+        rotY += (e.clientX - prevX) * 0.01;
+        rotX += (e.clientY - prevY) * 0.01;
+        rotX = Math.max(-1.2, Math.min(1.2, rotX));
+        prevX = e.clientX; prevY = e.clientY;
+      });
+      const endDrag = () => { dragging = false; };
+      mCanvas.addEventListener('pointerup', endDrag);
+      mCanvas.addEventListener('pointerleave', endDrag);
+
+      let lastFocus = null;
+      function openModal(m) {
+        lastFocus = document.activeElement;
+        document.getElementById('mol-modal-tag').textContent = m.tag;
+        document.getElementById('mol-modal-formula').textContent = m.formula;
+        document.getElementById('mol-modal-name').textContent = m.display;
+        document.getElementById('mol-modal-fact').textContent = m.fact;
+        document.getElementById('mol-modal-link').href = 'https://pubchem.ncbi.nlm.nih.gov/compound/' + m.cid;
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        if (mLoading) mLoading.style.display = 'flex';
+
+        initRenderer();
+        clearGroup();
+        rotY = 0; rotX = 0; autoSpin = true;
+        cancelAnimationFrame(raf); loop();
+
+        const url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/'
+          + encodeURIComponent(m.name) + '/SDF?record_type=3d';
+        fetch(url)
+          .then(r => { if (!r.ok) throw new Error('PubChem ' + r.status); return r.text(); })
+          .then(txt => { const { atoms, bonds } = parseSDF(txt); build(atoms, bonds); })
+          .catch(() => { /* leave stage empty on failure */ })
+          .finally(() => { if (mLoading) mLoading.style.display = 'none'; });
+
+        document.getElementById('mol-close').focus();
+      }
+
+      function closeModal() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+        cancelAnimationFrame(raf);
+        clearGroup();
+        if (lastFocus) lastFocus.focus();
+      }
+
+      document.getElementById('mol-close').addEventListener('click', closeModal);
+      document.getElementById('mol-backdrop').addEventListener('click', closeModal);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
+
+      // expose for the card buttons above
+      window.__openMolModal = openModal;
+    })();
   </script>
 </body>
 </html>
