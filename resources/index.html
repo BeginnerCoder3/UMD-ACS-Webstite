@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Study Guides &amp; Practice Quizzes | ACS Student Chapter at UMD</title>
+  <title>Study Guides &amp; Resources | ACS Student Chapter at UMD</title>
   <link rel="icon" type="image/png" href="../images/acs-logo.png">
-  <meta name="description" content="Member-curated study guides and practice quizzes for CHEM and BCHM courses at the University of Maryland, from the ACS Student Chapter." />
+  <meta name="description" content="Member-curated study guides and a shared community study database for CHEM and BCHM courses at the University of Maryland, from the ACS Student Chapter." />
   <meta name="theme-color" content="#003A70" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Study Guides & Practice Quizzes | UMD ACS Student Chapter" />
-  <meta property="og:description" content="Member-curated study guides and practice quizzes for CHEM and BCHM courses at UMD." />
+  <meta property="og:title" content="Study Guides & Resources | UMD ACS Student Chapter" />
+  <meta property="og:description" content="Member-curated study guides and a shared community study database for CHEM and BCHM courses at UMD." />
   <meta property="og:type" content="website" />
 
-  <!-- Google Fonts: Playfair Display (editorial serif) + Inter (UI sans) -->
+  <!-- Google Fonts: Poppins (geometric sans — headings AND body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS Play CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -29,17 +29,21 @@
             acs: {
               navy: '#003A70',      // primary brand blue: headings, buttons, links
               deep: '#00458A',      // secondary blue (hover, footer depth)
-              ink: '#334155',       // body copy (medium slate)
-              gold: '#ffc700',      // accent
-              amber: '#ffb800',     // accent hover
-              line: '#e2e8f0',      // 1px borders / dividers
-              rule: '#cbd5e1',      // heavier hairline
-              mist: '#f8fafc',      // tinted surface sections
+              ink: '#1E293B',       // body copy (deep navy slate)
+              slate: '#64748B',     // meta / secondary label gray
+              gold: '#FFC700',      // accent
+              amber: '#FFB800',     // accent hover
+              line: '#E2E8F0',      // 1px borders / dividers
+              rule: '#CBD5E1',      // heavier hairline
+              // Section band colors. Every full-width section picks exactly one.
+              sky: '#F0F7FF',       // pale blue band
+              cream: '#FFFBEB',     // pale yellow band
+              mist: '#F8FAFC',      // near-white band (canvas backdrops)
             },
           },
           fontFamily: {
-            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
-            serif: ['"Playfair Display"', 'Georgia', '"Times New Roman"', 'serif'],
+            sans: ['Poppins', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+            display: ['Poppins', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
           },
         },
       },
@@ -52,17 +56,26 @@
   <style>
     html, body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      color: #334155; background: #ffffff; overflow-x: hidden;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      color: #1E293B; background: #ffffff; overflow-x: hidden;
     }
-    h1, h2, h3, h4 { font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; color: #003A70; }
 
-    ::selection { background: #ffc700; color: #003A70; }
+    /* Headings and card titles: Poppins SemiBold/Bold, always set in caps.
+       Tailwind's .normal-case (0,1,0) outranks this element rule (0,0,1), so the
+       resource row titles — proper names of documents — opt out with it. */
+    h1, h2, h3, h4, h5 {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      color: #003A70; text-transform: uppercase;
+    }
+    h1, h2 { letter-spacing: -0.015em; }
+    h3, h4, h5 { letter-spacing: 0.01em; }
+
+    ::selection { background: #FFC700; color: #003A70; }
 
     /* Thin, quiet scrollbar */
     ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-track { background: #f8fafc; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; }
+    ::-webkit-scrollbar-track { background: #F8FAFC; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; }
     ::-webkit-scrollbar-thumb:hover { background: #003A70; }
 
     /* Scroll-reveal (restrained: short travel, no bounce) */
@@ -81,12 +94,17 @@
 
     /* Editorial eyebrow: uppercase label with a gold rule at its left edge */
     .eyebrow {
-      display: inline-block; padding-left: .65rem; border-left: 3px solid #ffc700;
+      display: inline-block; padding-left: .65rem; border-left: 3px solid #FFC700;
       font-size: 11px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: #003A70;
     }
 
+    /* Institutional masthead lockup — identical rules to index.html so the UMD and
+       ACS wordmarks match in family, weight, size, tracking and color. */
+    .inst-name { font-weight: 700; font-size: 14px; letter-spacing: .025em; color: #003A70; }
+    .inst-sub  { font-weight: 500; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: #64748B; }
+
     /* Hairline separator between inline meta items */
-    .meta-sep > * + *::before { content: ''; display: inline-block; width: 1px; height: 12px; background: #e2e8f0; margin: 0 .85rem; vertical-align: -2px; }
+    .meta-sep > * + *::before { content: ''; display: inline-block; width: 1px; height: 12px; background: #CBD5E1; margin: 0 .85rem; vertical-align: -2px; }
 
     .mobile-menu { transition: opacity .25s ease, transform .25s ease; }
 
@@ -100,21 +118,21 @@
 <body class="antialiased bg-white">
 
   <!-- ============================= INSTITUTIONAL BAR ============================= -->
-  <div class="border-b border-acs-line">
+  <div class="bg-white border-b border-acs-line">
     <div class="mx-auto max-w-7xl px-6 lg:px-10 py-4 flex items-center justify-between gap-4">
       <a href="../index.html" class="flex items-center gap-3">
-        <img src="../images/umd-seal.png" alt="University of Maryland Seal" class="h-11 w-11 object-contain">
-        <div class="leading-tight">
-          <p class="text-acs-navy font-semibold tracking-wide text-sm">University of Maryland</p>
-          <p class="text-acs-ink/60 text-[10px] font-medium tracking-[0.22em] uppercase">College Park</p>
+        <img src="../images/umd-seal.png" alt="University of Maryland Seal" class="h-11 w-11 shrink-0 object-contain">
+        <div class="flex flex-col items-start leading-tight">
+          <span class="inst-name">University of Maryland</span>
+          <span class="inst-sub">College Park</span>
         </div>
       </a>
       <div class="flex items-center gap-3">
-        <div class="hidden sm:flex flex-col items-end leading-tight">
-          <span class="text-acs-navy text-[11px] font-semibold tracking-[0.18em] uppercase">American Chemical Society</span>
-          <span class="text-acs-ink/60 text-[10px] tracking-[0.22em] uppercase">Student Chapter</span>
+        <div class="hidden sm:flex flex-col items-end leading-tight text-right">
+          <span class="inst-name">American Chemical Society</span>
+          <span class="inst-sub">Student Chapter</span>
         </div>
-        <img src="../images/acs-logo.png" alt="American Chemical Society Logo" class="h-11 w-11 object-contain">
+        <img src="../images/acs-logo.png" alt="American Chemical Society Logo" class="h-11 w-11 shrink-0 object-contain">
       </div>
     </div>
   </div>
@@ -126,7 +144,7 @@
         <div class="flex items-center justify-between h-16">
           <a href="../index.html" class="flex items-center gap-2.5">
             <img src="../images/acs-logo.png" alt="ACS Logo" class="h-8 w-8 object-contain">
-            <span class="font-serif font-semibold text-acs-navy tracking-tight text-lg">UMD ACS</span>
+            <span class="font-display font-semibold text-acs-navy tracking-tight text-lg">UMD ACS</span>
           </a>
 
           <div class="hidden lg:flex items-center gap-7 text-[14px] font-medium text-acs-navy">
@@ -165,9 +183,9 @@
   </nav>
 
   <!-- ============================= MASTHEAD ============================= -->
-  <header class="relative bg-white">
+  <header class="relative bg-acs-sky">
     <div class="mx-auto max-w-7xl px-6 lg:px-10 pt-12 lg:pt-16 pb-10">
-      <nav aria-label="Breadcrumb" class="text-[13px] text-acs-ink/60">
+      <nav aria-label="Breadcrumb" class="text-[13px] text-acs-slate">
         <a href="../index.html" class="hover:text-acs-navy transition-colors">Home</a>
         <span class="mx-2 text-acs-line">/</span>
         <span class="text-acs-navy font-medium">Resources</span>
@@ -175,8 +193,8 @@
 
       <div class="mt-8 max-w-3xl">
         <span class="eyebrow">Resources</span>
-        <h2 class="mt-6 font-serif font-semibold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-acs-navy">
-          Study Guides &amp; Practice Quizzes
+        <h2 class="mt-6 font-display font-semibold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-acs-navy">
+          Study Guides &amp; Resources
         </h2>
         <div class="mt-6 h-[3px] w-16 bg-acs-gold"></div>
 
@@ -184,45 +202,45 @@
           Everything here is put together by chapter members who have already taken the course — reaction maps, formula sheets, worked problem sets, and self-grading practice quizzes for the CHEM and BCHM sequences at UMD. Free to use, no login, no membership required.
         </p>
 
-        <p id="resources-meta" class="meta-sep mt-6 text-[13px] text-acs-ink/60"></p>
+        <p id="resources-meta" class="meta-sep mt-6 text-[13px] text-acs-slate"></p>
       </div>
     </div>
   </header>
 
   <!-- ============================= INDEX ============================= -->
-  <section id="index" class="relative pb-20 lg:pb-28 bg-white">
+  <section id="index" class="relative py-16 lg:py-20 bg-white">
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
 
       <!-- Course filter row -->
       <div class="reveal flex flex-wrap items-center gap-3 border-t border-acs-line pt-8">
-        <span class="text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-ink/60 w-20">Course</span>
+        <span class="text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-slate w-20">Course</span>
         <div class="flex flex-wrap gap-2" id="course-filters"></div>
       </div>
 
       <!-- Scaffold notice: hidden automatically once any row has a real url -->
-      <p id="scaffold-note" class="hidden mt-6 border-l-[3px] border-acs-gold bg-acs-mist px-5 py-4 text-[13px] text-acs-ink/75">
+      <p id="scaffold-note" class="hidden mt-6 border-l-[3px] border-acs-gold bg-acs-sky px-5 py-4 text-[13px] text-acs-ink/75">
         This index is live but the files are not attached yet. Officers: add a <code class="font-mono text-acs-navy">url</code> to each entry in the
         <code class="font-mono text-acs-navy">resources</code> array to make its row clickable.
       </p>
 
-      <p id="resources-count" class="mt-6 text-[13px] text-acs-ink/60"></p>
+      <p id="resources-count" class="mt-6 text-[13px] text-acs-slate"></p>
 
       <!-- Journal-style index table -->
       <div class="mt-4 overflow-x-auto">
         <table class="w-full min-w-[560px] border-collapse text-left">
           <thead>
             <tr class="border-y border-acs-rule">
-              <th scope="col" class="hidden sm:table-cell py-3 pr-6 text-[11px] font-semibold tracking-[0.18em] uppercase text-acs-ink/60">Course</th>
-              <th scope="col" class="py-3 pr-6 text-[11px] font-semibold tracking-[0.18em] uppercase text-acs-ink/60">Title</th>
-              <th scope="col" class="py-3 pr-6 text-[11px] font-semibold tracking-[0.18em] uppercase text-acs-ink/60">Type</th>
-              <th scope="col" class="hidden sm:table-cell py-3 text-right text-[11px] font-semibold tracking-[0.18em] uppercase text-acs-ink/60">Updated</th>
+              <th scope="col" class="hidden sm:table-cell py-3 pr-6 text-[11px] font-semibold tracking-[0.18em] uppercase text-acs-slate">Course</th>
+              <th scope="col" class="py-3 pr-6 text-[11px] font-semibold tracking-[0.18em] uppercase text-acs-slate">Title</th>
+              <th scope="col" class="py-3 pr-6 text-[11px] font-semibold tracking-[0.18em] uppercase text-acs-slate">Type</th>
+              <th scope="col" class="hidden sm:table-cell py-3 text-right text-[11px] font-semibold tracking-[0.18em] uppercase text-acs-slate">Updated</th>
             </tr>
           </thead>
           <tbody id="resources-body"></tbody>
         </table>
       </div>
 
-      <p id="resources-empty" class="hidden mt-6 border border-acs-line bg-acs-mist px-6 py-8 text-center text-acs-ink/70">
+      <p id="resources-empty" class="hidden mt-6 border border-acs-line bg-acs-sky px-6 py-8 text-center text-acs-ink/70">
         Nothing filed under this course yet. Try <span class="font-semibold text-acs-navy">All</span>, or send us yours.
       </p>
 
@@ -230,12 +248,12 @@
   </section>
 
   <!-- ============================= COMMUNITY RESOURCE HUB ============================= -->
-  <section id="hub" class="relative py-16 lg:py-20 bg-acs-mist border-y border-acs-line">
+  <section id="hub" class="relative py-16 lg:py-20 bg-acs-cream">
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
 
       <div class="reveal max-w-3xl">
         <span class="eyebrow">Community Resource Hub</span>
-        <h3 class="mt-6 font-serif font-semibold text-3xl sm:text-4xl leading-snug text-acs-navy">
+        <h3 class="mt-6 font-display font-semibold text-3xl sm:text-4xl leading-snug text-acs-navy">
           Free materials, gathered by students who took the course
         </h3>
         <div class="mt-5 h-[3px] w-12 bg-acs-gold"></div>
@@ -249,7 +267,7 @@
         <div class="h-[3px] w-full bg-acs-gold"></div>
         <div class="grid lg:grid-cols-2">
           <div class="p-8 sm:p-10 border-b lg:border-b-0 lg:border-r border-acs-line">
-            <h4 class="font-serif font-semibold text-2xl sm:text-3xl leading-snug text-acs-navy">
+            <h4 class="font-display font-semibold text-2xl sm:text-3xl leading-snug text-acs-navy">
               Community Study Database
             </h4>
             <p class="mt-4 text-acs-ink/80 leading-relaxed">
@@ -266,8 +284,8 @@
             </a>
           </div>
 
-          <div class="p-8 sm:p-10 bg-acs-mist">
-            <p class="text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-ink/60">What's inside</p>
+          <div class="p-8 sm:p-10 bg-white">
+            <p class="text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-slate">What's inside</p>
             <ul class="mt-5 divide-y divide-acs-line border-t border-acs-line text-acs-ink/80">
               <li class="flex items-start gap-3 py-3.5">
                 <i data-lucide="check" class="h-4 w-4 text-acs-navy shrink-0 mt-1"></i>
@@ -301,7 +319,7 @@
         <div class="grid lg:grid-cols-2">
           <div class="p-8 sm:p-10 border-b lg:border-b-0 lg:border-r border-acs-line">
             <span class="eyebrow">Contribute</span>
-            <h3 class="mt-5 font-serif font-semibold text-2xl sm:text-3xl leading-snug text-acs-navy">
+            <h3 class="mt-5 font-display font-semibold text-2xl sm:text-3xl leading-snug text-acs-navy">
               Made a good study guide? Send it in.
             </h3>
             <p class="mt-4 text-acs-ink/80 leading-relaxed">
@@ -315,8 +333,8 @@
             </a>
           </div>
 
-          <div class="p-8 sm:p-10 bg-acs-mist">
-            <h4 class="font-serif font-semibold text-xl text-acs-navy">What makes a good submission</h4>
+          <div class="p-8 sm:p-10 bg-white">
+            <h4 class="font-display font-semibold text-xl text-acs-navy">What makes a good submission</h4>
             <ul class="mt-5 divide-y divide-acs-line border-t border-acs-line text-acs-ink/80">
               <li class="flex items-start gap-3 py-3.5">
                 <i data-lucide="check" class="h-4 w-4 text-acs-navy shrink-0 mt-1"></i>
@@ -339,7 +357,7 @@
         </div>
       </div>
 
-      <p class="reveal mt-8 max-w-3xl text-[13px] leading-relaxed text-acs-ink/60">
+      <p class="reveal mt-8 max-w-3xl text-[13px] leading-relaxed text-acs-slate">
         These are student-made study aids shared by chapter members. They are not official course material, are not endorsed by any instructor or department, and may not reflect your section's current syllabus. Always check against what your professor assigns.
       </p>
     </div>
@@ -349,56 +367,45 @@
   <footer class="relative bg-acs-navy text-white">
     <div class="h-[3px] w-full bg-acs-gold"></div>
     <div class="mx-auto max-w-7xl px-6 lg:px-10 py-16">
-      <div class="grid md:grid-cols-3 gap-12">
-        <!-- Left: Chapter name + tagline -->
-        <div>
-          <div class="flex items-center gap-3">
-            <img src="../images/acs-logo.png" alt="ACS Logo" class="h-11 w-11 object-contain bg-white p-1">
-            <div>
-              <p class="font-serif font-semibold text-lg leading-tight text-white">ACS Student Chapter</p>
-              <p class="text-acs-gold text-sm">University of Maryland</p>
-            </div>
-          </div>
-          <p class="mt-5 text-white/70 leading-relaxed max-w-xs text-sm">Chemistry for Life. A student chemistry community at UMD built around events, mentorship, and service.</p>
-          <a href="mailto:acsumcp@gmail.com" class="mt-5 inline-flex items-center gap-2 text-white/80 hover:text-acs-gold transition-colors text-sm">
-            <i data-lucide="mail" class="h-4 w-4"></i> acsumcp@gmail.com
-          </a>
-        </div>
+      <!-- Two columns only: the Navigate link list was removed as a duplicate of
+           the sticky nav directly above it. -->
+      <div class="grid md:grid-cols-2 gap-12 items-start">
 
-        <!-- Center: quick links -->
-        <div class="md:justify-self-center">
-          <p class="font-semibold text-acs-gold tracking-[0.22em] uppercase text-[11px]">Navigate</p>
-          <ul class="mt-5 space-y-2.5 text-white/75 text-sm">
-            <li><a href="../index.html#about" class="hover:text-acs-gold transition-colors">Who We Are &amp; Why Join</a></li>
-            <li><a href="../index.html#events" class="hover:text-acs-gold transition-colors">Events &amp; Programs</a></li>
-            <li><a href="../index.html#tutoring" class="hover:text-acs-gold transition-colors">Tutoring</a></li>
-            <li><a href="./" class="hover:text-acs-gold transition-colors">Study Resources</a></li>
-            <li><a href="../index.html#faq" class="hover:text-acs-gold transition-colors">FAQ</a></li>
-            <li><a href="../index.html#join" class="hover:text-acs-gold transition-colors">How to Join</a></li>
-          </ul>
+        <!-- Left: chapter lockup -->
+        <div class="flex items-center gap-5">
+          <img src="../images/acs-logo.png" alt="ACS Logo"
+               class="h-20 w-20 shrink-0 rounded-full bg-white object-contain p-2.5 ring-2 ring-acs-gold">
+          <div>
+            <p class="font-display font-bold text-2xl sm:text-3xl leading-tight tracking-tight text-white uppercase">ACS Student Chapter</p>
+            <p class="mt-1 text-acs-gold text-base font-medium">University of Maryland</p>
+            <a href="mailto:acsumcp@gmail.com" class="mt-3 inline-flex items-center gap-2 text-white/85 hover:text-acs-gold transition-colors text-sm">
+              <i data-lucide="mail" class="h-4 w-4"></i> acsumcp@gmail.com
+            </a>
+          </div>
         </div>
 
         <!-- Right: social -->
         <div class="md:justify-self-end">
           <p class="font-semibold text-acs-gold tracking-[0.22em] uppercase text-[11px]">Connect</p>
           <div class="mt-5 flex gap-2">
-            <a href="https://www.instagram.com/umd_acs/" target="_blank" rel="noopener" aria-label="Instagram" class="h-11 w-11 border border-white/25 flex items-center justify-center hover:border-acs-gold transition-colors">
+            <a href="https://www.instagram.com/umd_acs/" target="_blank" rel="noopener" aria-label="Instagram" class="h-12 w-12 border border-white/25 flex items-center justify-center hover:border-acs-gold transition-colors">
               <img src="../images/instagram.png" alt="Instagram" class="h-5 w-5 object-contain">
             </a>
-            <a href="mailto:acsumcp@gmail.com" aria-label="Email" class="group h-11 w-11 border border-white/25 flex items-center justify-center hover:border-acs-gold transition-colors">
+            <a href="mailto:acsumcp@gmail.com" aria-label="Email" class="group h-12 w-12 border border-white/25 flex items-center justify-center hover:border-acs-gold transition-colors">
               <i data-lucide="mail" class="h-5 w-5 text-white group-hover:text-acs-gold transition-colors"></i>
             </a>
-            <a href="https://www.acs.org" target="_blank" rel="noopener" aria-label="National ACS" class="group h-11 w-11 border border-white/25 flex items-center justify-center hover:border-acs-gold transition-colors">
+            <a href="https://www.acs.org" target="_blank" rel="noopener" aria-label="National ACS" class="group h-12 w-12 border border-white/25 flex items-center justify-center hover:border-acs-gold transition-colors">
               <i data-lucide="globe" class="h-5 w-5 text-white group-hover:text-acs-gold transition-colors"></i>
             </a>
           </div>
-          <p class="mt-6 text-white/60 text-sm max-w-xs">Follow us on Instagram for event reminders and recaps.</p>
+          <p class="mt-6 text-white/70 text-sm max-w-xs">Follow us on Instagram for event reminders and recaps.</p>
         </div>
       </div>
 
-      <div class="mt-14 pt-6 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-3 text-white/55 text-[13px]">
-        <p>© <span id="year"></span> ACS Student Chapter · University of Maryland. All rights reserved.</p>
-        <p>Chemistry for Life.</p>
+      <div class="mt-14 pt-6 border-t border-white/15 text-center">
+        <p class="text-white/65 text-[12px] font-medium tracking-[0.12em] uppercase">
+          © <span id="year"></span> ACS Student Chapter · University of Maryland. All rights reserved.
+        </p>
       </div>
     </div>
   </footer>
@@ -558,18 +565,18 @@
       tbody.innerHTML = list.map(r => {
         const live = Boolean(r.url);
         const titleCell = live
-          ? `<a href="${r.url}" target="_blank" rel="noopener" class="font-serif font-semibold text-lg leading-snug text-acs-navy hover:text-acs-deep border-b border-transparent hover:border-acs-gold transition-colors">${r.title}</a>`
-          : `<span class="font-serif font-semibold text-lg leading-snug text-acs-ink/45">${r.title}</span>`;
+          ? `<a href="${r.url}" target="_blank" rel="noopener" class="font-display font-semibold text-lg leading-snug normal-case text-acs-navy hover:text-acs-deep border-b border-transparent hover:border-acs-gold transition-colors">${r.title}</a>`
+          : `<span class="font-display font-semibold text-lg leading-snug normal-case text-acs-slate/70">${r.title}</span>`;
 
         return `
-        <tr class="border-b border-acs-line align-top ${live ? 'hover:bg-acs-mist transition-colors duration-200' : ''}">
+        <tr class="border-b border-acs-line align-top ${live ? 'hover:bg-acs-sky transition-colors duration-200' : ''}">
           <td class="hidden sm:table-cell py-5 pr-6 whitespace-nowrap text-[13px] font-semibold text-acs-ink/70">${r.course}</td>
           <td class="py-5 pr-6">
             ${titleCell}
-            <p class="sm:hidden mt-1.5 text-[12px] text-acs-ink/55">${r.course} · ${live ? prettyMonth(r.updated) : 'coming soon'}</p>
+            <p class="sm:hidden mt-1.5 text-[12px] text-acs-slate">${r.course} · ${live ? prettyMonth(r.updated) : 'coming soon'}</p>
           </td>
           <td class="py-5 pr-6">${typeBadge(r.type)}</td>
-          <td class="hidden sm:table-cell py-5 text-right text-[13px] whitespace-nowrap ${live ? 'text-acs-ink/60' : 'text-acs-ink/35'}">${live ? prettyMonth(r.updated) : '—'}</td>
+          <td class="hidden sm:table-cell py-5 text-right text-[13px] whitespace-nowrap ${live ? 'text-acs-slate' : 'text-acs-slate/50'}">${live ? prettyMonth(r.updated) : '—'}</td>
         </tr>`;
       }).join('');
 

@@ -13,10 +13,10 @@
   <meta property="og:description" content="Chemistry for Life. A student chemistry community at UMD with events, mentorship, and free tutoring." />
   <meta property="og:type" content="website" />
 
-  <!-- Google Fonts: Playfair Display (editorial serif) + Inter (UI sans) -->
+  <!-- Google Fonts: Poppins (geometric sans — headings AND body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS Play CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -28,17 +28,21 @@
             acs: {
               navy: '#003A70',      // primary brand blue: headings, buttons, links
               deep: '#00458A',      // secondary blue (hover, footer depth)
-              ink: '#334155',       // body copy (medium slate)
-              gold: '#ffc700',      // accent
-              amber: '#ffb800',     // accent hover
-              line: '#e2e8f0',      // 1px borders / dividers
-              rule: '#cbd5e1',      // heavier hairline
-              mist: '#f8fafc',      // tinted surface sections
+              ink: '#1E293B',       // body copy (deep navy slate)
+              slate: '#64748B',     // meta / secondary label gray
+              gold: '#FFC700',      // accent
+              amber: '#FFB800',     // accent hover
+              line: '#E2E8F0',      // 1px borders / dividers
+              rule: '#CBD5E1',      // heavier hairline
+              // Section band colors. Every full-width section picks exactly one.
+              sky: '#F0F7FF',       // pale blue band
+              cream: '#FFFBEB',     // pale yellow band
+              mist: '#F8FAFC',      // near-white band (canvas backdrops)
             },
           },
           fontFamily: {
-            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
-            serif: ['"Playfair Display"', 'Georgia', '"Times New Roman"', 'serif'],
+            sans: ['Poppins', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+            display: ['Poppins', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
           },
         },
       },
@@ -54,17 +58,26 @@
   <style>
     html, body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      color: #334155; background: #ffffff; overflow-x: hidden;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      color: #1E293B; background: #ffffff; overflow-x: hidden;
     }
-    h1, h2, h3, h4 { font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; color: #003A70; }
 
-    ::selection { background: #ffc700; color: #003A70; }
+    /* Headings and card titles: Poppins SemiBold/Bold, always set in caps.
+       Tailwind's .normal-case (0,1,0) outranks this element rule (0,0,1), so a
+       heading that must stay sentence case — the FAQ questions — opts out with it. */
+    h1, h2, h3, h4, h5 {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      color: #003A70; text-transform: uppercase;
+    }
+    h1, h2 { letter-spacing: -0.015em; }
+    h3, h4, h5 { letter-spacing: 0.01em; }
+
+    ::selection { background: #FFC700; color: #003A70; }
 
     /* Thin, quiet scrollbar */
     ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-track { background: #f8fafc; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; }
+    ::-webkit-scrollbar-track { background: #F8FAFC; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; }
     ::-webkit-scrollbar-thumb:hover { background: #003A70; }
 
     /* Scroll-reveal (restrained: short travel, no bounce) */
@@ -84,12 +97,17 @@
 
     /* Editorial eyebrow: uppercase label with a gold rule at its left edge */
     .eyebrow {
-      display: inline-block; padding-left: .65rem; border-left: 3px solid #ffc700;
+      display: inline-block; padding-left: .65rem; border-left: 3px solid #FFC700;
       font-size: 11px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: #003A70;
     }
 
+    /* Institutional masthead lockup. Both sides share these two rules verbatim so
+       the UMD and ACS wordmarks match in family, weight, size, tracking and color. */
+    .inst-name { font-weight: 700; font-size: 14px; letter-spacing: .025em; color: #003A70; }
+    .inst-sub  { font-weight: 500; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: #64748B; }
+
     /* Hairline separator between inline meta items */
-    .meta-sep > * + *::before { content: ''; display: inline-block; width: 1px; height: 12px; background: #e2e8f0; margin: 0 .85rem; vertical-align: -2px; }
+    .meta-sep > * + *::before { content: ''; display: inline-block; width: 1px; height: 12px; background: #CBD5E1; margin: 0 .85rem; vertical-align: -2px; }
 
     canvas { display: block; outline: none; }
 
@@ -111,49 +129,56 @@
 <body class="antialiased bg-white">
 
   <!-- ============================= HERO / MASTHEAD ============================= -->
-  <header id="home" class="relative bg-white">
+  <header id="home" class="relative bg-acs-sky">
 
-    <!-- Institutional bar -->
-    <div class="border-b border-acs-line">
+    <!-- Institutional bar. Both lockups are the same two-row structure at the same
+         h-11 logo size, so the seals sit on one horizontal axis and the wordmarks
+         share a baseline; .inst-name / .inst-sub carry the shared type. -->
+    <div class="bg-white border-b border-acs-line">
       <div class="mx-auto max-w-7xl px-6 lg:px-10 py-4 flex items-center justify-between gap-4">
         <div class="flex items-center gap-3">
           <img src="images/umd-seal.png"
                alt="University of Maryland Seal"
-               class="h-11 w-11 object-contain">
-          <div class="leading-tight">
-            <p class="text-acs-navy font-semibold tracking-wide text-sm">University of Maryland</p>
-            <p class="text-acs-ink/60 text-[10px] font-medium tracking-[0.22em] uppercase">College Park</p>
+               class="h-11 w-11 shrink-0 object-contain">
+          <div class="flex flex-col items-start leading-tight">
+            <span class="inst-name">University of Maryland</span>
+            <span class="inst-sub">College Park</span>
           </div>
         </div>
         <div class="flex items-center gap-3">
-          <div class="hidden sm:flex flex-col items-end leading-tight">
-            <span class="text-acs-navy text-[11px] font-semibold tracking-[0.18em] uppercase">American Chemical Society</span>
-            <span class="text-acs-ink/60 text-[10px] tracking-[0.22em] uppercase">Student Chapter</span>
+          <div class="hidden sm:flex flex-col items-end leading-tight text-right">
+            <span class="inst-name">American Chemical Society</span>
+            <span class="inst-sub">Student Chapter</span>
           </div>
           <img src="images/acs-logo.png"
                alt="American Chemical Society Logo"
-               class="h-11 w-11 object-contain">
+               class="h-11 w-11 shrink-0 object-contain">
         </div>
       </div>
     </div>
 
     <!-- Masthead -->
-    <div class="mx-auto max-w-7xl px-6 lg:px-10 pt-12 lg:pt-16 pb-8 lg:pb-10">
-      <!-- items-stretch + a flex left column lets the meta rule settle on the same
-           bottom baseline as the molecule card, instead of floating mid-column. -->
+    <div class="mx-auto max-w-7xl px-6 lg:px-10 pt-14 lg:pt-20 pb-14 lg:pb-20">
+      <!-- items-stretch + a flex left column + mt-auto on the CTA row: the buttons
+           are the last thing in the column, so their bottom edge lands exactly on
+           the molecule card's bottom edge. The meta rule moved above them — as the
+           final child it was what pushed the buttons off that baseline. -->
       <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 items-stretch">
 
         <!-- Left: headline -->
         <div class="lg:col-span-7 flex flex-col">
           <span class="eyebrow">Est. 2026 · University of Maryland</span>
 
-          <h1 class="mt-6 font-serif font-semibold text-5xl sm:text-6xl lg:text-7xl leading-[1.03] tracking-tight text-acs-navy">
-            ACS Student Chapter
+          <!-- Steps up to 8xl only at xl: at lg the 7-of-12 column is ~510px, which
+               96px type would wrap, pushing the left column past the card's height
+               and breaking the CTA/card baseline alignment below. -->
+          <h1 class="mt-6 font-display font-bold text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[1.02] tracking-tight text-acs-navy">
+            ACS @ UMD
           </h1>
 
           <div class="mt-6 h-[3px] w-20 bg-acs-gold"></div>
 
-          <p class="mt-6 text-xl sm:text-2xl font-serif text-acs-navy/90 leading-snug max-w-2xl">
+          <p class="mt-6 text-xl sm:text-2xl font-semibold text-acs-navy/90 leading-snug max-w-2xl">
             Chemistry for Life.
           </p>
 
@@ -161,23 +186,25 @@
             We're a student community at UMD for anyone into chemistry. Come for the events and tutoring, stay for the people.
           </p>
 
-          <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <div class="meta-sep mt-8 pt-6 border-t border-acs-rule/60 text-[13px] text-acs-slate">
+            <span>Open to every major</span><span>Free drop-in tutoring</span><span>All are welcome</span>
+          </div>
+
+          <div class="mt-8 lg:mt-auto lg:pt-10 flex flex-col sm:flex-row gap-3">
             <a href="#join" class="inline-flex items-center justify-center gap-2 bg-acs-navy px-8 py-3.5 text-sm font-semibold tracking-wide text-white hover:bg-acs-gold hover:text-acs-navy transition-colors duration-200">
               Join Us
               <i data-lucide="arrow-right" class="h-4 w-4"></i>
             </a>
-            <a href="#events" class="inline-flex items-center justify-center gap-2 border border-acs-navy px-8 py-3.5 text-sm font-semibold tracking-wide text-acs-navy hover:bg-acs-gold hover:border-acs-gold transition-colors duration-200">
+            <a href="#events" class="inline-flex items-center justify-center gap-2 border border-acs-navy bg-white px-8 py-3.5 text-sm font-semibold tracking-wide text-acs-navy hover:bg-acs-gold hover:border-acs-gold transition-colors duration-200">
               Explore Events
               <i data-lucide="calendar-days" class="h-4 w-4"></i>
             </a>
           </div>
-
-          <div class="meta-sep mt-10 lg:mt-auto pt-6 border-t border-acs-line text-[13px] text-acs-ink/70">
-            <span>Open to every major</span><span>Free drop-in tutoring</span><span>All are welcome</span>
-          </div>
         </div>
 
         <!-- Right: Molecule of the Week (editorial block) -->
+        <!-- The figure keeps its natural height and sets the row height; the left
+             column stretches to match it, which is what mt-auto measures against. -->
         <div class="lg:col-span-5">
           <figure class="border border-acs-line bg-white">
 
@@ -186,15 +213,15 @@
               <span id="motw-tag" class="bg-acs-gold px-2 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase text-acs-navy">Redox Cofactor</span>
             </figcaption>
 
-            <canvas id="molecule-canvas" class="w-full h-[300px] sm:h-[360px] bg-acs-mist"></canvas>
+            <canvas id="molecule-canvas" class="w-full h-[300px] sm:h-[360px] bg-white"></canvas>
 
             <div class="border-t border-acs-line px-5 py-5">
-              <h2 id="motw-name" class="font-serif font-semibold text-2xl leading-tight text-acs-navy">
+              <h2 id="motw-name" class="font-display font-semibold text-2xl leading-tight text-acs-navy">
                 Pyrroloquinoline quinone
               </h2>
-              <p class="mt-1.5 text-[13px] text-acs-ink/70">
+              <p class="mt-1.5 text-[13px] text-acs-slate">
                 <span id="motw-formula">C<sub>14</sub>H<sub>6</sub>N<sub>2</sub>O<sub>8</sub></span>
-                <span class="mx-2 text-acs-line">|</span>
+                <span class="mx-2 text-acs-rule">|</span>
                 PubChem CID <span id="motw-cid">1024</span>
               </p>
               <p id="motw-desc" class="mt-3 text-sm leading-relaxed text-acs-ink/80">
@@ -221,7 +248,7 @@
         <div class="flex items-center justify-between h-16">
           <a href="#home" class="flex items-center gap-2.5">
             <img src="images/acs-logo.png" alt="ACS Logo" class="h-8 w-8 object-contain">
-            <span class="font-serif font-semibold text-acs-navy tracking-tight text-lg">UMD ACS</span>
+            <span class="font-display font-semibold text-acs-navy tracking-tight text-lg">UMD ACS</span>
           </a>
 
           <!-- Collapses at lg (not md): the added Resources + FAQ links no longer
@@ -265,12 +292,12 @@
   <!-- Merged section: the former "About the Chapter" and "Why Join ACS?" blocks were
        the same membership pitch split across two near-identical three-column grids.
        Benefits now run as editorial prose columns rather than bordered cards. -->
-  <section id="about" class="relative py-20 lg:py-28 bg-white">
+  <section id="about" class="relative py-20 lg:py-28 bg-acs-cream">
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
 
       <div class="reveal max-w-3xl">
         <span class="eyebrow">Who We Are</span>
-        <h2 class="mt-6 font-serif font-semibold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">
+        <h2 class="mt-6 font-display font-bold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">
           Who We Are &amp; Why Join
         </h2>
         <div class="mt-6 h-[3px] w-16 bg-acs-gold"></div>
@@ -281,13 +308,19 @@
 
       <div class="mt-12 grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
 
-        <!-- Left: DNA figure -->
+        <!-- Left: chapter photo -->
         <div class="reveal">
-          <figure class="border border-acs-line">
-            <canvas id="dna-canvas" class="w-full h-[380px] sm:h-[460px] bg-acs-mist"></canvas>
-            <figcaption class="border-t border-acs-line px-5 py-3 flex items-center justify-between">
-              <span class="text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-navy">All Majors Welcome</span>
-              <span class="text-[11px] text-acs-ink/60">Fig. 1 · Double helix</span>
+          <figure class="border border-acs-line bg-white p-3">
+            <!-- Source is 606x343. Left to its natural ratio rather than cropped to a
+                 fixed height: object-cover at 460px would cut the people off both
+                 edges and upscale a low-res original. -->
+            <img src="images/image.jpg" width="606" height="343"
+                 alt="ACS Student Chapter members holding the chapter blanket at the ACS national meeting in Boston"
+                 loading="lazy" decoding="async"
+                 class="w-full h-auto object-contain">
+            <figcaption class="mt-3 px-1 pb-1 flex items-center justify-between gap-4">
+              <span class="text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-navy">ACS Goes to Boston</span>
+              <span class="text-[11px] text-acs-slate">Fig. 1</span>
             </figcaption>
           </figure>
         </div>
@@ -311,15 +344,15 @@
       <!-- Benefits: prose columns divided by hairlines, no card containers -->
       <div class="reveal mt-16 pt-10 border-t border-acs-line grid md:grid-cols-3 md:divide-x md:divide-acs-line">
         <div class="md:pr-8">
-          <h3 class="font-serif font-semibold text-xl text-acs-navy">Professional Development</h3>
+          <h3 class="font-display font-semibold text-xl text-acs-navy">Professional Development</h3>
           <p class="mt-3 text-acs-ink/80 leading-relaxed">We run resume workshops, mock interviews, and speaker events with chemists from industry and from the faculty. It is good practice for the skills that come up on grad school and job applications.</p>
         </div>
         <div class="mt-8 md:mt-0 md:px-8">
-          <h3 class="font-serif font-semibold text-xl text-acs-navy">Mentorship &amp; Networking</h3>
+          <h3 class="font-display font-semibold text-xl text-acs-navy">Mentorship &amp; Networking</h3>
           <p class="mt-3 text-acs-ink/80 leading-relaxed">Get to know upperclassmen, alumni, and professors who have done what you are trying to do. It is how a lot of our members find research advisors, study partners, and friends.</p>
         </div>
         <div class="mt-8 md:mt-0 md:pl-8">
-          <h3 class="font-serif font-semibold text-xl text-acs-navy">Outreach &amp; Service</h3>
+          <h3 class="font-display font-semibold text-xl text-acs-navy">Outreach &amp; Service</h3>
           <p class="mt-3 text-acs-ink/80 leading-relaxed">We visit local schools, run demos, and take on service projects. You give back to the community and earn your service hours while you are at it.</p>
         </div>
       </div>
@@ -328,11 +361,13 @@
   </section>
 
   <!-- ============================= EVENTS ============================= -->
-  <section id="events" class="relative py-20 lg:py-28 bg-acs-mist border-y border-acs-line">
+  <!-- Band: crisp white. Section backgrounds alternate sky → cream → white → sky …
+       down the page; each band is one flat color edge to edge, never split. -->
+  <section id="events" class="relative py-20 lg:py-28 bg-white">
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
         <span class="eyebrow">What's Happening</span>
-        <h2 class="mt-6 font-serif font-semibold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">Events &amp; Programs</h2>
+        <h2 class="mt-6 font-display font-semibold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">Events &amp; Programs</h2>
         <div class="mt-6 h-[3px] w-16 bg-acs-gold"></div>
         <p class="mt-6 text-lg text-acs-ink/80 leading-relaxed">We host speaker events, community service opportunities, and lab tours throughout the year. Add any of them to your calendar and come join us! All are welcome.</p>
       </div>
@@ -340,17 +375,17 @@
       <!-- Filters: timeframe (upcoming / past / all) then category. Both compose. -->
       <div class="reveal reveal-delay-1 mt-10 space-y-4">
         <div class="flex flex-wrap items-center gap-3">
-          <span class="text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-ink/60 w-20">When</span>
+          <span class="text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-slate w-20">When</span>
           <div class="flex flex-wrap gap-2" id="event-time-filters"></div>
         </div>
         <div class="flex flex-wrap items-center gap-3">
-          <span class="text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-ink/60 w-20">Category</span>
+          <span class="text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-slate w-20">Category</span>
           <div class="flex flex-wrap gap-2" id="event-filters"></div>
         </div>
       </div>
 
       <!-- Result count -->
-      <p id="events-count" class="reveal reveal-delay-1 mt-6 text-[13px] text-acs-ink/60"></p>
+      <p id="events-count" class="reveal reveal-delay-1 mt-6 text-[13px] text-acs-slate"></p>
 
       <!-- Cards grid -->
       <div id="events-grid" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
@@ -363,11 +398,11 @@
   </section>
 
   <!-- ============================= TUTORING ============================= -->
-  <section id="tutoring" class="relative py-20 lg:py-28 bg-acs-mist border-y border-acs-line">
+  <section id="tutoring" class="relative py-20 lg:py-28 bg-acs-sky">
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
         <span class="eyebrow">Free &amp; Affordable Help</span>
-        <h2 class="mt-6 font-serif font-semibold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-acs-navy">
+        <h2 class="mt-6 font-display font-semibold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-acs-navy">
           Need a Chemistry Tutor?
         </h2>
         <div class="mt-6 h-[3px] w-16 bg-acs-gold"></div>
@@ -383,7 +418,7 @@
             <span class="bg-acs-gold px-2.5 py-1 text-[11px] font-semibold tracking-[0.14em] uppercase text-acs-navy">Free</span>
           </div>
 
-          <h3 class="mt-5 font-serif font-semibold text-2xl sm:text-3xl leading-snug text-acs-navy">
+          <h3 class="mt-5 font-display font-semibold text-2xl sm:text-3xl leading-snug text-acs-navy">
             Drop-In Study Sessions
           </h3>
 
@@ -413,7 +448,7 @@
             <span class="border border-acs-navy px-2.5 py-1 text-[11px] font-semibold tracking-[0.14em] uppercase text-acs-navy">From $5</span>
           </div>
 
-          <h3 class="mt-5 font-serif font-semibold text-2xl sm:text-3xl leading-snug text-acs-navy">Private 1-on-1 Tutoring</h3>
+          <h3 class="mt-5 font-display font-semibold text-2xl sm:text-3xl leading-snug text-acs-navy">Private 1-on-1 Tutoring</h3>
 
           <div class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-acs-ink">
             <i data-lucide="badge-dollar-sign" class="h-4 w-4 text-acs-navy"></i>
@@ -432,42 +467,42 @@
   </section>
 
   <!-- ============================= HOW TO JOIN ============================= -->
-  <section id="join" class="relative py-20 lg:py-28 bg-white">
+  <section id="join" class="relative py-20 lg:py-28 bg-acs-cream">
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
         <span class="eyebrow">Registration</span>
-        <h2 class="mt-6 font-serif font-semibold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">How to Join</h2>
+        <h2 class="mt-6 font-display font-semibold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">How to Join</h2>
         <div class="mt-6 h-[3px] w-16 bg-acs-gold"></div>
         <p class="mt-6 text-lg text-acs-ink/80">Getting involved takes about three steps.</p>
       </div>
 
       <!-- Steps -->
-      <div class="mt-12 grid md:grid-cols-3 border-t border-l border-acs-line">
+      <div class="mt-12 grid md:grid-cols-3 border-t border-l border-acs-line bg-white">
         <div class="reveal border-r border-b border-acs-line p-8">
-          <span class="font-serif text-4xl text-acs-gold leading-none">01</span>
-          <h3 class="mt-5 font-serif font-semibold text-xl text-acs-navy">Register</h3>
+          <span class="font-display text-4xl text-acs-gold leading-none">01</span>
+          <h3 class="mt-5 font-display font-semibold text-xl text-acs-navy">Register</h3>
           <p class="mt-3 text-acs-ink/80 leading-relaxed">Fill out the membership form to get on our roster and start getting updates about events.</p>
         </div>
 
         <div class="reveal reveal-delay-1 border-r border-b border-acs-line p-8">
-          <span class="font-serif text-4xl text-acs-gold leading-none">02</span>
-          <h3 class="mt-5 font-serif font-semibold text-xl text-acs-navy">Attend Events</h3>
+          <span class="font-display text-4xl text-acs-gold leading-none">02</span>
+          <h3 class="mt-5 font-display font-semibold text-xl text-acs-navy">Attend Events</h3>
           <p class="mt-3 text-acs-ink/80 leading-relaxed">Come to at least three events a semester. That can be a speaker event, community service, a lab tour, or a social gathering.</p>
         </div>
 
         <div class="reveal reveal-delay-2 border-r border-b border-acs-line p-8">
-          <span class="font-serif text-4xl text-acs-gold leading-none">03</span>
-          <h3 class="mt-5 font-serif font-semibold text-xl text-acs-navy">Give Back</h3>
+          <span class="font-display text-4xl text-acs-gold leading-none">03</span>
+          <h3 class="mt-5 font-display font-semibold text-xl text-acs-navy">Give Back</h3>
           <p class="mt-3 text-acs-ink/80 leading-relaxed">Finish your service hours each semester through our outreach events and stay in good standing.</p>
         </div>
       </div>
 
       <!-- Requirements -->
-      <div class="reveal reveal-delay-2 mt-12 border border-acs-line">
+      <div class="reveal reveal-delay-2 mt-12 border border-acs-line bg-white">
         <div class="h-[3px] w-full bg-acs-gold"></div>
         <div class="grid lg:grid-cols-2">
           <div class="p-8 sm:p-10 border-b lg:border-b-0 lg:border-r border-acs-line">
-            <h3 class="font-serif font-semibold text-2xl sm:text-3xl text-acs-navy">Membership Requirements</h3>
+            <h3 class="font-display font-semibold text-2xl sm:text-3xl text-acs-navy">Membership Requirements</h3>
             <ul class="mt-6 divide-y divide-acs-line border-t border-acs-line">
               <li class="flex items-start gap-3 py-3.5 text-acs-ink/85">
                 <i data-lucide="check" class="h-4 w-4 text-acs-navy shrink-0 mt-1"></i>
@@ -492,9 +527,10 @@
             </p>
           </div>
 
-          <div class="p-8 sm:p-10 bg-acs-mist flex flex-col justify-center">
+          <!-- Same white as the panel beside it: a row is never split across two colors. -->
+          <div class="p-8 sm:p-10 bg-white flex flex-col justify-center">
             <span class="eyebrow">Get Started</span>
-            <h4 class="mt-5 font-serif font-semibold text-2xl text-acs-navy">Ready to start?</h4>
+            <h4 class="mt-5 font-display font-semibold text-2xl text-acs-navy">Ready to start?</h4>
             <p class="mt-2 text-acs-ink/75">It takes less than two minutes.</p>
             <a href="https://forms.gle/ptvrtdLiYGmafDU37" target="_blank" rel="noopener" class="mt-6 inline-flex items-center justify-center gap-2 bg-acs-navy px-6 py-3.5 text-sm font-semibold tracking-wide text-white hover:bg-acs-gold hover:text-acs-navy transition-colors duration-200">
               Complete the Signup Form <i data-lucide="arrow-right" class="h-4 w-4"></i>
@@ -509,11 +545,11 @@
   </section>
 
   <!-- ============================= FAQ ============================= -->
-  <section id="faq" class="relative py-20 lg:py-28 bg-acs-mist border-y border-acs-line">
+  <section id="faq" class="relative py-20 lg:py-28 bg-white">
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
         <span class="eyebrow">Common Questions</span>
-        <h2 class="mt-6 font-serif font-semibold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">Frequently Asked</h2>
+        <h2 class="mt-6 font-display font-semibold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">Frequently Asked</h2>
         <div class="mt-6 h-[3px] w-16 bg-acs-gold"></div>
         <p class="mt-6 text-lg text-acs-ink/80">Short answers to what we get asked most.</p>
       </div>
@@ -522,7 +558,7 @@
 
         <details class="group border-b border-acs-line">
           <summary class="flex items-start justify-between gap-6 py-5">
-            <h3 class="font-serif font-semibold text-xl leading-snug text-acs-navy">Who can join?</h3>
+            <h3 class="font-display font-semibold text-lg sm:text-xl leading-snug text-acs-navy normal-case">Who can join?</h3>
             <span class="faq-mark shrink-0 mt-1 text-2xl leading-none font-light text-acs-navy">+</span>
           </summary>
           <p class="pb-5 pr-10 text-acs-ink/80 leading-relaxed">
@@ -532,7 +568,7 @@
 
         <details class="group border-b border-acs-line">
           <summary class="flex items-start justify-between gap-6 py-5">
-            <h3 class="font-serif font-semibold text-xl leading-snug text-acs-navy">Do I need an official national ACS membership to join?</h3>
+            <h3 class="font-display font-semibold text-lg sm:text-xl leading-snug text-acs-navy normal-case">Do I need an official national ACS membership to join?</h3>
             <span class="faq-mark shrink-0 mt-1 text-2xl leading-none font-light text-acs-navy">+</span>
           </summary>
           <p class="pb-5 pr-10 text-acs-ink/80 leading-relaxed">
@@ -542,7 +578,7 @@
 
         <details class="group border-b border-acs-line">
           <summary class="flex items-start justify-between gap-6 py-5">
-            <h3 class="font-serif font-semibold text-xl leading-snug text-acs-navy">Do I have to be a chemistry major?</h3>
+            <h3 class="font-display font-semibold text-lg sm:text-xl leading-snug text-acs-navy normal-case">Do I have to be a chemistry major?</h3>
             <span class="faq-mark shrink-0 mt-1 text-2xl leading-none font-light text-acs-navy">+</span>
           </summary>
           <p class="pb-5 pr-10 text-acs-ink/80 leading-relaxed">
@@ -552,7 +588,7 @@
 
         <details class="group border-b border-acs-line">
           <summary class="flex items-start justify-between gap-6 py-5">
-            <h3 class="font-serif font-semibold text-xl leading-snug text-acs-navy">How many events do I need to attend?</h3>
+            <h3 class="font-display font-semibold text-lg sm:text-xl leading-snug text-acs-navy normal-case">How many events do I need to attend?</h3>
             <span class="faq-mark shrink-0 mt-1 text-2xl leading-none font-light text-acs-navy">+</span>
           </summary>
           <p class="pb-5 pr-10 text-acs-ink/80 leading-relaxed">
@@ -562,7 +598,7 @@
 
         <details class="group border-b border-acs-line">
           <summary class="flex items-start justify-between gap-6 py-5">
-            <h3 class="font-serif font-semibold text-xl leading-snug text-acs-navy">Is tutoring free?</h3>
+            <h3 class="font-display font-semibold text-lg sm:text-xl leading-snug text-acs-navy normal-case">Is tutoring free?</h3>
             <span class="faq-mark shrink-0 mt-1 text-2xl leading-none font-light text-acs-navy">+</span>
           </summary>
           <p class="pb-5 pr-10 text-acs-ink/80 leading-relaxed">
@@ -580,33 +616,33 @@
   </section>
 
   <!-- ============================= RESOURCES PREVIEW ============================= -->
-  <section id="resources" class="relative py-20 lg:py-28 bg-white">
+  <section id="resources" class="relative py-20 lg:py-28 bg-acs-sky">
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
         <span class="eyebrow">Highlights</span>
-        <h2 class="mt-6 font-serif font-semibold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">Resources &amp; Highlights</h2>
+        <h2 class="mt-6 font-display font-semibold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">Resources &amp; Highlights</h2>
         <div class="mt-6 h-[3px] w-16 bg-acs-gold"></div>
         <p class="mt-6 text-lg text-acs-ink/80">Learn about what we're up to — and grab the study materials our members put together.</p>
       </div>
 
       <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-acs-line bg-white">
-        <a href="https://chem.umd.edu/research" target="_blank" rel="noopener" class="reveal group border-r border-b border-acs-line p-7 hover:bg-acs-mist transition-colors duration-200">
-          <h3 class="font-serif font-semibold text-lg text-acs-navy">Undergraduate Research</h3>
+        <a href="https://chem.umd.edu/research" target="_blank" rel="noopener" class="reveal group border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
+          <h3 class="font-display font-semibold text-lg text-acs-navy">Undergraduate Research</h3>
           <p class="mt-2.5 text-sm text-acs-ink/75 leading-relaxed">Members present posters and publish with UMD faculty in analytical, organic, and biochemistry labs.</p>
           <span class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">UMD Chemistry research <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i></span>
         </a>
-        <a href="#events" class="reveal reveal-delay-1 group border-r border-b border-acs-line p-7 hover:bg-acs-mist transition-colors duration-200">
-          <h3 class="font-serif font-semibold text-lg text-acs-navy">Speaker Series Archive</h3>
+        <a href="#events" class="reveal reveal-delay-1 group border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
+          <h3 class="font-display font-semibold text-lg text-acs-navy">Speaker Series Archive</h3>
           <p class="mt-2.5 text-sm text-acs-ink/75 leading-relaxed">Recaps from past talks by industry chemists, grad students, and professors, for members who miss them live.</p>
           <span class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">See past events <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
         </a>
-        <a href="resources/" class="reveal reveal-delay-2 group border-r border-b border-acs-line p-7 hover:bg-acs-mist transition-colors duration-200">
-          <h3 class="font-serif font-semibold text-lg text-acs-navy">Study Guides &amp; Quizzes</h3>
-          <p class="mt-2.5 text-sm text-acs-ink/75 leading-relaxed">Study guides, exam strategies, and practice quizzes for CHEM and BCHM courses.</p>
+        <a href="resources/" class="reveal reveal-delay-2 group border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
+          <h3 class="font-display font-semibold text-lg text-acs-navy">Study Guides</h3>
+          <p class="mt-2.5 text-sm text-acs-ink/75 leading-relaxed">Member-written guides, reaction maps, and the shared community study database for CHEM and BCHM courses.</p>
           <span class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">Browse the library <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
         </a>
-        <a href="#events" class="reveal reveal-delay-3 group border-r border-b border-acs-line p-7 hover:bg-acs-mist transition-colors duration-200">
-          <h3 class="font-serif font-semibold text-lg text-acs-navy">Outreach Impact</h3>
+        <a href="#events" class="reveal reveal-delay-3 group border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
+          <h3 class="font-display font-semibold text-lg text-acs-navy">Outreach Impact</h3>
           <p class="mt-2.5 text-sm text-acs-ink/75 leading-relaxed">We reach local elementary students through demos and school visits throughout the year.</p>
           <span class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">See outreach events <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
         </a>
@@ -624,56 +660,45 @@
   <footer class="relative bg-acs-navy text-white">
     <div class="h-[3px] w-full bg-acs-gold"></div>
     <div class="mx-auto max-w-7xl px-6 lg:px-10 py-16">
-      <div class="grid md:grid-cols-3 gap-12">
-        <!-- Left: Chapter name + tagline -->
-        <div>
-          <div class="flex items-center gap-3">
-            <img src="images/acs-logo.png" alt="ACS Logo" class="h-11 w-11 object-contain bg-white p-1">
-            <div>
-              <p class="font-serif font-semibold text-lg leading-tight text-white">ACS Student Chapter</p>
-              <p class="text-acs-gold text-sm">University of Maryland</p>
-            </div>
-          </div>
-          <p class="mt-5 text-white/70 leading-relaxed max-w-xs text-sm">Chemistry for Life. A student chemistry community at UMD built around events, mentorship, and service.</p>
-          <a href="mailto:acsumcp@gmail.com" class="mt-5 inline-flex items-center gap-2 text-white/80 hover:text-acs-gold transition-colors text-sm">
-            <i data-lucide="mail" class="h-4 w-4"></i> acsumcp@gmail.com
-          </a>
-        </div>
+      <!-- Two columns only: the Navigate link list was removed as a duplicate of
+           the sticky nav directly above it. -->
+      <div class="grid md:grid-cols-2 gap-12 items-start">
 
-        <!-- Center: quick links -->
-        <div class="md:justify-self-center">
-          <p class="font-semibold text-acs-gold tracking-[0.22em] uppercase text-[11px]">Navigate</p>
-          <ul class="mt-5 space-y-2.5 text-white/75 text-sm">
-            <li><a href="#about" class="hover:text-acs-gold transition-colors">Who We Are &amp; Why Join</a></li>
-            <li><a href="#events" class="hover:text-acs-gold transition-colors">Events &amp; Programs</a></li>
-            <li><a href="#tutoring" class="hover:text-acs-gold transition-colors">Tutoring</a></li>
-            <li><a href="resources/" class="hover:text-acs-gold transition-colors">Study Resources</a></li>
-            <li><a href="#faq" class="hover:text-acs-gold transition-colors">FAQ</a></li>
-            <li><a href="#join" class="hover:text-acs-gold transition-colors">How to Join</a></li>
-          </ul>
+        <!-- Left: chapter lockup -->
+        <div class="flex items-center gap-5">
+          <img src="images/acs-logo.png" alt="ACS Logo"
+               class="h-20 w-20 shrink-0 rounded-full bg-white object-contain p-2.5 ring-2 ring-acs-gold">
+          <div>
+            <p class="font-display font-bold text-2xl sm:text-3xl leading-tight tracking-tight text-white uppercase">ACS Student Chapter</p>
+            <p class="mt-1 text-acs-gold text-base font-medium">University of Maryland</p>
+            <a href="mailto:acsumcp@gmail.com" class="mt-3 inline-flex items-center gap-2 text-white/85 hover:text-acs-gold transition-colors text-sm">
+              <i data-lucide="mail" class="h-4 w-4"></i> acsumcp@gmail.com
+            </a>
+          </div>
         </div>
 
         <!-- Right: social -->
         <div class="md:justify-self-end">
           <p class="font-semibold text-acs-gold tracking-[0.22em] uppercase text-[11px]">Connect</p>
           <div class="mt-5 flex gap-2">
-            <a href="https://www.instagram.com/umd_acs/" target="_blank" rel="noopener" aria-label="Instagram" class="h-11 w-11 border border-white/25 flex items-center justify-center hover:border-acs-gold transition-colors">
+            <a href="https://www.instagram.com/umd_acs/" target="_blank" rel="noopener" aria-label="Instagram" class="h-12 w-12 border border-white/25 flex items-center justify-center hover:border-acs-gold transition-colors">
               <img src="images/instagram.png" alt="Instagram" class="h-5 w-5 object-contain">
             </a>
-            <a href="mailto:acsumcp@gmail.com" aria-label="Email" class="group h-11 w-11 border border-white/25 flex items-center justify-center hover:border-acs-gold transition-colors">
+            <a href="mailto:acsumcp@gmail.com" aria-label="Email" class="group h-12 w-12 border border-white/25 flex items-center justify-center hover:border-acs-gold transition-colors">
               <i data-lucide="mail" class="h-5 w-5 text-white group-hover:text-acs-gold transition-colors"></i>
             </a>
-            <a href="https://www.acs.org" target="_blank" rel="noopener" aria-label="National ACS" class="group h-11 w-11 border border-white/25 flex items-center justify-center hover:border-acs-gold transition-colors">
+            <a href="https://www.acs.org" target="_blank" rel="noopener" aria-label="National ACS" class="group h-12 w-12 border border-white/25 flex items-center justify-center hover:border-acs-gold transition-colors">
               <i data-lucide="globe" class="h-5 w-5 text-white group-hover:text-acs-gold transition-colors"></i>
             </a>
           </div>
-          <p class="mt-6 text-white/60 text-sm max-w-xs">Follow us on Instagram for event reminders and recaps.</p>
+          <p class="mt-6 text-white/70 text-sm max-w-xs">Follow us on Instagram for event reminders and recaps.</p>
         </div>
       </div>
 
-      <div class="mt-14 pt-6 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-3 text-white/55 text-[13px]">
-        <p>© <span id="year"></span> ACS Student Chapter · University of Maryland. All rights reserved.</p>
-        <p>Chemistry for Life.</p>
+      <div class="mt-14 pt-6 border-t border-white/15 text-center">
+        <p class="text-white/65 text-[12px] font-medium tracking-[0.12em] uppercase">
+          © <span id="year"></span> ACS Student Chapter · University of Maryland. All rights reserved.
+        </p>
       </div>
     </div>
   </footer>
@@ -814,7 +839,7 @@
     const categoryStyles = {
       'Recruitment': 'bg-acs-gold text-acs-navy',
       'Speaker Series': 'bg-acs-navy text-white',
-      'Outreach': 'bg-acs-mist text-acs-navy border border-acs-line',
+      'Outreach': 'bg-acs-sky text-acs-navy border border-acs-line',
       'Lab Tour': 'bg-white text-acs-navy border border-acs-navy',
     };
 
@@ -883,10 +908,10 @@
         <article class="event-card group bg-white border border-acs-line hover:border-acs-navy transition-colors duration-200 flex flex-col${past ? ' opacity-75' : ''}">
           <div class="p-6 flex flex-col flex-1">
             <div class="flex items-start justify-between gap-3">
-              <span class="inline-flex items-center px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase ${categoryStyles[ev.category] || 'bg-acs-mist text-acs-ink'}">${ev.category}</span>
+              <span class="inline-flex items-center px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase ${categoryStyles[ev.category] || 'bg-acs-sky text-acs-ink'}">${ev.category}</span>
               ${past ? '<span class="inline-flex items-center px-2 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase text-acs-ink/50 border border-acs-line">Past</span>' : ''}
             </div>
-            <h3 class="mt-4 font-serif font-semibold text-xl leading-snug text-acs-navy">${ev.title}</h3>
+            <h3 class="mt-4 font-display font-semibold text-xl leading-snug text-acs-navy">${ev.title}</h3>
             <div class="mt-4 pt-4 border-t border-acs-line space-y-1.5 text-[13px] text-acs-ink/70">
               <p class="flex items-center gap-2"><i data-lucide="calendar" class="h-3.5 w-3.5 text-acs-navy"></i> ${prettyDate(ev.date)}</p>
               <p class="flex items-center gap-2"><i data-lucide="clock" class="h-3.5 w-3.5 text-acs-navy"></i> ${prettyTime(ev.time)}${ev.endTime ? ' – ' + prettyTime(ev.endTime) : ''}</p>
@@ -894,7 +919,7 @@
             </div>
             <p class="mt-4 text-sm text-acs-ink/75 leading-relaxed flex-1">${ev.desc}</p>
             ${past
-              ? `<p class="mt-6 border-t border-acs-line pt-4 text-[13px] text-acs-ink/55">This event has already taken place.</p>`
+              ? `<p class="mt-6 border-t border-acs-line pt-4 text-[13px] text-acs-slate">This event has already taken place.</p>`
               : `<a href="${googleCalendarUrl(ev)}" target="_blank" rel="noopener" class="mt-6 inline-flex items-center justify-center gap-2 bg-acs-navy px-5 py-3 text-[13px] font-semibold tracking-wide text-white hover:bg-acs-gold hover:text-acs-navy transition-colors duration-200">
               <i data-lucide="calendar-plus" class="h-4 w-4"></i> Add to Google Calendar
             </a>`}
@@ -1116,131 +1141,6 @@
         camera.lookAt(0, 0, 0);
         renderer.render(scene, camera);
       }
-      animate();
-    })();
-
-    /* ============================================================
-       THREE.JS  ·  ABOUT SECTION: DNA DOUBLE HELIX
-       ============================================================ */
-    (function initDNA() {
-      const canvas = document.getElementById('dna-canvas');
-      if (!canvas || !window.THREE) return;
-
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
-      camera.position.set(0, 0, 20);
-
-      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-
-      scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-      const l1 = new THREE.DirectionalLight(0xffffff, 0.9); l1.position.set(5, 8, 12); scene.add(l1);
-      const l2 = new THREE.DirectionalLight(0xffffff, 0.4); l2.position.set(-8, -4, 6); scene.add(l2);
-
-      const helix = new THREE.Group();
-      scene.add(helix);
-
-      // Brand pair: ACS blue + ACS gold.
-      const NAVY = 0x003A70;
-      const GOLD = 0xffc700;
-
-      const sphere = new THREE.SphereGeometry(1, 24, 24);
-
-      const navyMat = new THREE.MeshStandardMaterial({ color: NAVY, metalness: 0.15, roughness: 0.45 });
-      const goldMat = new THREE.MeshStandardMaterial({ color: GOLD, metalness: 0.2, roughness: 0.4 });
-      const rungMat = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.1, roughness: 0.55 });
-
-      const perTurn = 18, turns = 3.5, N = Math.floor(perTurn * turns);
-      const R = 4.0, ySpan = 17, yStep = ySpan / N;
-      const sphereScale = 0.34;
-
-      const strandPoint = (i, phase) => {
-        const a = (i / perTurn) * Math.PI * 2 + phase;
-        return new THREE.Vector3(
-          Math.cos(a) * R,
-          i * yStep - ySpan / 2,
-          Math.sin(a) * R
-        );
-      };
-
-      function addRung(sphere1, sphere2) {
-        const sphereRadius = sphereScale;
-
-        const dir = new THREE.Vector3().subVectors(sphere2, sphere1);
-        const unit = dir.clone().normalize();
-
-        const rodStart = sphere1.clone().add(unit.clone().multiplyScalar(sphereRadius));
-        const rodEnd = sphere2.clone().add(unit.clone().multiplyScalar(-sphereRadius));
-
-        const rodDir = new THREE.Vector3().subVectors(rodEnd, rodStart);
-        const rodLen = rodDir.length();
-
-        const mesh = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.035, 0.035, rodLen, 12),
-          rungMat
-        );
-
-        mesh.position.copy(rodStart).add(rodDir.clone().multiplyScalar(0.5));
-        mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), rodDir.clone().normalize());
-        helix.add(mesh);
-      }
-
-      for (let i = 0; i <= N; i++) {
-        const pA = strandPoint(i, 0);
-        const pB = strandPoint(i, Math.PI);
-
-        const sphereApos = pA.clone().lerp(pB, 0.36);
-        const sphereBpos = pA.clone().lerp(pB, 0.64);
-
-        if (i % 3 === 0) {
-          addRung(sphereApos, sphereBpos);
-        }
-
-        const baseA = new THREE.Mesh(sphere, i % 2 ? goldMat : navyMat);
-        baseA.position.copy(sphereApos);
-        baseA.scale.setScalar(sphereScale);
-        helix.add(baseA);
-
-        const baseB = new THREE.Mesh(sphere, i % 2 ? navyMat : goldMat);
-        baseB.position.copy(sphereBpos);
-        baseB.scale.setScalar(sphereScale);
-        helix.add(baseB);
-      }
-
-      helix.rotation.z = 0.12;
-
-      function resize() {
-        const w = canvas.clientWidth, h = canvas.clientHeight;
-        if (!w || !h) return;
-        if (canvas.width !== w || canvas.height !== h) {
-          renderer.setSize(w, h, false);
-          camera.aspect = w / h;
-          camera.updateProjectionMatrix();
-        }
-      }
-      window.addEventListener('resize', resize);
-
-      let visible = true;
-      new IntersectionObserver((e) => e.forEach(en => visible = en.isIntersecting), { threshold: 0 }).observe(canvas);
-
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const clock = new THREE.Clock();
-      function animate() {
-        requestAnimationFrame(animate);
-        if (!visible) return;
-
-        resize();
-
-        if (!reduceMotion) {
-          const t = clock.getElapsedTime();
-          helix.rotation.y = t * 0.5;
-          helix.position.y = Math.sin(t * 0.4) * 0.3;
-        }
-
-        renderer.render(scene, camera);
-      }
-
       animate();
     })();
   </script>
