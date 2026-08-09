@@ -106,6 +106,24 @@
     .inst-name { font-weight: 700; font-size: 14px; letter-spacing: .025em; color: #003A70; }
     .inst-sub  { font-weight: 500; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: #64748B; }
 
+    /* Decorative chemistry line-art. Sits in the outer margins of a section at
+       very low opacity — present enough to fill dead space, far too faint to
+       compete with body copy. Never interactive, never announced. */
+    .chem-wm {
+      position: absolute; pointer-events: none; user-select: none;
+      color: #003A70; opacity: .06; z-index: 0;
+    }
+    /* Content sits above the watermarks without either needing a stacking hack. */
+    .section-body { position: relative; z-index: 1; }
+
+    @media (max-width: 767px) {
+      /* Small screens have no outer margin to spare — the art would land under text. */
+      .chem-wm { display: none; }
+    }
+    @media (prefers-contrast: more) {
+      .chem-wm { display: none; }
+    }
+
     /* Hairline separator between inline meta items */
     .meta-sep > * + *::before { content: ''; display: inline-block; width: 1px; height: 12px; background: #CBD5E1; margin: 0 .85rem; vertical-align: -2px; }
 
@@ -128,8 +146,61 @@
 
 <body class="antialiased bg-white">
 
+  <!-- ===================== CHEMISTRY WATERMARK SYMBOLS =====================
+       Defined once and referenced with <use> so the path data is not repeated
+       per section. Purely decorative: aria-hidden, no pointer events. -->
+  <svg width="0" height="0" aria-hidden="true" focusable="false" class="absolute">
+    <defs>
+      <!-- Benzene: hexagon + delocalisation circle -->
+      <g id="wm-benzene" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="26,15 0,30 -26,15 -26,-15 0,-30 26,-15" />
+        <circle cx="0" cy="0" r="16" />
+      </g>
+
+      <!-- Naphthalene: two hexagons sharing the vertical bond at x = 26 -->
+      <g id="wm-fused" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="26,15 0,30 -26,15 -26,-15 0,-30 26,-15" />
+        <polygon points="78,15 52,30 26,15 26,-15 52,-30 78,-15" />
+      </g>
+
+      <!-- Reaction pathway: substrate ring, arrow, product ring -->
+      <g id="wm-pathway" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="-70,12 -91,24 -112,12 -112,-12 -91,-24 -70,-12" />
+        <line x1="-60" y1="0" x2="42" y2="0" />
+        <polyline points="32,-7 44,0 32,7" />
+        <line x1="-24" y1="-14" x2="6" y2="-14" stroke-dasharray="4 5" />
+        <polygon points="112,12 91,24 70,12 70,-12 91,-24 112,-12" />
+        <circle cx="91" cy="0" r="13" />
+      </g>
+
+      <!-- Periodic table motif: a block of empty element cells -->
+      <g id="wm-grid" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="0"   y="0"  width="30" height="30" />
+        <rect x="36"  y="0"  width="30" height="30" />
+        <rect x="72"  y="0"  width="30" height="30" />
+        <rect x="108" y="0"  width="30" height="30" />
+        <rect x="0"   y="36" width="30" height="30" />
+        <rect x="36"  y="36" width="30" height="30" />
+        <rect x="72"  y="36" width="30" height="30" />
+        <rect x="108" y="36" width="30" height="30" />
+        <rect x="36"  y="72" width="30" height="30" />
+        <rect x="72"  y="72" width="30" height="30" />
+        <rect x="108" y="72" width="30" height="30" />
+      </g>
+
+      <!-- Structural formula fragment: zig-zag chain with a carbonyl and a hydroxyl -->
+      <g id="wm-chain" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="0,20 26,4 52,20 78,4 104,20 130,4" />
+        <line x1="78" y1="4" x2="78" y2="-24" />
+        <line x1="84" y1="4" x2="84" y2="-24" />
+        <line x1="130" y1="4" x2="156" y2="20" />
+        <circle cx="164" cy="24" r="7" />
+      </g>
+    </defs>
+  </svg>
+
   <!-- ============================= HERO / MASTHEAD ============================= -->
-  <header id="home" class="relative bg-acs-sky">
+  <header id="home" class="relative bg-white">
 
     <!-- Institutional bar. Both lockups are the same two-row structure at the same
          h-11 logo size, so the seals sit on one horizontal axis and the wordmarks
@@ -165,32 +236,40 @@
            final child it was what pushed the buttons off that baseline. -->
       <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 items-stretch">
 
-        <!-- Left: headline -->
+        <!-- Left: headline. Deliberately spare — one title, the next-event card,
+             and the two CTAs. Nothing else. -->
         <div class="lg:col-span-7 flex flex-col">
-          <span class="eyebrow">Est. 2026 · University of Maryland</span>
 
           <!-- Steps up to 8xl only at xl: at lg the 7-of-12 column is ~510px, which
-               96px type would wrap, pushing the left column past the card's height
-               and breaking the CTA/card baseline alignment below. -->
-          <h1 class="mt-6 font-display font-bold text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[1.02] tracking-tight text-acs-navy">
-            ACS @ UMD
+               96px type would wrap onto a third line and push the column past the
+               card's height, breaking the CTA/card baseline alignment below. -->
+          <h1 class="font-display font-bold text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[1.02] tracking-tight text-acs-navy">
+            Chemistry for Life
           </h1>
 
-          <div class="mt-6 h-[3px] w-20 bg-acs-gold"></div>
+          <div class="mt-7 h-[3px] w-20 bg-acs-gold"></div>
 
-          <p class="mt-6 text-xl sm:text-2xl font-semibold text-acs-navy/90 leading-snug max-w-2xl">
-            Chemistry for Life.
-          </p>
+          <!-- Next event. Filled by renderNextEvent() from the events array, so it
+               rolls over on its own — no hand-editing when a date passes. Hidden
+               entirely once nothing upcoming is left. -->
+          <a id="next-event" href="#events"
+             class="group mt-9 hidden max-w-xl border border-acs-line bg-white p-5 transition-colors duration-200 hover:border-acs-navy">
+            <div class="flex items-center gap-3">
+              <span class="bg-acs-gold px-2.5 py-1 text-[10px] font-semibold tracking-[0.18em] uppercase text-acs-navy">Next Up</span>
+              <span id="next-event-cat" class="text-[11px] font-semibold tracking-[0.16em] uppercase text-acs-slate"></span>
+            </div>
+            <p id="next-event-title" class="mt-4 font-display font-semibold text-xl sm:text-2xl leading-snug text-acs-navy"></p>
+            <div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[13px] text-acs-slate">
+              <span class="inline-flex items-center gap-1.5">
+                <i data-lucide="calendar" class="h-3.5 w-3.5 text-acs-navy"></i><span id="next-event-when"></span>
+              </span>
+              <span class="inline-flex items-center gap-1.5">
+                <i data-lucide="map-pin" class="h-3.5 w-3.5 text-acs-navy"></i><span id="next-event-where"></span>
+              </span>
+            </div>
+          </a>
 
-          <p class="mt-4 text-lg text-acs-ink/85 leading-relaxed max-w-2xl">
-            We're a student community at UMD for anyone into chemistry. Come for the events and tutoring, stay for the people.
-          </p>
-
-          <div class="meta-sep mt-8 pt-6 border-t border-acs-rule/60 text-[13px] text-acs-slate">
-            <span>Open to every major</span><span>Free drop-in tutoring</span><span>All are welcome</span>
-          </div>
-
-          <div class="mt-8 lg:mt-auto lg:pt-10 flex flex-col sm:flex-row gap-3">
+          <div class="mt-10 lg:mt-auto lg:pt-10 flex flex-col sm:flex-row gap-3">
             <a href="#join" class="inline-flex items-center justify-center gap-2 bg-acs-navy px-8 py-3.5 text-sm font-semibold tracking-wide text-white hover:bg-acs-gold hover:text-acs-navy transition-colors duration-200">
               Join Us
               <i data-lucide="arrow-right" class="h-4 w-4"></i>
@@ -244,7 +323,7 @@
   <!-- ============================= STICKY NAV ============================= -->
   <nav id="navbar" class="sticky top-0 z-50 w-full">
     <div class="bg-white/95 backdrop-blur-sm border-y border-acs-line">
-      <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
         <div class="flex items-center justify-between h-16">
           <a href="#home" class="flex items-center gap-2.5">
             <img src="images/acs-logo.png" alt="ACS Logo" class="h-8 w-8 object-contain">
@@ -292,8 +371,11 @@
   <!-- Merged section: the former "About the Chapter" and "Why Join ACS?" blocks were
        the same membership pitch split across two near-identical three-column grids.
        Benefits now run as editorial prose columns rather than bordered cards. -->
-  <section id="about" class="relative py-20 lg:py-28 bg-acs-cream">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+  <section id="about" class="relative overflow-hidden py-20 lg:py-28 bg-acs-cream">
+      <svg class="chem-wm -right-16 top-10 h-28 w-40" viewBox="-30 -40 120 80" aria-hidden="true" focusable="false"><use href="#wm-fused"/></svg>
+      <svg class="chem-wm -left-12 bottom-16 h-32 w-32" viewBox="-40 -40 80 80" aria-hidden="true" focusable="false"><use href="#wm-benzene"/></svg>
+
+    <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
 
       <div class="reveal max-w-3xl">
         <span class="eyebrow">Who We Are</span>
@@ -363,8 +445,10 @@
   <!-- ============================= EVENTS ============================= -->
   <!-- Band: crisp white. Section backgrounds alternate sky → cream → white → sky …
        down the page; each band is one flat color edge to edge, never split. -->
-  <section id="events" class="relative py-20 lg:py-28 bg-white">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+  <section id="events" class="relative overflow-hidden py-20 lg:py-28 bg-acs-sky">
+      <svg class="chem-wm -right-10 top-24 h-36 w-48" viewBox="-10 -10 160 122" aria-hidden="true" focusable="false"><use href="#wm-grid"/></svg>
+
+    <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
         <span class="eyebrow">What's Happening</span>
         <h2 class="mt-6 font-display font-semibold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">Events &amp; Programs</h2>
@@ -398,8 +482,10 @@
   </section>
 
   <!-- ============================= TUTORING ============================= -->
-  <section id="tutoring" class="relative py-20 lg:py-28 bg-acs-sky">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+  <section id="tutoring" class="relative overflow-hidden py-20 lg:py-28 bg-white">
+      <svg class="chem-wm -right-14 bottom-12 h-24 w-64" viewBox="-10 -40 200 80" aria-hidden="true" focusable="false"><use href="#wm-chain"/></svg>
+
+    <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
         <span class="eyebrow">Free &amp; Affordable Help</span>
         <h2 class="mt-6 font-display font-semibold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-acs-navy">
@@ -424,7 +510,7 @@
 
           <div class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-acs-ink">
             <i data-lucide="clock" class="h-4 w-4 text-acs-navy"></i>
-            Every Thursday · 5:00 – 8:00 PM
+            Wednesdays · 6:00 – 8:00 PM
           </div>
 
           <p class="mt-5 text-acs-ink/80 leading-relaxed text-lg">
@@ -467,8 +553,10 @@
   </section>
 
   <!-- ============================= HOW TO JOIN ============================= -->
-  <section id="join" class="relative py-20 lg:py-28 bg-acs-cream">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+  <section id="join" class="relative overflow-hidden py-20 lg:py-28 bg-acs-sky">
+      <svg class="chem-wm -right-20 top-16 h-20 w-64" viewBox="-130 -40 260 80" aria-hidden="true" focusable="false"><use href="#wm-pathway"/></svg>
+
+    <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
         <span class="eyebrow">Registration</span>
         <h2 class="mt-6 font-display font-semibold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">How to Join</h2>
@@ -545,8 +633,10 @@
   </section>
 
   <!-- ============================= FAQ ============================= -->
-  <section id="faq" class="relative py-20 lg:py-28 bg-white">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+  <section id="faq" class="relative overflow-hidden py-20 lg:py-28 bg-acs-cream">
+      <svg class="chem-wm -left-14 top-28 h-36 w-36" viewBox="-40 -40 80 80" aria-hidden="true" focusable="false"><use href="#wm-benzene"/></svg>
+
+    <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
         <span class="eyebrow">Common Questions</span>
         <h2 class="mt-6 font-display font-semibold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">Frequently Asked</h2>
@@ -602,7 +692,7 @@
             <span class="faq-mark shrink-0 mt-1 text-2xl leading-none font-light text-acs-navy">+</span>
           </summary>
           <p class="pb-5 pr-10 text-acs-ink/80 leading-relaxed">
-            Drop-in study sessions are free and open to everyone, every Thursday from 5:00 to 8:00 PM. Private one-on-one tutoring is paid, starting at $5 per one-hour session, and is scheduled around your availability.
+            Drop-in study sessions are free and open to everyone, Wednesdays from 6:00 to 8:00 PM, with extra sessions added during finals week. Private one-on-one tutoring is paid, starting at $5 per one-hour session, and is scheduled around your availability.
           </p>
         </details>
 
@@ -616,8 +706,10 @@
   </section>
 
   <!-- ============================= RESOURCES PREVIEW ============================= -->
-  <section id="resources" class="relative py-20 lg:py-28 bg-acs-sky">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+  <section id="resources" class="relative overflow-hidden py-20 lg:py-28 bg-white">
+      <svg class="chem-wm -right-16 bottom-10 h-28 w-40" viewBox="-30 -40 120 80" aria-hidden="true" focusable="false"><use href="#wm-fused"/></svg>
+
+    <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
         <span class="eyebrow">Highlights</span>
         <h2 class="mt-6 font-display font-semibold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">Resources &amp; Highlights</h2>
@@ -763,44 +855,64 @@
     /* ============================================================
        EVENTS DATA + RENDER + GOOGLE CALENDAR LINK GENERATION
        ============================================================ */
+    /* ACS Fall 2026 schedule. `endDate` is optional and only set on multi-day
+       entries (the supply drive); everything else ends the day it starts. */
+
+    // 16 identical drop-in sessions — listed as dates rather than repeated objects.
+    const TUTORING_DATES = [
+      '2026-09-02', '2026-09-09', '2026-09-16', '2026-09-23', '2026-09-30',
+      '2026-10-07', '2026-10-14', '2026-10-21', '2026-10-28',
+      '2026-11-04', '2026-11-11', '2026-11-18',
+      '2026-12-01', '2026-12-02', '2026-12-08', '2026-12-09',
+    ];
+    const tutoringEvents = TUTORING_DATES.map(date => ({
+      title: 'Drop-In Study & Tutoring', category: 'Tutoring',
+      date, time: '18:00', endTime: '20:00', location: 'Chemistry Building, UMD',
+      desc: 'Free drop-in help with any CHEM or BCHM course. Bring your problem set, or just come study alongside other people taking the same classes.',
+    }));
+
     const events = [
-      { title: 'First Look Fair', category: 'Recruitment', date: '2025-09-10', time: '11:00', endTime: '15:00', location: 'McKeldin Mall, UMD',
+      ...tutoringEvents,
+
+      { title: 'First Look Fair', category: 'Social', date: '2026-09-10', time: '09:00', endTime: '16:00', location: 'McKeldin Mall, UMD',
         desc: 'Find our table at the fall org fair. Stop by to meet the officers, ask questions, and sign up!' },
-      { title: 'Second Look Fair', category: 'Recruitment', date: '2026-02-04', time: '11:00', endTime: '15:00', location: 'McKeldin Mall, UMD',
-        desc: 'Missed us in the fall? Come by the spring fair to meet the officers, learn more and join us!' },
+      { title: 'Interest Meeting', category: 'Professional', date: '2026-09-14', time: '18:00', endTime: '19:00', location: 'CHEM 1407',
+        desc: 'Our kickoff meeting for the year. We cover what the chapter does, how membership and service hours work, and how to get involved.' },
 
-      { title: 'Speaker Series · Vol. 1', category: 'Speaker Series', date: '2025-09-24', time: '18:00', endTime: '19:30', location: 'Chemistry Bldg, Rm 1407',
+      { title: 'Speaker Series · Vol. 1', category: 'Speaker Series', date: '2026-09-17', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
         desc: 'We open the semester with a talk from a working chemist about their career and current research.' },
-      { title: 'Speaker Series · Vol. 2', category: 'Speaker Series', date: '2025-10-15', time: '18:00', endTime: '19:30', location: 'Chemistry Bldg, Rm 1407',
+      { title: 'Speaker Series · Vol. 2', category: 'Speaker Series', date: '2026-10-01', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
         desc: 'A look at chemistry careers in industry, with time at the end for questions.' },
-      { title: 'Speaker Series · Vol. 3', category: 'Speaker Series', date: '2025-11-12', time: '18:00', endTime: '19:30', location: 'Chemistry Bldg, Rm 1407',
+      { title: 'Speaker Series · Vol. 3', category: 'Speaker Series', date: '2026-10-15', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
         desc: 'A grad school panel on applications, research life, and funding, answered by people who went through it.' },
-      { title: 'Speaker Series · Vol. 4', category: 'Speaker Series', date: '2026-02-18', time: '18:00', endTime: '19:30', location: 'Chemistry Bldg, Rm 1407',
-        desc: 'Our spring opener, with a UMD alum talking about their path from College Park into the field.' },
-      { title: 'Speaker Series · Vol. 5', category: 'Speaker Series', date: '2026-03-18', time: '18:00', endTime: '19:30', location: 'Chemistry Bldg, Rm 1407',
+      { title: 'Speaker Series · Vol. 4', category: 'Speaker Series', date: '2026-10-29', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
         desc: 'A closer look at some newer areas of chemistry and where the field is heading.' },
-      { title: 'Speaker Series · Vol. 6', category: 'Speaker Series', date: '2026-04-15', time: '18:00', endTime: '19:30', location: 'Chemistry Bldg, Rm 1407',
-        desc: 'We wrap up the series with a researcher sharing what they have learned over their career.' },
+      { title: 'Speaker Series · Vol. 5', category: 'Speaker Series', date: '2026-11-12', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
+        desc: 'We wrap up the fall series with a researcher sharing what they have learned over their career.' },
 
-      { title: 'Chemistry Night @ Berwyn Heights Elementary', category: 'Outreach', date: '2026-10-03', time: '09:00', endTime: '12:00', location: 'Local Elementary School',
-        desc: 'First of 6 school visits exploring chemistry with hands-on experiments!' },
-      { title: 'Chemistry Night @ Springhill Lake Elementary', category: 'Outreach', date: '2026-10-31', time: '09:00', endTime: '12:00', location: 'Local Elementary School',
-        desc: 'Come explore chemistry and biochemistry topics in an an easy to understand and fun way!' },
-      { title: 'Chemistry Night @ University Park Elementary', category: 'Outreach', date: '2026-11-21', time: '09:00', endTime: '12:00', location: 'Local Elementary School',
-        desc: 'Another school visit, and a good way to give back and earn service hours!' },
-      { title: 'Chemistry Night @ Riverdale Elementary', category: 'Outreach', date: '2026-02-27', time: '09:00', endTime: '12:00', location: 'Local Elementary School',
-        desc: 'Join us for a fun evening of chemistry exploration!' },
-      { title: 'Chemistry Night @ Lewisdale Elementary', category: 'Outreach', date: '2026-03-27', time: '09:00', endTime: '12:00', location: 'Local Elementary School',
-        desc: 'Come explore fun chemistry experiments with us and try on some lab gear!' },
-      { title: 'Chemistry Night @ Hyattsville Elementary', category: 'Outreach', date: '2026-04-24', time: '09:00', endTime: '12:00', location: 'Local Elementary School',
-        desc: 'Join us for our last outreach visit of the year.' },
+      { title: 'Five Guys Restaurant Night', category: 'Fundraiser', date: '2026-09-22', time: '18:30', endTime: '20:30', location: 'Five Guys, College Park',
+        desc: 'Grab dinner and support the chapter — a share of the night’s sales comes back to us. Mention ACS at the register.' },
+      { title: 'Mole Day Chipotle Restaurant Night', category: 'Fundraiser', date: '2026-10-23', time: '17:00', endTime: '21:00', location: 'Chipotle, College Park',
+        desc: 'Celebrate Mole Day (6.02) with us. Order in-store and mention ACS so a portion of the proceeds goes to the chapter.' },
 
-      { title: 'NIST Center for Neutron Research Tour', category: 'Lab Tour', date: '2025-10-09', time: '15:00', endTime: '16:30', location: 'UMD Research Labs',
-        desc: 'Join us for a tour of the NIST Center for Neutron Research, a staple of chemistry, engineering, materials, and physics research!' },
-      { title: 'Biomolecular NMR Facility Tour', category: 'Lab Tour', date: '2025-11-06', time: '15:00', endTime: '16:30', location: 'UMD Research Labs',
-        desc: 'A behind-the-scenes look at an active research lab on campus.' },
-      { title: 'Poulin Research Lab Tour', category: 'Lab Tour', date: '2026-03-05', time: '15:00', endTime: '16:30', location: 'UMD Research Labs',
-        desc: 'Come learn about the duties of a researcher and learn about the research being conducted.' },
+      { title: 'Taylor Lab Tour', category: 'Lab Visit', date: '2026-09-28', time: '15:00', endTime: '16:00', location: 'Chemistry Building, UMD',
+        desc: 'A behind-the-scenes look at an active research group on campus, led by the people who work in it.' },
+      { title: 'NIST Neutron Lab Tour', category: 'Lab Visit', date: '2026-10-10', time: '12:00', endTime: '14:00', location: 'NIST, Gaithersburg, MD',
+        desc: 'Tour the NIST Center for Neutron Research, a staple of chemistry, engineering, materials, and physics research.' },
+      { title: 'Department Research Lab Tour', category: 'Lab Visit', date: '2026-11-09', time: '15:00', endTime: '16:00', location: 'Chemistry Building, UMD',
+        desc: 'Come learn what day-to-day research looks like and hear about the work being done in the department.' },
+
+      { title: 'Chemistry Night @ Springhill Lake Elementary', category: 'Outreach', date: '2026-10-12', time: '15:30', endTime: '17:00', location: 'Springhill Lake Elementary',
+        desc: 'Hands-on demos with local elementary students. A good way to give back and earn service hours.' },
+      { title: 'Chemistry Night @ Cherokee Lane Elementary', category: 'Outreach', date: '2026-10-26', time: '15:30', endTime: '17:00', location: 'Cherokee Lane Elementary',
+        desc: 'Come explore chemistry and biochemistry topics in a fun, easy-to-understand way with local students.' },
+      { title: 'Chemistry Night @ Hollywood Elementary', category: 'Outreach', date: '2026-11-02', time: '15:30', endTime: '17:00', location: 'Hollywood Elementary',
+        desc: 'Our last school visit of the fall — experiments, demos, and a chance to try on some lab gear.' },
+      { title: 'School Supply Drive', category: 'Outreach', date: '2026-11-16', endDate: '2026-11-24', time: '09:00', endTime: '17:00', location: 'Chemistry Building, UMD',
+        desc: 'A week-long collection drive for local schools. Drop off supplies any day it is running — counts toward service hours.' },
+
+      { title: 'Pie-A-Professor & End of Semester Celebration', category: 'Social', date: '2026-12-04', time: '16:00', endTime: '17:00', location: 'Chemistry Building, UMD',
+        desc: 'We close out the semester with pie, professors, and questionable aim. Everyone is welcome.' },
     ];
 
     /* Format a YYYY-MM-DD + HH:mm into Google Calendar UTC-less local format: YYYYMMDDTHHmmSS */
@@ -811,7 +923,8 @@
     }
     function googleCalendarUrl(ev) {
       const start = toGCalStamp(ev.date, ev.time);
-      const end = toGCalStamp(ev.date, ev.endTime || ev.time);
+      // Multi-day entries end on endDate, so the calendar block spans the whole run.
+      const end = toGCalStamp(ev.endDate || ev.date, ev.endTime || ev.time);
       const params = new URLSearchParams({
         action: 'TEMPLATE',
         text: 'UMD ACS · ' + ev.title,
@@ -822,10 +935,20 @@
       return 'https://calendar.google.com/calendar/render?' + params.toString();
     }
 
+    function toLocalDate(dateStr) {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    }
     function prettyDate(dateStr) {
-      const [y,m,d] = dateStr.split('-').map(Number);
-      const dt = new Date(y, m-1, d);
-      return dt.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+      return toLocalDate(dateStr).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+    }
+    /* Multi-day entries read as a range ("Mon, Nov 16 – Tue, Nov 24, 2026"); the
+       year is printed once, on the end date. */
+    function prettyDateRange(ev) {
+      if (!ev.endDate || ev.endDate === ev.date) return prettyDate(ev.date);
+      const start = toLocalDate(ev.date)
+        .toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+      return start + ' – ' + prettyDate(ev.endDate);
     }
     function prettyTime(t) {
       if (!t) return '';
@@ -837,10 +960,13 @@
 
     // Minimal palette: navy / gold / white, differentiated by fill vs. rule only.
     const categoryStyles = {
-      'Recruitment': 'bg-acs-gold text-acs-navy',
+      'Tutoring': 'bg-acs-gold text-acs-navy',
       'Speaker Series': 'bg-acs-navy text-white',
       'Outreach': 'bg-acs-sky text-acs-navy border border-acs-line',
-      'Lab Tour': 'bg-white text-acs-navy border border-acs-navy',
+      'Lab Visit': 'bg-white text-acs-navy border border-acs-navy',
+      'Fundraiser': 'bg-acs-cream text-acs-navy border border-acs-gold',
+      'Social': 'bg-acs-navy/10 text-acs-navy border border-acs-line',
+      'Professional': 'bg-acs-deep text-white',
     };
 
     const grid = document.getElementById('events-grid');
@@ -857,11 +983,40 @@
     /* An event counts as past once its end time has elapsed. Parsed as local time
        so a same-day event stays "upcoming" until it actually finishes. */
     function eventEnd(ev) {
-      const [y, m, d] = ev.date.split('-').map(Number);
+      // endDate for multi-day runs: the supply drive stays "upcoming" until the
+      // final day elapses, not the day it opens.
+      const [y, m, d] = (ev.endDate || ev.date).split('-').map(Number);
       const [h, min] = (ev.endTime || ev.time || '23:59').split(':').map(Number);
       return new Date(y, m - 1, d, h, min);
     }
     function isPast(ev) { return eventEnd(ev) < new Date(); }
+
+    function eventStart(ev) {
+      const [y, m, d] = ev.date.split('-').map(Number);
+      const [h, min] = (ev.time || '00:00').split(':').map(Number);
+      return new Date(y, m - 1, d, h, min);
+    }
+
+    /* Hero "Next Up" card. Picks the soonest event that has not finished yet, so
+       the hero rolls over by itself as dates pass. The array is not stored in
+       chronological order, so sort rather than take the first match. */
+    function renderNextEvent() {
+      const card = document.getElementById('next-event');
+      if (!card) return;
+      const next = events.filter(e => !isPast(e)).sort((a, b) => eventStart(a) - eventStart(b))[0];
+      if (!next) { card.classList.add('hidden'); return; }
+
+      const when = prettyDateRange(next)
+        + (next.time ? ' · ' + prettyTime(next.time) + (next.endTime ? ' – ' + prettyTime(next.endTime) : '') : '');
+
+      document.getElementById('next-event-cat').textContent = next.category;
+      document.getElementById('next-event-title').textContent = next.title;
+      document.getElementById('next-event-when').textContent = when;
+      document.getElementById('next-event-where').textContent = next.location;
+
+      card.classList.remove('hidden');
+      card.classList.add('block');
+    }
 
     const chipClass = (isActive) =>
       `filter-chip text-[13px] font-semibold tracking-wide px-4 py-2 border transition-colors duration-200 ${
@@ -913,7 +1068,7 @@
             </div>
             <h3 class="mt-4 font-display font-semibold text-xl leading-snug text-acs-navy">${ev.title}</h3>
             <div class="mt-4 pt-4 border-t border-acs-line space-y-1.5 text-[13px] text-acs-ink/70">
-              <p class="flex items-center gap-2"><i data-lucide="calendar" class="h-3.5 w-3.5 text-acs-navy"></i> ${prettyDate(ev.date)}</p>
+              <p class="flex items-center gap-2"><i data-lucide="calendar" class="h-3.5 w-3.5 text-acs-navy"></i> ${prettyDateRange(ev)}</p>
               <p class="flex items-center gap-2"><i data-lucide="clock" class="h-3.5 w-3.5 text-acs-navy"></i> ${prettyTime(ev.time)}${ev.endTime ? ' – ' + prettyTime(ev.endTime) : ''}</p>
               <p class="flex items-center gap-2"><i data-lucide="map-pin" class="h-3.5 w-3.5 text-acs-navy"></i> ${ev.location}</p>
             </div>
@@ -931,6 +1086,8 @@
     }
     renderFilters();
     renderEvents();
+    renderNextEvent();
+    renderIcons();   // pick up the icons inside the hero Next Up card
 
     /* ============================================================
        THREE.JS  ·  MOLECULE OF THE WEEK (3D ball-and-stick)
