@@ -173,7 +173,11 @@
         <circle cx="91" cy="0" r="13" />
       </g>
 
-      <!-- Periodic table motif: a block of empty element cells -->
+      <!-- Periodic table motif: element cells carrying the real first eleven
+           elements — atomic number in the top-left corner, symbol centred below,
+           the way a printed table sets them. The leading gap on the bottom row is
+           the s/p block split, so the shape reads as a periodic table and not as
+           an arbitrary 4x3 grid. -->
       <g id="wm-grid" fill="none" stroke="currentColor" stroke-width="1.5">
         <rect x="0"   y="0"  width="30" height="30" />
         <rect x="36"  y="0"  width="30" height="30" />
@@ -186,6 +190,44 @@
         <rect x="36"  y="72" width="30" height="30" />
         <rect x="72"  y="72" width="30" height="30" />
         <rect x="108" y="72" width="30" height="30" />
+
+        <g fill="currentColor" stroke="none" font-family="Poppins, sans-serif" font-size="7">
+          <text x="3"   y="10">1</text>
+          <text x="39"  y="10">2</text>
+          <text x="75"  y="10">3</text>
+          <text x="111" y="10">4</text>
+          <text x="3"   y="46">5</text>
+          <text x="39"  y="46">6</text>
+          <text x="75"  y="46">7</text>
+          <text x="111" y="46">8</text>
+          <text x="39"  y="82">9</text>
+          <text x="75"  y="82">10</text>
+          <text x="111" y="82">11</text>
+        </g>
+        <g fill="currentColor" stroke="none" font-family="Poppins, sans-serif" font-size="13"
+           font-weight="600" text-anchor="middle">
+          <text x="15"  y="25">H</text>
+          <text x="51"  y="25">He</text>
+          <text x="87"  y="25">Li</text>
+          <text x="123" y="25">Be</text>
+          <text x="15"  y="61">B</text>
+          <text x="51"  y="61">C</text>
+          <text x="87"  y="61">N</text>
+          <text x="123" y="61">O</text>
+          <text x="51"  y="97">F</text>
+          <text x="87"  y="97">Ne</text>
+          <text x="123" y="97">Na</text>
+        </g>
+      </g>
+
+      <!-- Atomic orbital diagram: crossed p lobes over a dashed s shell, nucleus
+           at the origin. Centred on 0,0 like the ring glyphs above. -->
+      <g id="wm-orbital" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="0" cy="0" r="19" stroke-dasharray="4 6" />
+        <ellipse cx="0" cy="0" rx="38" ry="14" />
+        <ellipse cx="0" cy="0" rx="14" ry="38" />
+        <ellipse cx="0" cy="0" rx="38" ry="14" transform="rotate(45)" />
+        <circle cx="0" cy="0" r="3.5" fill="currentColor" stroke="none" />
       </g>
 
       <!-- Structural formula fragment: zig-zag chain with a carbonyl and a hydroxyl -->
@@ -200,7 +242,8 @@
   </svg>
 
   <!-- ============================= HERO / MASTHEAD ============================= -->
-  <header id="home" class="relative bg-white">
+  <header id="home" class="relative overflow-hidden bg-white">
+      <svg class="chem-wm -left-16 bottom-24 h-32 w-32" viewBox="-45 -45 90 90" aria-hidden="true" focusable="false"><use href="#wm-orbital"/></svg>
 
     <!-- Institutional bar. Both lockups are the same two-row structure at the same
          h-11 logo size, so the seals sit on one horizontal axis and the wordmarks
@@ -229,7 +272,7 @@
     </div>
 
     <!-- Masthead -->
-    <div class="mx-auto max-w-7xl px-6 lg:px-10 pt-14 lg:pt-20 pb-14 lg:pb-20">
+    <div class="section-body mx-auto max-w-7xl px-6 lg:px-10 pt-14 lg:pt-20 pb-14 lg:pb-20">
       <!-- items-stretch + a flex left column + mt-auto on the CTA row: the buttons
            are the last thing in the column, so their bottom edge lands exactly on
            the molecule card's bottom edge. The meta rule moved above them — as the
@@ -289,24 +332,24 @@
 
             <figcaption class="flex items-center justify-between gap-3 border-b border-acs-line px-5 py-3">
               <span class="text-[11px] font-semibold tracking-[0.24em] uppercase text-acs-navy">Molecule of the Week</span>
-              <span id="motw-tag" class="bg-acs-gold px-2 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase text-acs-navy">Redox Cofactor</span>
+              <span id="motw-tag" class="bg-acs-gold px-2 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase text-acs-navy">Noble Gas Compound</span>
             </figcaption>
 
             <canvas id="molecule-canvas" class="w-full h-[300px] sm:h-[360px] bg-white"></canvas>
 
             <div class="border-t border-acs-line px-5 py-5">
               <h2 id="motw-name" class="font-display font-semibold text-2xl leading-tight text-acs-navy">
-                Pyrroloquinoline quinone
+                Xenon Tetrafluoride
               </h2>
               <p class="mt-1.5 text-[13px] text-acs-slate">
-                <span id="motw-formula">C<sub>14</sub>H<sub>6</sub>N<sub>2</sub>O<sub>8</sub></span>
+                <span id="motw-formula">XeF<sub>4</sub></span>
                 <span class="mx-2 text-acs-rule">|</span>
-                PubChem CID <span id="motw-cid">1024</span>
+                PubChem CID <span id="motw-cid">123324</span>
               </p>
               <p id="motw-desc" class="mt-3 text-sm leading-relaxed text-acs-ink/80">
-                A redox-active coenzyme and antioxidant notable for stimulating mitochondrial biogenesis and supporting cellular energy metabolism.
+                An inorganic compound and one of the first discovered binary noble gas compounds. It forms colorable crystals and exhibits a square planar molecular geometry.
               </p>
-              <a id="motw-link" href="https://pubchem.ncbi.nlm.nih.gov/compound/1024" target="_blank" rel="noopener"
+              <a id="motw-link" href="https://pubchem.ncbi.nlm.nih.gov/compound/Xenon-tetrafluoride" target="_blank" rel="noopener"
                  class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5 hover:text-acs-ink transition-colors">
                 3D structure from PubChem (NIH)
                 <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
@@ -367,25 +410,24 @@
     </div>
   </nav>
 
-  <!-- ============================= WHO WE ARE & WHY JOIN ============================= -->
+  <!-- ============================= WHAT IS ACS? ============================= -->
   <!-- Merged section: the former "About the Chapter" and "Why Join ACS?" blocks were
        the same membership pitch split across two near-identical three-column grids.
        Benefits now run as editorial prose columns rather than bordered cards. -->
   <section id="about" class="relative overflow-hidden py-20 lg:py-28 bg-acs-cream">
       <svg class="chem-wm -right-16 top-10 h-28 w-40" viewBox="-30 -40 120 80" aria-hidden="true" focusable="false"><use href="#wm-fused"/></svg>
       <svg class="chem-wm -left-12 bottom-16 h-32 w-32" viewBox="-40 -40 80 80" aria-hidden="true" focusable="false"><use href="#wm-benzene"/></svg>
+      <svg class="chem-wm -left-20 top-1/3 h-28 w-28" viewBox="-45 -45 90 90" aria-hidden="true" focusable="false"><use href="#wm-orbital"/></svg>
+      <svg class="chem-wm -right-24 bottom-8 h-28 w-40" viewBox="-10 -10 160 122" aria-hidden="true" focusable="false"><use href="#wm-grid"/></svg>
 
     <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
 
       <div class="reveal max-w-3xl">
-        <span class="eyebrow">Who We Are</span>
+        <span class="eyebrow">About Us</span>
         <h2 class="mt-6 font-display font-bold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">
-          Who We Are &amp; Why Join
+          What is ACS?
         </h2>
         <div class="mt-6 h-[3px] w-16 bg-acs-gold"></div>
-        <p class="mt-6 text-lg text-acs-ink/80 leading-relaxed">
-          A community built around chemistry — and what you get out of being part of it.
-        </p>
       </div>
 
       <div class="mt-12 grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
@@ -410,15 +452,11 @@
         <!-- Right: identity + mission -->
         <div class="reveal reveal-delay-1">
           <p class="text-lg text-acs-ink/85 leading-relaxed">
-            The ACS Student Chapter at the University of Maryland is open to undergraduate and graduate students enrolled at UMD who are interested in the field of chemistry. Our chapter is dedicated to promoting chemistry and its related fields through scientific excellence and rigor, professional mentorship, and meaningful community engagement.
+            The Student Chapter of the American Chemical Society located at the University of Maryland is open to all undergraduate and graduate students enrolled at UMD interested in the field of chemistry. Our chapter is dedicated to promoting chemistry and its related fields through scientific excellence and rigor, professional mentorship, and meaningful community engagement.
           </p>
 
           <p class="mt-4 text-lg text-acs-ink/80 leading-relaxed">
-            We strive to provide members with career and educational guidance, cultivate networking opportunities within and outside our university, and develop a lasting commitment to service and outreach. The goal is to prepare you for your future career in STEM.
-          </p>
-
-          <p class="mt-4 text-lg text-acs-ink/80 leading-relaxed">
-            Membership is open to every major and every skill level. Whether you are certain you want a career in chemistry or you are still figuring it out, there is a place for you here.
+            We strive to provide members with career and educational guidance, create networking opportunities within and outside our university, and develop a lasting commitment to service and outreach. Membership is open to every major and all skill levels. Whether you plan to be an engineer, scientist, medical professional, or don’t really know yet, ACS will be a perfect fit for you!
           </p>
         </div>
       </div>
@@ -427,15 +465,15 @@
       <div class="reveal mt-16 pt-10 border-t border-acs-line grid md:grid-cols-3 md:divide-x md:divide-acs-line">
         <div class="md:pr-8">
           <h3 class="font-display font-semibold text-xl text-acs-navy">Professional Development</h3>
-          <p class="mt-3 text-acs-ink/80 leading-relaxed">We run resume workshops, mock interviews, and speaker events with chemists from industry and from the faculty. It is good practice for the skills that come up on grad school and job applications.</p>
+          <p class="mt-3 text-acs-ink/80 leading-relaxed">From resume workshops to mock interviews to speaker events with industry professionals, ACS is a great opportunity to learn the necessary skills for grad school and job applications.</p>
         </div>
         <div class="mt-8 md:mt-0 md:px-8">
           <h3 class="font-display font-semibold text-xl text-acs-navy">Mentorship &amp; Networking</h3>
-          <p class="mt-3 text-acs-ink/80 leading-relaxed">Get to know upperclassmen, alumni, and professors who have done what you are trying to do. It is how a lot of our members find research advisors, study partners, and friends.</p>
+          <p class="mt-3 text-acs-ink/80 leading-relaxed">Get to know upperclassmen, alumni, professors, and recruiters. We help members find research advisors, study partners, jobs and internships, and life-long connections.</p>
         </div>
         <div class="mt-8 md:mt-0 md:pl-8">
           <h3 class="font-display font-semibold text-xl text-acs-navy">Outreach &amp; Service</h3>
-          <p class="mt-3 text-acs-ink/80 leading-relaxed">We visit local schools, run demos, and take on service projects. You give back to the community and earn your service hours while you are at it.</p>
+          <p class="mt-3 text-acs-ink/80 leading-relaxed">We volunteer at local schools, run school supply drives, and more! Come support your UMD community and give back to those who need it.</p>
         </div>
       </div>
 
@@ -447,6 +485,8 @@
        down the page; each band is one flat color edge to edge, never split. -->
   <section id="events" class="relative overflow-hidden py-20 lg:py-28 bg-acs-sky">
       <svg class="chem-wm -right-10 top-24 h-36 w-48" viewBox="-10 -10 160 122" aria-hidden="true" focusable="false"><use href="#wm-grid"/></svg>
+      <svg class="chem-wm -left-24 top-1/2 h-20 w-64" viewBox="-130 -40 260 80" aria-hidden="true" focusable="false"><use href="#wm-pathway"/></svg>
+      <svg class="chem-wm -left-14 bottom-10 h-28 w-28" viewBox="-40 -40 80 80" aria-hidden="true" focusable="false"><use href="#wm-benzene"/></svg>
 
     <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
@@ -484,6 +524,8 @@
   <!-- ============================= TUTORING ============================= -->
   <section id="tutoring" class="relative overflow-hidden py-20 lg:py-28 bg-white">
       <svg class="chem-wm -right-14 bottom-12 h-24 w-64" viewBox="-10 -40 200 80" aria-hidden="true" focusable="false"><use href="#wm-chain"/></svg>
+      <svg class="chem-wm -left-16 top-20 h-32 w-32" viewBox="-45 -45 90 90" aria-hidden="true" focusable="false"><use href="#wm-orbital"/></svg>
+      <svg class="chem-wm -left-20 bottom-24 h-28 w-40" viewBox="-30 -40 120 80" aria-hidden="true" focusable="false"><use href="#wm-fused"/></svg>
 
     <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
@@ -498,7 +540,11 @@
       <div class="mt-12 grid lg:grid-cols-2 border-t border-l border-acs-line bg-white">
 
         <!-- Card A: Drop-in -->
-        <div class="reveal border-r border-b border-acs-line p-8 sm:p-10">
+        <!-- Both cards are flex columns with the CTA in an mt-auto wrapper, so the
+             two buttons land on one horizontal baseline even though the copy above
+             them differs in length. Grid items already stretch to the row height;
+             h-full states it outright so the columns do not rely on that default. -->
+        <div class="reveal flex h-full flex-col border-r border-b border-acs-line p-8 sm:p-10">
           <div class="flex items-center justify-between gap-4">
             <span class="text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-navy">Drop-In</span>
             <span class="bg-acs-gold px-2.5 py-1 text-[11px] font-semibold tracking-[0.14em] uppercase text-acs-navy">Free</span>
@@ -521,14 +567,16 @@
             Hungry? Light refreshments will be provided on select sessions. Grab a friend and come join us!
           </p>
 
-          <a href="#events" class="mt-8 inline-flex items-center gap-2 bg-acs-navy px-6 py-3 text-sm font-semibold tracking-wide text-white hover:bg-acs-gold hover:text-acs-navy transition-colors duration-200">
-            See the Schedule
-            <i data-lucide="arrow-right" class="h-4 w-4"></i>
-          </a>
+          <div class="mt-auto pt-8">
+            <a href="#events" class="inline-flex items-center gap-2 bg-acs-navy px-6 py-3 text-sm font-semibold tracking-wide text-white hover:bg-acs-gold hover:text-acs-navy transition-colors duration-200">
+              See the Schedule
+              <i data-lucide="arrow-right" class="h-4 w-4"></i>
+            </a>
+          </div>
         </div>
 
         <!-- Card B: Private -->
-        <div class="reveal reveal-delay-1 border-r border-b border-acs-line p-8 sm:p-10">
+        <div class="reveal reveal-delay-1 flex h-full flex-col border-r border-b border-acs-line p-8 sm:p-10">
           <div class="flex items-center justify-between gap-4">
             <span class="text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-navy">One-on-One</span>
             <span class="border border-acs-navy px-2.5 py-1 text-[11px] font-semibold tracking-[0.14em] uppercase text-acs-navy">From $5</span>
@@ -544,9 +592,11 @@
           <p class="mt-5 text-acs-ink/80 leading-relaxed text-lg">Need extra help or specialized tutoring? We'll connect you with a private tutor.</p>
           <p class="mt-3 text-acs-ink/70 leading-relaxed">Sessions are one-on-one and scheduled around your availability, so you can focus on the exact topics or courses you are stuck on. Fill out the sign-up sheet and we will match you with a tutor.</p>
 
-          <a href="https://forms.gle/js4oTczsJXhvE2TC8" target="_blank" rel="noopener" class="mt-8 inline-flex items-center gap-2 border border-acs-navy px-6 py-3 text-sm font-semibold tracking-wide text-acs-navy hover:bg-acs-gold hover:border-acs-gold transition-colors duration-200">
-            Sign-Up Sheet <i data-lucide="pen-line" class="h-4 w-4"></i>
-          </a>
+          <div class="mt-auto pt-8">
+            <a href="https://forms.gle/js4oTczsJXhvE2TC8" target="_blank" rel="noopener" class="inline-flex items-center gap-2 border border-acs-navy px-6 py-3 text-sm font-semibold tracking-wide text-acs-navy hover:bg-acs-gold hover:border-acs-gold transition-colors duration-200">
+              Sign-Up Sheet <i data-lucide="pen-line" class="h-4 w-4"></i>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -555,6 +605,8 @@
   <!-- ============================= HOW TO JOIN ============================= -->
   <section id="join" class="relative overflow-hidden py-20 lg:py-28 bg-acs-sky">
       <svg class="chem-wm -right-20 top-16 h-20 w-64" viewBox="-130 -40 260 80" aria-hidden="true" focusable="false"><use href="#wm-pathway"/></svg>
+      <svg class="chem-wm -left-24 bottom-16 h-28 w-40" viewBox="-10 -10 160 122" aria-hidden="true" focusable="false"><use href="#wm-grid"/></svg>
+      <svg class="chem-wm -right-16 bottom-1/4 h-28 w-28" viewBox="-45 -45 90 90" aria-hidden="true" focusable="false"><use href="#wm-orbital"/></svg>
 
     <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
@@ -635,6 +687,8 @@
   <!-- ============================= FAQ ============================= -->
   <section id="faq" class="relative overflow-hidden py-20 lg:py-28 bg-acs-cream">
       <svg class="chem-wm -left-14 top-28 h-36 w-36" viewBox="-40 -40 80 80" aria-hidden="true" focusable="false"><use href="#wm-benzene"/></svg>
+      <svg class="chem-wm -right-16 top-16 h-24 w-64" viewBox="-10 -40 200 80" aria-hidden="true" focusable="false"><use href="#wm-chain"/></svg>
+      <svg class="chem-wm -right-20 bottom-14 h-28 w-40" viewBox="-30 -40 120 80" aria-hidden="true" focusable="false"><use href="#wm-fused"/></svg>
 
     <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
@@ -708,35 +762,48 @@
   <!-- ============================= RESOURCES PREVIEW ============================= -->
   <section id="resources" class="relative overflow-hidden py-20 lg:py-28 bg-white">
       <svg class="chem-wm -right-16 bottom-10 h-28 w-40" viewBox="-30 -40 120 80" aria-hidden="true" focusable="false"><use href="#wm-fused"/></svg>
+      <svg class="chem-wm -left-20 top-14 h-28 w-40" viewBox="-10 -10 160 122" aria-hidden="true" focusable="false"><use href="#wm-grid"/></svg>
+      <svg class="chem-wm -left-24 bottom-20 h-20 w-64" viewBox="-130 -40 260 80" aria-hidden="true" focusable="false"><use href="#wm-pathway"/></svg>
 
     <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
         <span class="eyebrow">Highlights</span>
         <h2 class="mt-6 font-display font-semibold text-4xl sm:text-5xl leading-[1.1] tracking-tight text-acs-navy">Resources &amp; Highlights</h2>
         <div class="mt-6 h-[3px] w-16 bg-acs-gold"></div>
-        <p class="mt-6 text-lg text-acs-ink/80">Learn about what we're up to — and grab the study materials our members put together.</p>
+        <p class="mt-6 text-lg text-acs-ink/80">See what we're up to or grab some study materials!</p>
       </div>
 
       <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-acs-line bg-white">
-        <a href="https://chem.umd.edu/research" target="_blank" rel="noopener" class="reveal group border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
+        <!-- Each card is a flex column and each underlined link sits in an mt-auto
+             wrapper, so all four links share one baseline no matter how many lines
+             the blurb above them runs to. -->
+        <a href="https://chem.umd.edu/research" target="_blank" rel="noopener" class="reveal group flex h-full flex-col border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
           <h3 class="font-display font-semibold text-lg text-acs-navy">Undergraduate Research</h3>
           <p class="mt-2.5 text-sm text-acs-ink/75 leading-relaxed">Members present posters and publish with UMD faculty in analytical, organic, and biochemistry labs.</p>
-          <span class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">UMD Chemistry research <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i></span>
+          <div class="mt-auto pt-4">
+            <span class="inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">UMD Chemistry research <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i></span>
+          </div>
         </a>
-        <a href="#events" class="reveal reveal-delay-1 group border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
+        <a href="#events" class="reveal reveal-delay-1 group flex h-full flex-col border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
           <h3 class="font-display font-semibold text-lg text-acs-navy">Speaker Series Archive</h3>
           <p class="mt-2.5 text-sm text-acs-ink/75 leading-relaxed">Recaps from past talks by industry chemists, grad students, and professors, for members who miss them live.</p>
-          <span class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">See past events <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
+          <div class="mt-auto pt-4">
+            <span class="inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">See past events <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
+          </div>
         </a>
-        <a href="resources/" class="reveal reveal-delay-2 group border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
+        <a href="resources/" class="reveal reveal-delay-2 group flex h-full flex-col border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
           <h3 class="font-display font-semibold text-lg text-acs-navy">Study Guides</h3>
           <p class="mt-2.5 text-sm text-acs-ink/75 leading-relaxed">Member-written guides, reaction maps, and the shared community study database for CHEM and BCHM courses.</p>
-          <span class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">Browse the library <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
+          <div class="mt-auto pt-4">
+            <span class="inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">Browse the library <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
+          </div>
         </a>
-        <a href="#events" class="reveal reveal-delay-3 group border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
+        <a href="#events" class="reveal reveal-delay-3 group flex h-full flex-col border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
           <h3 class="font-display font-semibold text-lg text-acs-navy">Outreach Impact</h3>
           <p class="mt-2.5 text-sm text-acs-ink/75 leading-relaxed">We reach local elementary students through demos and school visits throughout the year.</p>
-          <span class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">See outreach events <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
+          <div class="mt-auto pt-4">
+            <span class="inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">See outreach events <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
+          </div>
         </a>
       </div>
 
@@ -999,11 +1066,19 @@
 
     /* Hero "Next Up" card. Picks the soonest event that has not finished yet, so
        the hero rolls over by itself as dates pass. The array is not stored in
-       chronological order, so sort rather than take the first match. */
+       chronological order, so sort rather than take the first match.
+
+       Drop-in tutoring runs every week, so it would occupy this slot most of the
+       time and bury the events people actually need advance notice of. Feature
+       the next non-recurring event instead, and only fall back to a tutoring
+       session when nothing else is left on the calendar. */
+    const isRecurring = (ev) => ev.category === 'Tutoring';
+
     function renderNextEvent() {
       const card = document.getElementById('next-event');
       if (!card) return;
-      const next = events.filter(e => !isPast(e)).sort((a, b) => eventStart(a) - eventStart(b))[0];
+      const upcoming = events.filter(e => !isPast(e)).sort((a, b) => eventStart(a) - eventStart(b));
+      const next = upcoming.find(e => !isRecurring(e)) || upcoming[0];
       if (!next) { card.classList.add('hidden'); return; }
 
       const when = prettyDateRange(next)
@@ -1098,13 +1173,16 @@
        Molecule of the Week (acs.org/molecule-of-the-week.html).
        ============================================================ */
 
-    /* >>> Change this once a week to match the ACS Molecule of the Week <<< */
+    /* >>> Change this once a week to match the ACS Molecule of the Week <<<
+       `url` is optional: set it when PubChem's named compound page reads better
+       than the bare /compound/<cid> URL. Omit it and the CID link is used. */
     const MOTW = {
-      name: 'Pyrroloquinoline quinone',
-      formula: 'C14H6N2O8',
-      cid: 1024,
-      tag: 'Redox Cofactor',
-      desc: 'A redox-active coenzyme and antioxidant notable for stimulating mitochondrial biogenesis and supporting cellular energy metabolism.',
+      name: 'Xenon Tetrafluoride',
+      formula: 'XeF4',
+      cid: 123324,
+      url: 'https://pubchem.ncbi.nlm.nih.gov/compound/Xenon-tetrafluoride',
+      tag: 'Noble Gas Compound',
+      desc: 'An inorganic compound and one of the first discovered binary noble gas compounds. It forms colorable crystals and exhibits a square planar molecular geometry.',
     };
 
     (function renderMotwText() {
@@ -1117,7 +1195,7 @@
       // Subscript every digit run: C14H6N2O8 -> C₁₄H₆N₂O₈
       if (formulaEl) formulaEl.innerHTML = MOTW.formula.replace(/(\d+)/g, '<sub>$1</sub>');
       const linkEl = document.getElementById('motw-link');
-      if (linkEl) linkEl.href = 'https://pubchem.ncbi.nlm.nih.gov/compound/' + MOTW.cid;
+      if (linkEl) linkEl.href = MOTW.url || 'https://pubchem.ncbi.nlm.nih.gov/compound/' + MOTW.cid;
     })();
 
     (function initMolecule() {
@@ -1152,6 +1230,7 @@
         P:  { color: 0xea580c, radius: 0.80 },
         Cl: { color: 0x15803d, radius: 0.78 },
         Br: { color: 0x92400e, radius: 0.85 },
+        Xe: { color: 0x0e7490, radius: 1.05 },
         DEFAULT: { color: 0x475569, radius: 0.60 }
       };
       const elInfo = (sym) => ELEMENT[sym] || ELEMENT.DEFAULT;
@@ -1175,6 +1254,17 @@
         molecule.add(mesh);
       }
 
+      // Pull the camera back until a model of the given radius clears the frame.
+      // Sized off the narrower of the two field angles so nothing is cropped in
+      // either axis; `fitRadius` is kept so a resize can re-fit the same model.
+      let fitRadius = 11;
+      function fitCamera(radius) {
+        fitRadius = radius;
+        const vFov = camera.fov * Math.PI / 180;
+        const hFov = 2 * Math.atan(Math.tan(vFov / 2) * camera.aspect);
+        camera.position.z = Math.max((radius + 1.8) / Math.sin(Math.min(vFov, hFov) / 2), 12);
+      }
+
       // Build ball-and-stick from atom/bond lists. Hydrogens hidden for a clean look.
       function buildFromAtomsBonds(atoms, bonds) {
         const keep = atoms.map(a => a.el !== 'H');
@@ -1186,9 +1276,20 @@
 
         const pos = atoms.map(a => new THREE.Vector3(a.x, a.y, a.z).sub(center));
 
+        // Scale by typical bond length, not by overall extent: atom radii below are
+        // absolute, so fitting a small molecule (XeF4 — 5 atoms) to a fixed extent
+        // would stretch it into pinheads on long sticks. Camera fits the result.
+        const lengths = bonds
+          .filter(b => keep[b.a - 1] && keep[b.b - 1] && pos[b.a - 1] && pos[b.b - 1])
+          .map(b => pos[b.a - 1].distanceTo(pos[b.b - 1]))
+          .filter(l => l > 0)
+          .sort((x, y) => x - y);
+        const typicalBond = lengths.length ? lengths[Math.floor(lengths.length / 2)] : 1.4;
+        const scale = 3.6 / typicalBond;
+
         let maxR = 0;
-        pos.forEach((p, i) => { if (keep[i]) maxR = Math.max(maxR, p.length()); });
-        const scale = maxR > 0 ? 11 / maxR : 1;
+        pos.forEach((p, i) => { if (keep[i]) maxR = Math.max(maxR, p.length() * scale); });
+        fitCamera(maxR);
 
         pos.forEach((p, i) => {
           if (!keep[i]) return;
@@ -1261,10 +1362,17 @@
 
       // Fetch by CID (exact record) rather than by name, so the viewer can never
       // resolve to a different compound than the one credited in the caption.
-      const apiUrl = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/'
-        + MOTW.cid + '/SDF?record_type=3d';
-      fetch(apiUrl)
-        .then(r => { if (!r.ok) throw new Error('PubChem ' + r.status); return r.text(); })
+      const sdfUrl = (recordType) => 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/'
+        + MOTW.cid + '/SDF?record_type=' + recordType;
+      const fetchSDF = (recordType) => fetch(sdfUrl(recordType))
+        .then(r => { if (!r.ok) throw new Error('PubChem ' + r.status); return r.text(); });
+
+      // Not every compound has a computed 3D conformer — PubChem 404s on
+      // record_type=3d for XeF4, for one — so fall back to the 2D record. That
+      // record is still a real structure with real bonds, just flat, which for a
+      // square planar molecule is the correct geometry anyway.
+      fetchSDF('3d')
+        .catch(() => fetchSDF('2d'))
         .then(txt => { const { atoms, bonds } = parseSDF(txt); buildFromAtomsBonds(atoms, bonds); })
         .catch(() => fallbackBenzene());
 
@@ -1274,6 +1382,7 @@
         if (canvas.width !== w || canvas.height !== h) {
           renderer.setSize(w, h, false);
           camera.aspect = w / h;
+          fitCamera(fitRadius);   // a narrower canvas needs more distance to fit
           camera.updateProjectionMatrix();
         }
       }
