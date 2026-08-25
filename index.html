@@ -1173,16 +1173,16 @@
        Molecule of the Week (acs.org/molecule-of-the-week.html).
        ============================================================ */
 
-    /* >>> Change this once a week to match the ACS Molecule of the Week <<<
+ /* >>> Change this once a week to match the ACS Molecule of the Week <<<
        `url` is optional: set it when PubChem's named compound page reads better
        than the bare /compound/<cid> URL. Omit it and the CID link is used. */
     const MOTW = {
-      name: 'Xenon Tetrafluoride',
-      formula: 'XeF4',
-      cid: 123324,
-      url: 'https://pubchem.ncbi.nlm.nih.gov/compound/Xenon-tetrafluoride',
-      tag: 'Noble Gas Compound',
-      desc: 'An inorganic compound and one of the first discovered binary noble gas compounds. It forms colorable crystals and exhibits a square planar molecular geometry.',
+      name: 'L-Carnitine',
+      formula: 'C7H15NO3',
+      cid: 10917,
+      url: 'https://pubchem.ncbi.nlm.nih.gov/compound/l-carnitine',
+      tag: 'Amino Acid / Zwitterion',
+      desc: 'L-Carnitine is a quaternary ammonium zwitterion and a type of amino acid. It occurs naturally in many organisms; in mammals, it is concentrated in striated muscle. Its non-natural enantiomer, D-carnitine, is toxic and inhibits the activity of L-carnitine.',
     };
 
     (function renderMotwText() {
@@ -1276,9 +1276,7 @@
 
         const pos = atoms.map(a => new THREE.Vector3(a.x, a.y, a.z).sub(center));
 
-        // Scale by typical bond length, not by overall extent: atom radii below are
-        // absolute, so fitting a small molecule (XeF4 — 5 atoms) to a fixed extent
-        // would stretch it into pinheads on long sticks. Camera fits the result.
+        // Scale by typical bond length, not by overall extent
         const lengths = bonds
           .filter(b => keep[b.a - 1] && keep[b.b - 1] && pos[b.a - 1] && pos[b.b - 1])
           .map(b => pos[b.a - 1].distanceTo(pos[b.b - 1]))
@@ -1360,17 +1358,12 @@
         buildFromAtomsBonds(atoms, bonds);
       }
 
-      // Fetch by CID (exact record) rather than by name, so the viewer can never
-      // resolve to a different compound than the one credited in the caption.
+      // Fetch by CID (exact record) rather than by name
       const sdfUrl = (recordType) => 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/'
         + MOTW.cid + '/SDF?record_type=' + recordType;
       const fetchSDF = (recordType) => fetch(sdfUrl(recordType))
         .then(r => { if (!r.ok) throw new Error('PubChem ' + r.status); return r.text(); });
 
-      // Not every compound has a computed 3D conformer — PubChem 404s on
-      // record_type=3d for XeF4, for one — so fall back to the 2D record. That
-      // record is still a real structure with real bonds, just flat, which for a
-      // square planar molecule is the correct geometry anyway.
       fetchSDF('3d')
         .catch(() => fetchSDF('2d'))
         .then(txt => { const { atoms, bonds } = parseSDF(txt); buildFromAtomsBonds(atoms, bonds); })
