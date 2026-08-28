@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Study Guides &amp; Resources | ACS Student Chapter at UMD</title>
+  <title>Resource Database | ACS Student Chapter at UMD</title>
   <link rel="icon" type="image/png" href="../images/acs-logo.png">
-  <meta name="description" content="Member-curated study guides and a shared community study database for CHEM and BCHM courses at the University of Maryland, from the ACS Student Chapter." />
+  <meta name="description" content="A searchable database of member-curated study guides and practice quizzes for CHEM 131, CHEM 134/135, CHEM 231/237 and CHEM 232/237 at the University of Maryland, filterable by course and by topic." />
   <meta name="theme-color" content="#003A70" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Study Guides & Resources | UMD ACS Student Chapter" />
-  <meta property="og:description" content="Member-curated study guides and a shared community study database for CHEM and BCHM courses at UMD." />
+  <meta property="og:title" content="Resource Database | UMD ACS Student Chapter" />
+  <meta property="og:description" content="Member-curated study guides and practice quizzes for UMD chemistry courses, filterable by course and topic." />
   <meta property="og:type" content="website" />
 
   <!-- Google Fonts: Poppins (geometric sans — headings AND body) -->
@@ -192,14 +192,14 @@
       </nav>
 
       <div class="mt-8 max-w-3xl">
-        <span class="eyebrow">Resources</span>
+        <span class="eyebrow">Resource Database</span>
         <h2 class="mt-6 font-display font-semibold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-acs-navy">
-          Study Guides &amp; Resources
+          Resource Database
         </h2>
         <div class="mt-6 h-[3px] w-16 bg-acs-gold"></div>
 
         <p class="mt-6 text-lg text-acs-ink/80 leading-relaxed">
-          Everything here is put together by chapter members who have already taken the course — reaction maps, formula sheets, worked problem sets, and self-grading practice quizzes for the CHEM and BCHM sequences at UMD. Free to use, no login, no membership required.
+          One searchable index of everything the chapter has collected — reaction maps, formula sheets, worked problem sets, and self-grading practice quizzes — put together by members who already took the course. Filter by course, then narrow by topic. Free to use, no login, no membership required.
         </p>
 
         <p id="resources-meta" class="meta-sep mt-6 text-[13px] text-acs-slate"></p>
@@ -207,112 +207,47 @@
     </div>
   </header>
 
-  <!-- ============================= INDEX ============================= -->
-  <section id="index" class="relative py-16 lg:py-20 bg-white">
+  <!-- ============================= RESOURCE DATABASE ============================= -->
+  <section id="database" class="relative py-16 lg:py-20 bg-white">
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
 
-      <!-- Course filter row -->
-      <div class="reveal flex flex-wrap items-center gap-3 border-t border-acs-line pt-8">
-        <span class="text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-slate w-20">Course</span>
-        <div class="flex flex-wrap gap-2" id="course-filters"></div>
+      <!-- Filter block. Both rows always render, so switching course swaps the
+           topic chips in place without the grid below jumping. -->
+      <div class="reveal border-t border-acs-line pt-8">
+        <div class="flex flex-wrap items-start gap-x-3 gap-y-2">
+          <span class="mt-2 w-20 shrink-0 text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-slate">Course</span>
+          <div class="flex flex-wrap gap-2" id="course-filters" role="group" aria-label="Filter by course"></div>
+        </div>
+
+        <div class="mt-4 flex flex-wrap items-start gap-x-3 gap-y-2 border-t border-acs-line/70 pt-4">
+          <span class="mt-2 w-20 shrink-0 text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-slate">Topic</span>
+          <div class="flex min-h-[2.375rem] flex-wrap items-center gap-2" id="topic-filters" role="group" aria-label="Filter by topic"></div>
+        </div>
       </div>
 
-      <!-- Scaffold notice: hidden automatically once any row has a real url -->
+      <!-- Scaffold notice: hidden automatically once any entry has a real link -->
       <p id="scaffold-note" class="hidden mt-6 border-l-[3px] border-acs-gold bg-acs-sky px-5 py-4 text-[13px] text-acs-ink/75">
-        This index is live but the files are not attached yet. Officers: add a <code class="font-mono text-acs-navy">url</code> to each entry in the
-        <code class="font-mono text-acs-navy">resources</code> array to make its row clickable.
+        This database is live but the files are not attached yet. Officers: add a <code class="font-mono text-acs-navy">link</code> to each entry in the
+        <code class="font-mono text-acs-navy">RESOURCES</code> array to make its card clickable.
       </p>
 
       <p id="resources-count" class="mt-6 text-[13px] text-acs-slate"></p>
 
-      <!-- Journal-style index table -->
-      <div class="mt-4 overflow-x-auto">
-        <table class="w-full min-w-[560px] border-collapse text-left">
-          <thead>
-            <tr class="border-y border-acs-rule">
-              <th scope="col" class="hidden sm:table-cell py-3 pr-6 text-[11px] font-semibold tracking-[0.18em] uppercase text-acs-slate">Course</th>
-              <th scope="col" class="py-3 pr-6 text-[11px] font-semibold tracking-[0.18em] uppercase text-acs-slate">Title</th>
-              <th scope="col" class="py-3 pr-6 text-[11px] font-semibold tracking-[0.18em] uppercase text-acs-slate">Type</th>
-              <th scope="col" class="hidden sm:table-cell py-3 text-right text-[11px] font-semibold tracking-[0.18em] uppercase text-acs-slate">Updated</th>
-            </tr>
-          </thead>
-          <tbody id="resources-body"></tbody>
-        </table>
-      </div>
+      <!-- Card grid. Each card carries its own bottom/right hairline and the
+           container closes the top/left, so the grid keeps the table's editorial
+           ruling without a partial last row painting an empty cell. -->
+      <div id="resources-grid" class="mt-4 grid md:grid-cols-2 xl:grid-cols-3 border-t border-l border-acs-line"></div>
 
-      <p id="resources-empty" class="hidden mt-6 border border-acs-line bg-acs-sky px-6 py-8 text-center text-acs-ink/70">
-        Nothing filed under this course yet. Try <span class="font-semibold text-acs-navy">All</span>, or send us yours.
+      <p id="resources-empty" class="hidden mt-4 border border-acs-line bg-acs-sky px-6 py-10 text-center text-acs-ink/70">
+        No resources uploaded yet for this topic.
+        <a href="#contribute" class="font-semibold text-acs-navy border-b border-acs-gold hover:text-acs-deep transition-colors">Submit one below!</a>
       </p>
-
-    </div>
-  </section>
-
-  <!-- ============================= COMMUNITY RESOURCE HUB ============================= -->
-  <section id="hub" class="relative py-16 lg:py-20 bg-acs-cream">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
-
-      <div class="reveal max-w-3xl">
-        <span class="eyebrow">Community Resource Hub</span>
-        <h3 class="mt-6 font-display font-semibold text-3xl sm:text-4xl leading-snug text-acs-navy">
-          Free materials, gathered by students who took the course
-        </h3>
-        <div class="mt-5 h-[3px] w-12 bg-acs-gold"></div>
-        <p class="mt-6 text-lg text-acs-ink/80 leading-relaxed">
-          Beyond the indexed guides above, UMD chemistry students have pooled together a much larger collection of free online material — past problem sets, worked solutions, lecture notes, recorded walkthroughs, and open-access textbook chapters. It lives in one shared Drive folder that anyone can open.
-        </p>
-      </div>
-
-      <!-- Callout card -->
-      <div class="reveal reveal-delay-1 mt-10 border border-acs-line bg-white">
-        <div class="h-[3px] w-full bg-acs-gold"></div>
-        <div class="grid lg:grid-cols-2">
-          <div class="p-8 sm:p-10 border-b lg:border-b-0 lg:border-r border-acs-line">
-            <h4 class="font-display font-semibold text-2xl sm:text-3xl leading-snug text-acs-navy">
-              Community Study Database
-            </h4>
-            <p class="mt-4 text-acs-ink/80 leading-relaxed">
-              A shared Google Drive folder maintained by chapter members, organized by course. No login, no membership, no request-access step — open it and take what you need.
-            </p>
-            <p class="mt-3 text-acs-ink/70 leading-relaxed">
-              Found something that helped you? Add it. The folder only stays useful because people keep feeding it.
-            </p>
-
-            <a href="https://drive.google.com/drive/folders/1oxW82FwcuMb3VSOstEu73eYBOVjmc3nF?usp=sharing"
-               target="_blank" rel="noopener"
-               class="mt-7 inline-flex items-center gap-2 bg-acs-navy px-7 py-3.5 text-sm font-semibold tracking-wide text-white hover:bg-acs-gold hover:text-acs-navy transition-colors duration-200">
-              Open the Study Database <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
-            </a>
-          </div>
-
-          <div class="p-8 sm:p-10 bg-white">
-            <p class="text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-slate">What's inside</p>
-            <ul class="mt-5 divide-y divide-acs-line border-t border-acs-line text-acs-ink/80">
-              <li class="flex items-start gap-3 py-3.5">
-                <i data-lucide="check" class="h-4 w-4 text-acs-navy shrink-0 mt-1"></i>
-                <span>Course folders for the CHEM and BCHM sequences, including Engineering Chemistry.</span>
-              </li>
-              <li class="flex items-start gap-3 py-3.5">
-                <i data-lucide="check" class="h-4 w-4 text-acs-navy shrink-0 mt-1"></i>
-                <span>Worked problem sets and solution walkthroughs written by former students.</span>
-              </li>
-              <li class="flex items-start gap-3 py-3.5">
-                <i data-lucide="check" class="h-4 w-4 text-acs-navy shrink-0 mt-1"></i>
-                <span>Links to open-access textbooks, lecture series, and free practice banks.</span>
-              </li>
-              <li class="flex items-start gap-3 py-3.5">
-                <i data-lucide="check" class="h-4 w-4 text-acs-navy shrink-0 mt-1"></i>
-                <span>Exam-prep checklists and reaction maps collected over past semesters.</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
 
     </div>
   </section>
 
   <!-- ============================= CONTRIBUTE ============================= -->
-  <section class="relative py-16 lg:py-20 bg-white">
+  <section id="contribute" class="relative scroll-mt-24 py-16 lg:py-20 bg-acs-cream">
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal border border-acs-line">
         <div class="h-[3px] w-full bg-acs-gold"></div>
@@ -320,15 +255,15 @@
           <div class="p-8 sm:p-10 border-b lg:border-b-0 lg:border-r border-acs-line">
             <span class="eyebrow">Contribute</span>
             <h3 class="mt-5 font-display font-semibold text-2xl sm:text-3xl leading-snug text-acs-navy">
-              Made a good study guide? Send it in.
+              Submit a Resource / Study Material
             </h3>
             <p class="mt-4 text-acs-ink/80 leading-relaxed">
               If you built a reaction map, a formula sheet, or a set of practice problems that got you through a course, it will get someone else through it too. Submitted material that we publish here counts toward your chapter service hours.
             </p>
             <p class="mt-3 text-acs-ink/70 leading-relaxed">
-              Send a PDF or a Google Drive link, tell us the course, and we will format it and credit you in the index.
+              Send a PDF or a Google Drive link, tell us the course, and we will format it and credit you in the database.
             </p>
-            <a href="mailto:acsumcp@gmail.com?subject=Study%20guide%20submission" class="mt-7 inline-flex items-center gap-2 bg-acs-navy px-6 py-3 text-sm font-semibold tracking-wide text-white hover:bg-acs-gold hover:text-acs-navy transition-colors duration-200">
+            <a href="mailto:acsumcp@gmail.com?subject=Study%20material%20submission" class="mt-7 inline-flex items-center gap-2 bg-acs-navy px-6 py-3 text-sm font-semibold tracking-wide text-white hover:bg-acs-gold hover:text-acs-navy transition-colors duration-200">
               Submit a Resource <i data-lucide="arrow-right" class="h-4 w-4"></i>
             </a>
           </div>
@@ -454,137 +389,282 @@
     toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
     /* ============================================================
-       RESOURCE INDEX  ·  DATA + RENDER
-       To publish a resource: fill in `url` (a file under /files/, a
-       Google Drive link, or a Google Form in quiz mode) and `updated`
-       (YYYY-MM). A row without a url renders greyed and non-clickable,
-       and the scaffold notice above the table disappears as soon as
-       any row has one.
+       RESOURCE DATABASE  ·  DATA + RENDER
+
+       Two-level filter: a course chip row, and a topic chip row whose
+       contents are derived from the selected course. To publish a resource,
+       fill in `link` (a file under /files/, a Google Drive link, or a Google
+       Form in quiz mode) and `dateAdded` (YYYY-MM or YYYY-MM-DD). An entry
+       without a link renders greyed and non-clickable, and the scaffold
+       notice above the grid disappears as soon as any entry has one.
+
+       To add a course: add it to COURSES, give it a TOPICS list, done.
        ============================================================ */
-    const COURSES = ['All', 'CHEM 131', 'CHEM 132', 'CHEM 134/135', 'CHEM 231', 'CHEM 232', 'CHEM 241', 'CHEM 271', 'BCHM 461'];
+    const ALL_COURSES = 'All';
+    const ALL_TOPICS  = 'All Topics';
 
-    const resources = [
-      /* Published entries first — anything with a `url` renders as a live link. */
-      { course: 'CHEM 231', title: 'Alkene Reaction Study Guide', type: 'Guide (Doc)', updated: '2026-08',
-        url: 'https://docs.google.com/document/d/1PJlUwZ4wOlO486AYOVE49ZFoKMQWE55dV2moqE33ltg/edit?tab=t.0#heading=h.xj3438h7oqpg' },
-
-      { course: 'CHEM 131', title: 'Stoichiometry & Limiting Reagents — Worked Set', type: 'Guide', url: '', updated: '' },
-      { course: 'CHEM 131', title: 'Gas Laws & Ideal Gas Practice Quiz', type: 'Quiz', url: '', updated: '' },
-      { course: 'CHEM 131', title: 'Periodic Trends One-Page Summary', type: 'Guide', url: '', updated: '' },
-
-      { course: 'CHEM 132', title: 'Acid–Base Equilibria Study Guide', type: 'Guide', url: '', updated: '' },
-      { course: 'CHEM 132', title: 'Thermodynamics & Entropy Review', type: 'Guide', url: '', updated: '' },
-      { course: 'CHEM 132', title: 'Buffers & Titration Curves Practice Quiz', type: 'Quiz', url: '', updated: '' },
-
-      { course: 'CHEM 134/135', title: 'Engineering Chemistry — Core Concepts Review', type: 'Guide', url: '', updated: '' },
-      { course: 'CHEM 134/135', title: 'Materials & Electrochemistry Practice Quiz', type: 'Quiz', url: '', updated: '' },
-
-      { course: 'CHEM 231', title: 'Alkene & Alkyne Reaction Map', type: 'Guide', url: '', updated: '' },
-      { course: 'CHEM 231', title: 'Stereochemistry Cheat Sheet', type: 'Guide', url: '', updated: '' },
-      { course: 'CHEM 231', title: 'Nucleophilic Substitution (SN1 / SN2) Practice Quiz', type: 'Quiz', url: '', updated: '' },
-
-      { course: 'CHEM 232', title: 'Carbonyl Chemistry Reaction Summary', type: 'Guide', url: '', updated: '' },
-      { course: 'CHEM 232', title: 'Aromaticity & Electrophilic Aromatic Substitution Quiz', type: 'Quiz', url: '', updated: '' },
-
-      { course: 'CHEM 241', title: 'Separations & Chromatography Primer', type: 'Guide', url: '', updated: '' },
-      { course: 'CHEM 241', title: 'Spectroscopy Problem Set (IR / NMR / MS)', type: 'Guide', url: '', updated: '' },
-
-      { course: 'CHEM 271', title: 'Quantitative Analysis Formula Sheet', type: 'Guide', url: '', updated: '' },
-      { course: 'CHEM 271', title: 'Gravimetric & Volumetric Analysis Quiz', type: 'Quiz', url: '', updated: '' },
-
-      { course: 'BCHM 461', title: 'Amino Acids & Protein Structure Guide', type: 'Guide', url: '', updated: '' },
-      { course: 'BCHM 461', title: 'Metabolic Pathways Overview', type: 'Guide', url: '', updated: '' },
-      { course: 'BCHM 461', title: 'Enzyme Kinetics Practice Quiz', type: 'Quiz', url: '', updated: '' },
+    /* The only four courses the database covers. Card metadata is read from
+       here, so a title change lands everywhere at once. */
+    const COURSES = [
+      { code: 'CHEM 131',     title: 'Chemistry I — Fundamentals of General Chemistry' },
+      { code: 'CHEM 134/135', title: 'General Chemistry for Engineers' },
+      { code: 'CHEM 231/237', title: 'Organic Chemistry I' },
+      { code: 'CHEM 232/237', title: 'Organic Chemistry Laboratory I' },
     ];
 
-    const filtersWrap = document.getElementById('course-filters');
-    const tbody = document.getElementById('resources-body');
-    const metaEl = document.getElementById('resources-meta');
+    const COURSE_TITLE = Object.fromEntries(COURSES.map(c => [c.code, c.title]));
+
+    /* Topic vocabulary per course. Every resource's `topic` must be a string
+       from its own course's list, or no chip will reach it. */
+    const TOPICS = {
+      'CHEM 131': [
+        'Measurement and Stoichiometry',
+        'Atomic Structure and Electron Configuration',
+        'Periodic Trends',
+        'Chemical Bonding',
+        'Molecular Geometry and VSEPR',
+        'Gas Laws',
+        'Thermochemistry',
+        'Solutions and Concentration',
+        'Reactions and Net Ionic Equations',
+      ],
+      'CHEM 134/135': [
+        'Stoichiometry and Reactions',
+        'Thermodynamics',
+        'Chemical Kinetics',
+        'Chemical Equilibrium',
+        'Acids and Bases',
+        'Electrochemistry',
+        'Materials and Polymers',
+        'Laboratory Techniques',
+      ],
+      'CHEM 231/237': [
+        'General Chemistry Review',
+        'Bonding and Hybridization',
+        'Resonance',
+        'Acid-Base Chemistry',
+        'Isomerization',
+        'Nomenclature',
+        'Cyclic Conformations',
+        'Chirality and R/S Conformations',
+        'Configuration: Assigning R and S designations to stereocenters',
+        'Substitution and Elimination Reactions',
+        'Alkene Reactions',
+        'Alkyne Reactions',
+      ],
+      'CHEM 232/237': [
+        'Laboratory Safety and Technique',
+        'Recrystallization',
+        'Distillation',
+        'Extraction and Washing',
+        'Thin-Layer Chromatography',
+        'Column Chromatography',
+        'Melting Point Determination',
+        'IR Spectroscopy',
+        'NMR Spectroscopy',
+        'Lab Notebook and Reports',
+      ],
+    };
+
+    const RESOURCES = [
+      /* Published entries first — anything with a `link` renders as a live card. */
+      { courseCode: 'CHEM 231/237', topic: 'Alkene Reactions',
+        resourceTitle: 'Alkene Reaction Study Guide', type: 'Guide (Doc)', dateAdded: '2026-08',
+        link: 'https://docs.google.com/document/d/1PJlUwZ4wOlO486AYOVE49ZFoKMQWE55dV2moqE33ltg/edit?tab=t.0#heading=h.xj3438h7oqpg' },
+
+      { courseCode: 'CHEM 131', topic: 'Measurement and Stoichiometry',
+        resourceTitle: 'Stoichiometry & Limiting Reagents — Worked Set', type: 'Guide', dateAdded: '', link: '' },
+      { courseCode: 'CHEM 131', topic: 'Gas Laws',
+        resourceTitle: 'Gas Laws & Ideal Gas Practice Quiz', type: 'Quiz', dateAdded: '', link: '' },
+      { courseCode: 'CHEM 131', topic: 'Periodic Trends',
+        resourceTitle: 'Periodic Trends One-Page Summary', type: 'Guide', dateAdded: '', link: '' },
+
+      { courseCode: 'CHEM 134/135', topic: 'Stoichiometry and Reactions',
+        resourceTitle: 'Engineering Chemistry — Core Concepts Review', type: 'Guide', dateAdded: '', link: '' },
+      { courseCode: 'CHEM 134/135', topic: 'Electrochemistry',
+        resourceTitle: 'Materials & Electrochemistry Practice Quiz', type: 'Quiz', dateAdded: '', link: '' },
+
+      { courseCode: 'CHEM 231/237', topic: 'Bonding and Hybridization',
+        resourceTitle: 'Hybridization & Orbital Overlap Summary', type: 'Guide', dateAdded: '', link: '' },
+      { courseCode: 'CHEM 231/237', topic: 'Resonance',
+        resourceTitle: 'Resonance Structures Drill Set', type: 'Guide', dateAdded: '', link: '' },
+      { courseCode: 'CHEM 231/237', topic: 'Acid-Base Chemistry',
+        resourceTitle: 'Organic Acid–Base Ranking Practice Quiz', type: 'Quiz', dateAdded: '', link: '' },
+      { courseCode: 'CHEM 231/237', topic: 'Chirality and R/S Conformations',
+        resourceTitle: 'Stereochemistry Cheat Sheet', type: 'Guide', dateAdded: '', link: '' },
+      { courseCode: 'CHEM 231/237', topic: 'Configuration: Assigning R and S designations to stereocenters',
+        resourceTitle: 'Assigning R and S — Worked Examples', type: 'Guide', dateAdded: '', link: '' },
+      { courseCode: 'CHEM 231/237', topic: 'Substitution and Elimination Reactions',
+        resourceTitle: 'Nucleophilic Substitution (SN1 / SN2) Practice Quiz', type: 'Quiz', dateAdded: '', link: '' },
+      { courseCode: 'CHEM 231/237', topic: 'Alkyne Reactions',
+        resourceTitle: 'Alkyne Reaction Map', type: 'Guide', dateAdded: '', link: '' },
+
+      { courseCode: 'CHEM 232/237', topic: 'Recrystallization',
+        resourceTitle: 'Recrystallization Technique Walkthrough', type: 'Guide', dateAdded: '', link: '' },
+      { courseCode: 'CHEM 232/237', topic: 'Thin-Layer Chromatography',
+        resourceTitle: 'TLC Plate Reading & Rf Quick Reference', type: 'Guide', dateAdded: '', link: '' },
+    ];
+
+    /* Every rendered entry carries all seven fields. courseTitle is filled from
+       COURSE_TITLE unless an entry sets its own, so the two cannot drift. */
+    const resources = RESOURCES.map(r => ({ ...r, courseTitle: r.courseTitle || COURSE_TITLE[r.courseCode] || '' }));
+
+    const courseFiltersWrap = document.getElementById('course-filters');
+    const topicFiltersWrap  = document.getElementById('topic-filters');
+    const gridEl  = document.getElementById('resources-grid');
+    const metaEl  = document.getElementById('resources-meta');
     const countEl = document.getElementById('resources-count');
     const emptyEl = document.getElementById('resources-empty');
-    const noteEl = document.getElementById('scaffold-note');
+    const noteEl  = document.getElementById('scaffold-note');
 
-    let activeCourse = 'All';
+    let activeCourse = ALL_COURSES;
+    let activeTopic  = ALL_TOPICS;
 
-    /* Meta line is derived, never hand-written, so the counts can't drift
+    const esc = (str) => String(str).replace(/[&<>"']/g, ch => (
+      { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]
+    ));
+
+    /* Accepts YYYY-MM or YYYY-MM-DD; day precision is shown only when given. */
+    function prettyDate(stamp) {
+      if (!stamp) return '—';
+      const [y, m, d] = stamp.split('-').map(Number);
+      const date = new Date(y, (m || 1) - 1, d || 1);
+      return d
+        ? date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        : date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    }
+
+    /* Meta line is derived, never hand-written, so the counts cannot drift
        out of sync with the array as entries are added. */
     function renderMeta() {
       // Prefix match so format-qualified types ("Guide (Doc)", "Quiz (Form)") still tally.
       const guides = resources.filter(r => r.type.startsWith('Guide')).length;
       const quizzes = resources.filter(r => r.type.startsWith('Quiz')).length;
-      const stamps = resources.map(r => r.updated).filter(Boolean).sort();
+      const stamps = resources.map(r => r.dateAdded).filter(Boolean).sort();
       const latest = stamps.length ? stamps[stamps.length - 1] : '';
-      let latestLabel = 'not yet published';
-      if (latest) {
-        const [y, m] = latest.split('-').map(Number);
-        latestLabel = new Date(y, m - 1, 1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-      }
       metaEl.innerHTML =
-        `<span>${guides} ${guides === 1 ? 'guide' : 'guides'}</span>` +
-        `<span>${quizzes} ${quizzes === 1 ? 'quiz' : 'quizzes'}</span>` +
-        `<span>updated ${latestLabel}</span>`;
+        '<span>' + guides + (guides === 1 ? ' guide' : ' guides') + '</span>' +
+        '<span>' + quizzes + (quizzes === 1 ? ' quiz' : ' quizzes') + '</span>' +
+        '<span>' + COURSES.length + ' courses</span>' +
+        '<span>updated ' + (latest ? esc(prettyDate(latest)) : 'not yet published') + '</span>';
 
-      noteEl.classList.toggle('hidden', resources.some(r => r.url));
+      noteEl.classList.toggle('hidden', resources.some(r => r.link));
     }
 
     /* Quizzes read as a solid gold chip, guides as a gold outline. The label is the
-       raw type string, so "Guide (Doc)" keeps its format qualifier in the index. */
+       raw type string, so "Guide (Doc)" keeps its format qualifier. */
     function typeBadge(type) {
       const base = 'inline-flex items-center px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase whitespace-nowrap';
       return type.startsWith('Quiz')
-        ? `<span class="${base} bg-acs-gold text-acs-navy">${type}</span>`
-        : `<span class="${base} border border-acs-gold text-acs-navy">${type}</span>`;
+        ? '<span class="' + base + ' bg-acs-gold text-acs-navy">' + esc(type) + '</span>'
+        : '<span class="' + base + ' border border-acs-gold text-acs-navy">' + esc(type) + '</span>';
     }
 
-    function prettyMonth(stamp) {
-      if (!stamp) return '—';
-      const [y, m] = stamp.split('-').map(Number);
-      return new Date(y, m - 1, 1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    function chipClass(isActive, isMuted) {
+      const state = isActive
+        ? 'bg-acs-navy text-white border-acs-navy'
+        : 'bg-white border-acs-line hover:border-acs-navy ' + (isMuted ? 'text-acs-slate/70' : 'text-acs-navy');
+      return 'filter-chip text-[13px] font-semibold tracking-wide px-4 py-2 border transition-colors duration-200 ' + state;
     }
 
-    function renderFilters() {
-      filtersWrap.innerHTML = COURSES.map(c => {
-        const isActive = c === activeCourse;
-        return `<button data-course="${c}" class="filter-chip text-[13px] font-semibold tracking-wide px-4 py-2 border transition-colors duration-200 ${
-          isActive ? 'bg-acs-navy text-white border-acs-navy' : 'bg-white text-acs-navy border-acs-line hover:border-acs-navy'
-        }">${c}</button>`;
+    function byCourse() {
+      return activeCourse === ALL_COURSES ? resources : resources.filter(r => r.courseCode === activeCourse);
+    }
+
+    function renderCourseFilters() {
+      const options = [{ code: ALL_COURSES, title: 'Every course in the database' }].concat(COURSES);
+      courseFiltersWrap.innerHTML = options.map(c => {
+        const isActive = c.code === activeCourse;
+        return '<button type="button" data-course="' + esc(c.code) + '" title="' + esc(c.title) + '"' +
+               ' aria-pressed="' + isActive + '" class="' + chipClass(isActive, false) + '">' + esc(c.code) + '</button>';
       }).join('');
-      filtersWrap.querySelectorAll('.filter-chip').forEach(btn => {
-        btn.addEventListener('click', () => { activeCourse = btn.dataset.course; renderFilters(); renderResources(); });
+      courseFiltersWrap.querySelectorAll('.filter-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (btn.dataset.course === activeCourse) return;
+          activeCourse = btn.dataset.course;
+          activeTopic = ALL_TOPICS;              // a new course always starts unfiltered
+          renderCourseFilters();
+          renderTopicFilters();
+          renderResources();
+        });
       });
     }
 
+    /* Only this chip row is rebuilt on a course change — the grid below is
+       re-rendered separately, and the row reserves its height in CSS, so
+       nothing above the grid shifts. */
+    function renderTopicFilters() {
+      if (activeCourse === ALL_COURSES) {
+        topicFiltersWrap.innerHTML =
+          '<button type="button" data-topic="' + ALL_TOPICS + '" aria-pressed="true" class="' + chipClass(true, false) + '">' + ALL_TOPICS + '</button>' +
+          '<span class="text-[13px] text-acs-slate">Pick a course to filter by topic.</span>';
+      } else {
+        const scoped = byCourse();
+        const topics = [ALL_TOPICS].concat(TOPICS[activeCourse] || []);
+        topicFiltersWrap.innerHTML = topics.map(t => {
+          const isActive = t === activeTopic;
+          const count = t === ALL_TOPICS ? scoped.length : scoped.filter(r => r.topic === t).length;
+          return '<button type="button" data-topic="' + esc(t) + '" aria-pressed="' + isActive + '"' +
+                 ' class="' + chipClass(isActive, count === 0) + '">' + esc(t) +
+                 '<span class="ml-2 text-[11px] font-medium ' + (isActive ? 'text-white/70' : 'text-acs-slate/70') + '">' + count + '</span></button>';
+        }).join('');
+      }
+
+      topicFiltersWrap.querySelectorAll('.filter-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (btn.dataset.topic === activeTopic) return;
+          activeTopic = btn.dataset.topic;
+          renderTopicFilters();
+          renderResources();
+        });
+      });
+    }
+
+    function resourceCard(r) {
+      const live = Boolean(r.link);
+      const title = live
+        ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener" class="font-display font-semibold text-lg leading-snug normal-case text-acs-navy hover:text-acs-deep border-b border-transparent hover:border-acs-gold transition-colors">' + esc(r.resourceTitle) + '</a>'
+        : '<span class="font-display font-semibold text-lg leading-snug normal-case text-acs-slate/70">' + esc(r.resourceTitle) + '</span>';
+
+      return '' +
+        '<article class="flex h-full flex-col border-b border-r border-acs-line bg-white p-6 sm:p-7' + (live ? ' hover:bg-acs-sky transition-colors duration-200' : '') + '">' +
+          '<p class="text-[11px] font-semibold leading-relaxed tracking-[0.12em] uppercase text-acs-navy">' +
+            esc(r.courseCode) + '<span class="font-medium text-acs-slate">: ' + esc(r.courseTitle) + '</span>' +
+          '</p>' +
+          '<h4 class="mt-3">' + title + '</h4>' +
+          '<p class="mt-3 text-[13px] leading-relaxed text-acs-ink/70">' +
+            '<span class="font-semibold text-acs-navy">Topic:</span> ' + esc(r.topic) +
+          '</p>' +
+          '<div class="mt-auto flex items-center justify-between gap-3 pt-5">' +
+            typeBadge(r.type) +
+            '<span class="text-[12px] whitespace-nowrap ' + (live ? 'text-acs-slate' : 'text-acs-slate/60') + '">' +
+              (live ? esc(prettyDate(r.dateAdded)) : 'Coming soon') +
+            '</span>' +
+          '</div>' +
+        '</article>';
+    }
+
     function renderResources() {
-      const list = activeCourse === 'All' ? resources : resources.filter(r => r.course === activeCourse);
+      const list = byCourse().filter(r => activeTopic === ALL_TOPICS || r.topic === activeTopic);
 
+      const scope = [
+        activeCourse === ALL_COURSES ? null : activeCourse,
+        activeTopic === ALL_TOPICS ? null : activeTopic,
+      ].filter(Boolean).join(' · ');
       countEl.textContent = list.length
-        ? `Showing ${list.length} ${list.length === 1 ? 'entry' : 'entries'}` + (activeCourse === 'All' ? '' : ` · ${activeCourse}`)
+        ? 'Showing ' + list.length + (list.length === 1 ? ' entry' : ' entries') + (scope ? ' · ' + scope : '')
         : '';
+
+      gridEl.innerHTML = list.map(resourceCard).join('');
+      gridEl.classList.toggle('hidden', list.length === 0);
       emptyEl.classList.toggle('hidden', list.length > 0);
-
-      tbody.innerHTML = list.map(r => {
-        const live = Boolean(r.url);
-        const titleCell = live
-          ? `<a href="${r.url}" target="_blank" rel="noopener" class="font-display font-semibold text-lg leading-snug normal-case text-acs-navy hover:text-acs-deep border-b border-transparent hover:border-acs-gold transition-colors">${r.title}</a>`
-          : `<span class="font-display font-semibold text-lg leading-snug normal-case text-acs-slate/70">${r.title}</span>`;
-
-        return `
-        <tr class="border-b border-acs-line align-top ${live ? 'hover:bg-acs-sky transition-colors duration-200' : ''}">
-          <td class="hidden sm:table-cell py-5 pr-6 whitespace-nowrap text-[13px] font-semibold text-acs-ink/70">${r.course}</td>
-          <td class="py-5 pr-6">
-            ${titleCell}
-            <p class="sm:hidden mt-1.5 text-[12px] text-acs-slate">${r.course} · ${live ? prettyMonth(r.updated) : 'coming soon'}</p>
-          </td>
-          <td class="py-5 pr-6">${typeBadge(r.type)}</td>
-          <td class="hidden sm:table-cell py-5 text-right text-[13px] whitespace-nowrap ${live ? 'text-acs-slate' : 'text-acs-slate/50'}">${live ? prettyMonth(r.updated) : '—'}</td>
-        </tr>`;
-      }).join('');
 
       renderIcons();
     }
 
     renderMeta();
-    renderFilters();
+    renderCourseFilters();
+    renderTopicFilters();
     renderResources();
   </script>
 </body>

@@ -279,7 +279,7 @@
            final child it was what pushed the buttons off that baseline. -->
       <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 items-stretch">
 
-        <!-- Left: headline. Deliberately spare — one title, the next-event card,
+        <!-- Left: headline. Deliberately spare — one title, the Next Up card,
              and the two CTAs. Nothing else. -->
         <div class="lg:col-span-7 flex flex-col">
 
@@ -292,25 +292,18 @@
 
           <div class="mt-7 h-[3px] w-20 bg-acs-gold"></div>
 
-          <!-- Next event. Filled by renderNextEvent() from the events array, so it
-               rolls over on its own — no hand-editing when a date passes. Hidden
-               entirely once nothing upcoming is left. -->
-          <a id="next-event" href="#events"
-             class="group mt-9 hidden max-w-xl border border-acs-line bg-white p-5 transition-colors duration-200 hover:border-acs-navy">
-            <div class="flex items-center gap-3">
+          <!-- Next two events. Filled by renderNextUp() from the events array, so
+               it rolls over on its own — no hand-editing when a date passes. The
+               entries share one card, divided by a hairline, so the pair stays
+               inside the hero without pushing the CTAs off the molecule baseline.
+               Hidden entirely once nothing upcoming is left. -->
+          <div id="next-up" class="mt-9 hidden max-w-xl border border-acs-line bg-white">
+            <div class="flex items-center gap-3 border-b border-acs-line px-5 py-3">
               <span class="bg-acs-gold px-2.5 py-1 text-[10px] font-semibold tracking-[0.18em] uppercase text-acs-navy">Next Up</span>
-              <span id="next-event-cat" class="text-[11px] font-semibold tracking-[0.16em] uppercase text-acs-slate"></span>
+              <span class="text-[11px] font-semibold tracking-[0.16em] uppercase text-acs-slate">On the calendar</span>
             </div>
-            <p id="next-event-title" class="mt-4 font-display font-semibold text-xl sm:text-2xl leading-snug text-acs-navy"></p>
-            <div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[13px] text-acs-slate">
-              <span class="inline-flex items-center gap-1.5">
-                <i data-lucide="calendar" class="h-3.5 w-3.5 text-acs-navy"></i><span id="next-event-when"></span>
-              </span>
-              <span class="inline-flex items-center gap-1.5">
-                <i data-lucide="map-pin" class="h-3.5 w-3.5 text-acs-navy"></i><span id="next-event-where"></span>
-              </span>
-            </div>
-          </a>
+            <div id="next-up-list" class="divide-y divide-acs-line"></div>
+          </div>
 
           <div class="mt-10 lg:mt-auto lg:pt-10 flex flex-col sm:flex-row gap-3">
             <a href="#join" class="inline-flex items-center justify-center gap-2 bg-acs-navy px-8 py-3.5 text-sm font-semibold tracking-wide text-white hover:bg-acs-gold hover:text-acs-navy transition-colors duration-200">
@@ -792,10 +785,10 @@
           </div>
         </a>
         <a href="resources/" class="reveal reveal-delay-2 group flex h-full flex-col border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
-          <h3 class="font-display font-semibold text-lg text-acs-navy">Study Guides</h3>
-          <p class="mt-2.5 text-sm text-acs-ink/75 leading-relaxed">Member-written guides, reaction maps, and the shared community study database for CHEM and BCHM courses.</p>
+          <h3 class="font-display font-semibold text-lg text-acs-navy">Resource Database</h3>
+          <p class="mt-2.5 text-sm text-acs-ink/75 leading-relaxed">Member-written guides, reaction maps, and practice quizzes, filterable by course and by topic.</p>
           <div class="mt-auto pt-4">
-            <span class="inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">Browse the library <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
+            <span class="inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">Browse the database <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
           </div>
         </a>
         <a href="#events" class="reveal reveal-delay-3 group flex h-full flex-col border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
@@ -809,7 +802,7 @@
 
       <div class="reveal mt-10">
         <a href="resources/" class="inline-flex items-center gap-2 bg-acs-navy px-7 py-3.5 text-sm font-semibold tracking-wide text-white hover:bg-acs-gold hover:text-acs-navy transition-colors duration-200">
-          Open the Resource Library <i data-lucide="arrow-right" class="h-4 w-4"></i>
+          Open the Resource Database <i data-lucide="arrow-right" class="h-4 w-4"></i>
         </a>
       </div>
     </div>
@@ -938,6 +931,9 @@
       desc: 'Free drop-in help with any CHEM or BCHM course. Bring your problem set, or just come study alongside other people taking the same classes.',
     }));
 
+    /* Speaker Series entries carry `speaker` and `field` so the name can be shown
+       on its own line instead of being buried in the description. An entry with
+       no `time` is treated as all-day everywhere (card, calendar link, hero). */
     const events = [
       ...tutoringEvents,
 
@@ -946,37 +942,45 @@
       { title: 'Interest Meeting', category: 'Professional', date: '2026-09-14', time: '18:00', endTime: '19:00', location: 'CHEM 1407',
         desc: 'Our kickoff meeting for the year. We cover what the chapter does, how membership and service hours work, and how to get involved.' },
 
-      { title: 'Speaker Series · Vol. 1', category: 'Speaker Series', date: '2026-09-17', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
-        desc: 'We open the semester with a talk from a working chemist about their career and current research.' },
-      { title: 'Speaker Series · Vol. 2', category: 'Speaker Series', date: '2026-10-01', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
-        desc: 'A look at chemistry careers in industry, with time at the end for questions.' },
-      { title: 'Speaker Series · Vol. 3', category: 'Speaker Series', date: '2026-10-15', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
-        desc: 'A grad school panel on applications, research life, and funding, answered by people who went through it.' },
-      { title: 'Speaker Series · Vol. 4', category: 'Speaker Series', date: '2026-10-29', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
-        desc: 'A closer look at some newer areas of chemistry and where the field is heading.' },
-      { title: 'Speaker Series · Vol. 5', category: 'Speaker Series', date: '2026-11-12', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
-        desc: 'We wrap up the fall series with a researcher sharing what they have learned over their career.' },
+      { title: 'Speaker Series Vol. 1: Manessa Lormejuste', category: 'Speaker Series', date: '2026-09-17', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
+        speaker: 'Manessa Lormejuste', field: 'Cosmetic Chemistry',
+        desc: 'We open the semester with a look at cosmetic chemistry — how formulations are designed, tested, and brought to market.' },
+      { title: 'Speaker Series Vol. 2: Krystle McClain', category: 'Speaker Series', date: '2026-10-01', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
+        speaker: 'Krystle McClain', field: 'Environmental Chemistry',
+        desc: 'A talk on environmental chemistry: monitoring, remediation, and what the day-to-day work looks like outside the classroom.' },
+      { title: 'Speaker Series Vol. 3: Perry Gerakines', category: 'Speaker Series', date: '2026-10-15', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
+        speaker: 'Perry Gerakines', field: 'Astrochemistry',
+        desc: 'Astrochemistry — the chemistry of ices, dust, and molecules in space, and how it is studied in the lab.' },
+      { title: 'Speaker Series Vol. 4: Eugene Peters', category: 'Speaker Series', date: '2026-10-29', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
+        speaker: 'Eugene Peters', field: 'Nuclear / Forensics Chemistry',
+        desc: 'Nuclear and forensic chemistry: instrumentation, casework, and the career paths that lead into the field.' },
+      { title: 'Speaker Series Vol. 5: Emily Arndt', category: 'Speaker Series', date: '2026-11-12', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
+        speaker: 'Emily Arndt', field: 'Polymers / Materials Chemistry',
+        desc: 'We wrap up the fall series with polymers and materials chemistry — designing molecules for the properties you need.' },
 
-      { title: 'Five Guys Restaurant Night', category: 'Fundraiser', date: '2026-09-22', time: '18:30', endTime: '20:30', location: 'Five Guys, College Park',
+      { title: 'Five Guys Fundraiser', category: 'Fundraiser', date: '2026-09-22', time: '18:30', endTime: '20:30', location: 'Five Guys, College Park',
         desc: 'Grab dinner and support the chapter — a share of the night’s sales comes back to us. Mention ACS at the register.' },
-      { title: 'Mole Day Chipotle Restaurant Night', category: 'Fundraiser', date: '2026-10-23', time: '17:00', endTime: '21:00', location: 'Chipotle, College Park',
-        desc: 'Celebrate Mole Day (6.02) with us. Order in-store and mention ACS so a portion of the proceeds goes to the chapter.' },
 
       { title: 'Taylor Lab Tour', category: 'Lab Visit', date: '2026-09-28', time: '15:00', endTime: '16:00', location: 'Chemistry Building, UMD',
         desc: 'A behind-the-scenes look at an active research group on campus, led by the people who work in it.' },
       { title: 'NIST Neutron Lab Tour', category: 'Lab Visit', date: '2026-10-10', time: '12:00', endTime: '14:00', location: 'NIST, Gaithersburg, MD',
         desc: 'Tour the NIST Center for Neutron Research, a staple of chemistry, engineering, materials, and physics research.' },
-      { title: 'Department Research Lab Tour', category: 'Lab Visit', date: '2026-11-09', time: '15:00', endTime: '16:00', location: 'Chemistry Building, UMD',
+      { title: 'Department Lab Tour', category: 'Lab Visit', date: '2026-11-09', time: '15:00', endTime: '16:00', location: 'Chemistry Building, UMD',
         desc: 'Come learn what day-to-day research looks like and hear about the work being done in the department.' },
 
       { title: 'Chemistry Night @ Springhill Lake Elementary', category: 'Outreach', date: '2026-10-12', time: '15:30', endTime: '17:00', location: 'Springhill Lake Elementary',
         desc: 'Hands-on demos with local elementary students. A good way to give back and earn service hours.' },
-      { title: 'Chemistry Night @ Cherokee Lane Elementary', category: 'Outreach', date: '2026-10-26', time: '15:30', endTime: '17:00', location: 'Cherokee Lane Elementary',
+      { title: 'Chemistry Night @ Rosa L. Parks Elementary', category: 'Outreach', date: '2026-10-26', time: '15:30', endTime: '17:00', location: 'Rosa L. Parks Elementary',
         desc: 'Come explore chemistry and biochemistry topics in a fun, easy-to-understand way with local students.' },
-      { title: 'Chemistry Night @ Hollywood Elementary', category: 'Outreach', date: '2026-11-02', time: '15:30', endTime: '17:00', location: 'Hollywood Elementary',
+      { title: 'Chemistry Night @ Paint Branch Elementary', category: 'Outreach', date: '2026-11-02', time: '15:30', endTime: '17:00', location: 'Paint Branch Elementary',
         desc: 'Our last school visit of the fall — experiments, demos, and a chance to try on some lab gear.' },
-      { title: 'School Supply Drive', category: 'Outreach', date: '2026-11-16', endDate: '2026-11-24', time: '09:00', endTime: '17:00', location: 'Chemistry Building, UMD',
-        desc: 'A week-long collection drive for local schools. Drop off supplies any day it is running — counts toward service hours.' },
+
+      { title: 'Mole Day', category: 'Social', date: '2026-10-23', time: '18:00', endTime: '20:00',
+        location: 'ESJ (Edward St. John Learning and Teaching Center)',
+        desc: 'Celebrate Mole Day (6.02 × 10²³) with us — food, demos, and chemistry games. Open to everyone, members or not.' },
+
+      { title: 'School Supply Drive', category: 'Outreach', date: '2026-11-16', endDate: '2026-11-24', location: 'Chemistry Building, UMD',
+        desc: 'A week-long service drive collecting school supplies for local schools. Drop off supplies any day it is running — counts toward service hours.' },
 
       { title: 'Pie-A-Professor & End of Semester Celebration', category: 'Social', date: '2026-12-04', time: '16:00', endTime: '17:00', location: 'Chemistry Building, UMD',
         desc: 'We close out the semester with pie, professors, and questionable aim. Everyone is welcome.' },
@@ -988,10 +992,23 @@
       const t = (timeStr || '00:00').replace(':', '') + '00';
       return d + 'T' + t;
     }
+    /* Bare YYYYMMDD for the day after `dateStr` — Google treats an all-day
+       event's end date as exclusive. */
+    function nextDayStamp(dateStr) {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      const next = new Date(y, m - 1, d + 1);
+      return String(next.getFullYear())
+        + String(next.getMonth() + 1).padStart(2, '0')
+        + String(next.getDate()).padStart(2, '0');
+    }
     function googleCalendarUrl(ev) {
-      const start = toGCalStamp(ev.date, ev.time);
+      // Entries with no `time` are all-day and use bare dates instead of stamps.
+      const allDay = !ev.time;
+      const start = allDay ? ev.date.replace(/-/g, '') : toGCalStamp(ev.date, ev.time);
       // Multi-day entries end on endDate, so the calendar block spans the whole run.
-      const end = toGCalStamp(ev.endDate || ev.date, ev.endTime || ev.time);
+      const end = allDay
+        ? nextDayStamp(ev.endDate || ev.date)
+        : toGCalStamp(ev.endDate || ev.date, ev.endTime || ev.time);
       const params = new URLSearchParams({
         action: 'TEMPLATE',
         text: 'UMD ACS · ' + ev.title,
@@ -1064,33 +1081,59 @@
       return new Date(y, m - 1, d, h, min);
     }
 
-    /* Hero "Next Up" card. Picks the soonest event that has not finished yet, so
-       the hero rolls over by itself as dates pass. The array is not stored in
-       chronological order, so sort rather than take the first match.
+    /* Hero "Next Up" card. Lists the next two events that have not finished yet,
+       so the hero rolls over by itself as dates pass. The array is not stored in
+       chronological order, so sort rather than take the first matches.
 
-       Drop-in tutoring runs every week, so it would occupy this slot most of the
-       time and bury the events people actually need advance notice of. Feature
-       the next non-recurring event instead, and only fall back to a tutoring
-       session when nothing else is left on the calendar. */
+       Drop-in tutoring runs every week, so it would occupy both slots most of the
+       time and bury the events people actually need advance notice of. Fill the
+       slots from the non-recurring events first, and only top up with tutoring
+       sessions when there are not two others left on the calendar. */
     const isRecurring = (ev) => ev.category === 'Tutoring';
+    const NEXT_UP_COUNT = 2;
 
-    function renderNextEvent() {
-      const card = document.getElementById('next-event');
-      if (!card) return;
+    function nextUpEvents(limit = NEXT_UP_COUNT) {
       const upcoming = events.filter(e => !isPast(e)).sort((a, b) => eventStart(a) - eventStart(b));
-      const next = upcoming.find(e => !isRecurring(e)) || upcoming[0];
-      if (!next) { card.classList.add('hidden'); return; }
+      const featured = upcoming.filter(e => !isRecurring(e)).slice(0, limit);
+      if (featured.length === limit) return featured;
+      // Not enough non-recurring events left — top up with the soonest sessions.
+      const fill = upcoming.filter(e => isRecurring(e) && !featured.includes(e));
+      return featured.concat(fill).sort((a, b) => eventStart(a) - eventStart(b)).slice(0, limit);
+    }
 
-      const when = prettyDateRange(next)
-        + (next.time ? ' · ' + prettyTime(next.time) + (next.endTime ? ' – ' + prettyTime(next.endTime) : '') : '');
+    function whenLabel(ev) {
+      const date = prettyDateRange(ev);
+      if (!ev.time) return date + ' · All day';
+      return date + ' · ' + prettyTime(ev.time) + (ev.endTime ? ' – ' + prettyTime(ev.endTime) : '');
+    }
 
-      document.getElementById('next-event-cat').textContent = next.category;
-      document.getElementById('next-event-title').textContent = next.title;
-      document.getElementById('next-event-when').textContent = when;
-      document.getElementById('next-event-where').textContent = next.location;
+    function renderNextUp() {
+      const card = document.getElementById('next-up');
+      const list = document.getElementById('next-up-list');
+      if (!card || !list) return;
+
+      const next = nextUpEvents();
+      if (!next.length) { card.classList.add('hidden'); return; }
+
+      list.innerHTML = next.map(ev => `
+        <a href="#events" class="block px-5 py-4 hover:bg-acs-sky transition-colors duration-200">
+          <span class="text-[11px] font-semibold tracking-[0.16em] uppercase text-acs-slate">${ev.category}</span>
+          <p class="mt-1.5 font-display font-semibold text-lg sm:text-xl leading-snug text-acs-navy">${ev.title}</p>
+          ${ev.field ? `<p class="mt-1 text-[13px] font-medium text-acs-slate">${ev.field}</p>` : ''}
+          <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12.5px] text-acs-slate">
+            <span class="inline-flex items-center gap-1.5 min-w-0">
+              <i data-lucide="calendar" class="h-3.5 w-3.5 shrink-0 text-acs-navy"></i><span>${whenLabel(ev)}</span>
+            </span>
+            <span class="inline-flex items-center gap-1.5 min-w-0">
+              <i data-lucide="map-pin" class="h-3.5 w-3.5 shrink-0 text-acs-navy"></i><span class="break-words">${ev.location}</span>
+            </span>
+          </div>
+        </a>
+      `).join('');
 
       card.classList.remove('hidden');
       card.classList.add('block');
+      renderIcons();
     }
 
     const chipClass = (isActive) =>
@@ -1142,10 +1185,11 @@
               ${past ? '<span class="inline-flex items-center px-2 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase text-acs-ink/50 border border-acs-line">Past</span>' : ''}
             </div>
             <h3 class="mt-4 font-display font-semibold text-xl leading-snug text-acs-navy">${ev.title}</h3>
+            ${ev.field ? `<p class="mt-1.5 text-[13px] font-medium text-acs-slate">${ev.field}</p>` : ''}
             <div class="mt-4 pt-4 border-t border-acs-line space-y-1.5 text-[13px] text-acs-ink/70">
-              <p class="flex items-center gap-2"><i data-lucide="calendar" class="h-3.5 w-3.5 text-acs-navy"></i> ${prettyDateRange(ev)}</p>
-              <p class="flex items-center gap-2"><i data-lucide="clock" class="h-3.5 w-3.5 text-acs-navy"></i> ${prettyTime(ev.time)}${ev.endTime ? ' – ' + prettyTime(ev.endTime) : ''}</p>
-              <p class="flex items-center gap-2"><i data-lucide="map-pin" class="h-3.5 w-3.5 text-acs-navy"></i> ${ev.location}</p>
+              <p class="flex items-start gap-2"><i data-lucide="calendar" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-acs-navy"></i> ${prettyDateRange(ev)}</p>
+              <p class="flex items-start gap-2"><i data-lucide="clock" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-acs-navy"></i> ${ev.time ? prettyTime(ev.time) + (ev.endTime ? ' – ' + prettyTime(ev.endTime) : '') : 'All day'}</p>
+              <p class="flex items-start gap-2"><i data-lucide="map-pin" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-acs-navy"></i> <span class="break-words">${ev.location}</span></p>
             </div>
             <p class="mt-4 text-sm text-acs-ink/75 leading-relaxed flex-1">${ev.desc}</p>
             ${past
@@ -1161,7 +1205,7 @@
     }
     renderFilters();
     renderEvents();
-    renderNextEvent();
+    renderNextUp();
     renderIcons();   // pick up the icons inside the hero Next Up card
 
     /* ============================================================
