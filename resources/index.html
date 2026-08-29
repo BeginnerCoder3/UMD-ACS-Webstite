@@ -406,16 +406,21 @@
     /* The only four courses the database covers. Card metadata is read from
        here, so a title change lands everywhere at once. */
     const COURSES = [
-      { code: 'CHEM 131',     title: 'Chemistry I — Fundamentals of General Chemistry' },
-      { code: 'CHEM 134/135', title: 'General Chemistry for Engineers' },
+      { code: 'CHEM 131',     title: 'General Chemistry I' },
+      { code: 'CHEM 134/135', title: 'Chemistry for Engineers' },
       { code: 'CHEM 231/237', title: 'Organic Chemistry I' },
       { code: 'CHEM 232/237', title: 'Organic Chemistry Laboratory I' },
     ];
 
     const COURSE_TITLE = Object.fromEntries(COURSES.map(c => [c.code, c.title]));
 
-    /* Topic vocabulary per course. Every resource's `topic` must be a string
-       from its own course's list, or no chip will reach it. */
+    /* Course code -> folder name under `study resources/`. The slash in a paired
+       course code is not usable in a path, so it becomes an underscore. */
+    const COURSE_FOLDER = Object.fromEntries(COURSES.map(c => [c.code, c.code.replace('/', '_')]));
+
+    /* Topic vocabulary per course, mirrored one-for-one by the folders under
+       `study resources/<course folder>/`. Every resource's `topic` must be a
+       string from its own course's list, or no chip will reach it. */
     const TOPICS = {
       'CHEM 131': [
         'Measurement and Stoichiometry',
@@ -427,6 +432,7 @@
         'Thermochemistry',
         'Solutions and Concentration',
         'Reactions and Net Ionic Equations',
+        'Practice Exams',
       ],
       'CHEM 134/135': [
         'Stoichiometry and Reactions',
@@ -437,6 +443,7 @@
         'Electrochemistry',
         'Materials and Polymers',
         'Laboratory Techniques',
+        'Practice Exams',
       ],
       'CHEM 231/237': [
         'General Chemistry Review',
@@ -446,11 +453,13 @@
         'Isomerization',
         'Nomenclature',
         'Cyclic Conformations',
-        'Chirality and R/S Conformations',
-        'Configuration: Assigning R and S designations to stereocenters',
+        'Stereochemistry',
         'Substitution and Elimination Reactions',
         'Alkene Reactions',
         'Alkyne Reactions',
+        'Free Radical Reactions',
+        'Spectroscopic Methods',
+        'Practice Exams',
       ],
       'CHEM 232/237': [
         'Laboratory Safety and Technique',
@@ -463,15 +472,117 @@
         'IR Spectroscopy',
         'NMR Spectroscopy',
         'Lab Notebook and Reports',
+        'Practice Exams',
       ],
     };
 
+    /* To publish a PDF: drop it in `study resources/<course folder>/<topic>/`
+       and put its file name in `file`. The href, the file name shown on the
+       card and the download all follow from that, and because the course and
+       topic already name the folder, the path cannot drift from the tree.
+       `link` is for material that lives off-site (a Doc, a Form, a Drive
+       folder). An entry with neither renders greyed as "coming soon". */
     const RESOURCES = [
-      /* Published entries first — anything with a `link` renders as a live card. */
+      /* ---- CHEM 231/237 · Organic Chemistry I ---- */
+      { courseCode: 'CHEM 231/237', topic: 'General Chemistry Review',
+        resourceTitle: 'Formal Charge Practice', type: 'Practice (PDF)', dateAdded: '2026-08',
+        file: 'Formal Charge Practice.pdf' },
+      { courseCode: 'CHEM 231/237', topic: 'General Chemistry Review',
+        resourceTitle: 'IMFs and Physical Properties', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'IMFs and Physical Properties.pdf' },
+      { courseCode: 'CHEM 231/237', topic: 'General Chemistry Review',
+        resourceTitle: 'Ionic and Covalent Bonding', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'Ionic and Covalent Bondingpdf.pdf' },
+      { courseCode: 'CHEM 231/237', topic: 'General Chemistry Review',
+        resourceTitle: 'Lewis Structures Worksheet', type: 'Practice (PDF)', dateAdded: '2026-08',
+        file: 'Lewis Structures Worksheet.pdf' },
+
+      { courseCode: 'CHEM 231/237', topic: 'Bonding and Hybridization',
+        resourceTitle: 'Ch. 1 Additional Problems', type: 'Practice (PDF)', dateAdded: '2026-08',
+        file: 'Ch. 1 Additional Problems.pdf' },
+      { courseCode: 'CHEM 231/237', topic: 'Bonding and Hybridization',
+        resourceTitle: 'Unit 1 Practice Problems (Bonding, Hybridization and Resonance)', type: 'Practice (PDF)', dateAdded: '2026-08',
+        file: 'Unit 1 Practice Problems (Bonding, Hybridization and Resonance).pdf' },
+
+      { courseCode: 'CHEM 231/237', topic: 'Resonance',
+        resourceTitle: 'Resonance', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'Resonance.pdf' },
+
+      { courseCode: 'CHEM 231/237', topic: 'Acid-Base Chemistry',
+        resourceTitle: 'Acid Strength', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'Acid Strength.pdf' },
+      { courseCode: 'CHEM 231/237', topic: 'Acid-Base Chemistry',
+        resourceTitle: 'Brønsted-Lowry vs. Lewis Systems for Acids and Bases', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'Bronsted-Lowry vs. Lewis systems for Acids and Bases.pdf' },
+
+      { courseCode: 'CHEM 231/237', topic: 'Isomerization',
+        resourceTitle: 'Fischer Projections and Isomers', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'Fischer Projections and Isomers.pdf' },
+
+      { courseCode: 'CHEM 231/237', topic: 'Nomenclature',
+        resourceTitle: 'Functional Groups', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'Functional Groups.pdf' },
+      { courseCode: 'CHEM 231/237', topic: 'Nomenclature',
+        resourceTitle: 'Nomenclature', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'Nomenclature.pdf' },
+
+      { courseCode: 'CHEM 231/237', topic: 'Cyclic Conformations',
+        resourceTitle: 'Newman and Chair Conformations', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'Newman and Chair Conformations.pdf' },
+
+      { courseCode: 'CHEM 231/237', topic: 'Stereochemistry',
+        resourceTitle: 'Chirality and R/S Assignments', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'Chirality and RS assignments.pdf' },
+      { courseCode: 'CHEM 231/237', topic: 'Stereochemistry',
+        resourceTitle: 'Stereochemistry (Multiple Choice)', type: 'Practice (PDF)', dateAdded: '2026-08',
+        file: 'Stereochemistry (Multiple Choice).pdf' },
+      { courseCode: 'CHEM 231/237', topic: 'Stereochemistry',
+        resourceTitle: 'Stereochemistry Exercises', type: 'Practice (PDF)', dateAdded: '2026-08',
+        file: 'STEREOCHEMISTRY EXERCISES.pdf' },
+      { courseCode: 'CHEM 231/237', topic: 'Stereochemistry',
+        resourceTitle: 'E-Z and Alkene Stabilities', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'E-Z and Alkene Stabilities.pdf' },
+
+      { courseCode: 'CHEM 231/237', topic: 'Substitution and Elimination Reactions',
+        resourceTitle: 'E1 and E2', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'E1 and E2.pdf' },
+      { courseCode: 'CHEM 231/237', topic: 'Substitution and Elimination Reactions',
+        resourceTitle: 'SN1 and SN2', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'SN1 and SN2.pdf' },
+      { courseCode: 'CHEM 231/237', topic: 'Substitution and Elimination Reactions',
+        resourceTitle: 'SN1, SN2, E1, E2 Summary', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'SN1, SN2, E1, E2 Summary.pdf' },
+
+      { courseCode: 'CHEM 231/237', topic: 'Alkene Reactions',
+        resourceTitle: 'Alkene Reactions', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'Alkene Reactions.pdf' },
       { courseCode: 'CHEM 231/237', topic: 'Alkene Reactions',
         resourceTitle: 'Alkene Reaction Study Guide', type: 'Guide (Doc)', dateAdded: '2026-08',
         link: 'https://docs.google.com/document/d/1PJlUwZ4wOlO486AYOVE49ZFoKMQWE55dV2moqE33ltg/edit?tab=t.0#heading=h.xj3438h7oqpg' },
 
+      { courseCode: 'CHEM 231/237', topic: 'Alkyne Reactions',
+        resourceTitle: 'Alkyne Reactions', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'Alkyne Reactions.pdf' },
+
+      { courseCode: 'CHEM 231/237', topic: 'Free Radical Reactions',
+        resourceTitle: 'Radical Reactions', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'Radical Reactions.pdf' },
+
+      { courseCode: 'CHEM 231/237', topic: 'Spectroscopic Methods',
+        resourceTitle: 'Infrared Spectroscopy', type: 'Guide (PDF)', dateAdded: '2026-08',
+        file: 'Infrared Spectroscopy.pdf' },
+
+      { courseCode: 'CHEM 231/237', topic: 'Practice Exams',
+        resourceTitle: 'Alkene Exam Preparation Pack', type: 'Practice Exam (PDF)', dateAdded: '2026-08',
+        file: 'Alkene Exam Preparation Pack.pdf' },
+      { courseCode: 'CHEM 231/237', topic: 'Practice Exams',
+        resourceTitle: 'Alkyne Exam Preparation Pack', type: 'Practice Exam (PDF)', dateAdded: '2026-08',
+        file: 'Alkyne Exam Preparation Pack.pdf' },
+      { courseCode: 'CHEM 231/237', topic: 'Practice Exams',
+        resourceTitle: 'Exam 3 (Stereochemistry is EZ!)', type: 'Practice Exam (PDF)', dateAdded: '2026-08',
+        file: 'Exam 3 (Stereochemistry is EZ!).pdf' },
+
+      /* ---- Awaiting uploads. Drop the PDF in the matching folder, add `file`. ---- */
       { courseCode: 'CHEM 131', topic: 'Measurement and Stoichiometry',
         resourceTitle: 'Stoichiometry & Limiting Reagents — Worked Set', type: 'Guide', dateAdded: '', link: '' },
       { courseCode: 'CHEM 131', topic: 'Gas Laws',
@@ -484,30 +595,29 @@
       { courseCode: 'CHEM 134/135', topic: 'Electrochemistry',
         resourceTitle: 'Materials & Electrochemistry Practice Quiz', type: 'Quiz', dateAdded: '', link: '' },
 
-      { courseCode: 'CHEM 231/237', topic: 'Bonding and Hybridization',
-        resourceTitle: 'Hybridization & Orbital Overlap Summary', type: 'Guide', dateAdded: '', link: '' },
-      { courseCode: 'CHEM 231/237', topic: 'Resonance',
-        resourceTitle: 'Resonance Structures Drill Set', type: 'Guide', dateAdded: '', link: '' },
-      { courseCode: 'CHEM 231/237', topic: 'Acid-Base Chemistry',
-        resourceTitle: 'Organic Acid–Base Ranking Practice Quiz', type: 'Quiz', dateAdded: '', link: '' },
-      { courseCode: 'CHEM 231/237', topic: 'Chirality and R/S Conformations',
-        resourceTitle: 'Stereochemistry Cheat Sheet', type: 'Guide', dateAdded: '', link: '' },
-      { courseCode: 'CHEM 231/237', topic: 'Configuration: Assigning R and S designations to stereocenters',
-        resourceTitle: 'Assigning R and S — Worked Examples', type: 'Guide', dateAdded: '', link: '' },
-      { courseCode: 'CHEM 231/237', topic: 'Substitution and Elimination Reactions',
-        resourceTitle: 'Nucleophilic Substitution (SN1 / SN2) Practice Quiz', type: 'Quiz', dateAdded: '', link: '' },
-      { courseCode: 'CHEM 231/237', topic: 'Alkyne Reactions',
-        resourceTitle: 'Alkyne Reaction Map', type: 'Guide', dateAdded: '', link: '' },
-
       { courseCode: 'CHEM 232/237', topic: 'Recrystallization',
         resourceTitle: 'Recrystallization Technique Walkthrough', type: 'Guide', dateAdded: '', link: '' },
       { courseCode: 'CHEM 232/237', topic: 'Thin-Layer Chromatography',
         resourceTitle: 'TLC Plate Reading & Rf Quick Reference', type: 'Guide', dateAdded: '', link: '' },
     ];
 
-    /* Every rendered entry carries all seven fields. courseTitle is filled from
-       COURSE_TITLE unless an entry sets its own, so the two cannot drift. */
-    const resources = RESOURCES.map(r => ({ ...r, courseTitle: r.courseTitle || COURSE_TITLE[r.courseCode] || '' }));
+    /* Every rendered entry carries the same fields. courseTitle comes from
+       COURSE_TITLE, and a `file` is resolved into both the href and the filename
+       shown on the card, so the path is written once in the data. */
+    const FILES_DIR = 'study resources';
+    const resources = RESOURCES.map(r => {
+      // Every segment holds spaces, and some hold commas or parentheses, so
+      // encode them individually - including the folder name itself.
+      const path = r.file
+        ? '../' + [FILES_DIR, COURSE_FOLDER[r.courseCode], r.topic, r.file]
+            .map(encodeURIComponent).join('/')
+        : '';
+      return Object.assign({}, r, {
+        courseTitle: r.courseTitle || COURSE_TITLE[r.courseCode] || '',
+        fileName: r.file || '',
+        link: r.link || path,
+      });
+    });
 
     const courseFiltersWrap = document.getElementById('course-filters');
     const topicFiltersWrap  = document.getElementById('topic-filters');
@@ -537,25 +647,26 @@
     /* Meta line is derived, never hand-written, so the counts cannot drift
        out of sync with the array as entries are added. */
     function renderMeta() {
-      // Prefix match so format-qualified types ("Guide (Doc)", "Quiz (Form)") still tally.
-      const guides = resources.filter(r => r.type.startsWith('Guide')).length;
-      const quizzes = resources.filter(r => r.type.startsWith('Quiz')).length;
+      const files = resources.filter(r => r.fileName).length;
+      const links = resources.filter(r => r.link && !r.fileName).length;
       const stamps = resources.map(r => r.dateAdded).filter(Boolean).sort();
       const latest = stamps.length ? stamps[stamps.length - 1] : '';
       metaEl.innerHTML =
-        '<span>' + guides + (guides === 1 ? ' guide' : ' guides') + '</span>' +
-        '<span>' + quizzes + (quizzes === 1 ? ' quiz' : ' quizzes') + '</span>' +
+        '<span>' + files + (files === 1 ? ' file' : ' files') + '</span>' +
+        '<span>' + links + (links === 1 ? ' linked doc' : ' linked docs') + '</span>' +
         '<span>' + COURSES.length + ' courses</span>' +
         '<span>updated ' + (latest ? esc(prettyDate(latest)) : 'not yet published') + '</span>';
 
       noteEl.classList.toggle('hidden', resources.some(r => r.link));
     }
 
-    /* Quizzes read as a solid gold chip, guides as a gold outline. The label is the
-       raw type string, so "Guide (Doc)" keeps its format qualifier. */
+    /* Assessed material (quizzes, practice exams) reads as a solid gold chip;
+       everything else is a gold outline. The label is the raw type string, so
+       "Guide (PDF)" keeps its format qualifier. */
     function typeBadge(type) {
       const base = 'inline-flex items-center px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase whitespace-nowrap';
-      return type.startsWith('Quiz')
+      const solid = type.startsWith('Quiz') || type.startsWith('Practice Exam');
+      return solid
         ? '<span class="' + base + ' bg-acs-gold text-acs-navy">' + esc(type) + '</span>'
         : '<span class="' + base + ' border border-acs-gold text-acs-navy">' + esc(type) + '</span>';
     }
@@ -575,8 +686,11 @@
       const options = [{ code: ALL_COURSES, title: 'Every course in the database' }].concat(COURSES);
       courseFiltersWrap.innerHTML = options.map(c => {
         const isActive = c.code === activeCourse;
-        return '<button type="button" data-course="' + esc(c.code) + '" title="' + esc(c.title) + '"' +
-               ' aria-pressed="' + isActive + '" class="' + chipClass(isActive, false) + '">' + esc(c.code) + '</button>';
+        // The chip reads as the course name; the number stays on the button's
+        // title attribute and in its data-course value, which the filter uses.
+        const label = c.code === ALL_COURSES ? esc(c.code) : esc(c.title);
+        return '<button type="button" data-course="' + esc(c.code) + '" title="' + esc(c.code) + '"' +
+               ' aria-pressed="' + isActive + '" class="' + chipClass(isActive, false) + '">' + label + '</button>';
       }).join('');
       courseFiltersWrap.querySelectorAll('.filter-chip').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -629,12 +743,20 @@
       return '' +
         '<article class="flex h-full flex-col border-b border-r border-acs-line bg-white p-6 sm:p-7' + (live ? ' hover:bg-acs-sky transition-colors duration-200' : '') + '">' +
           '<p class="text-[11px] font-semibold leading-relaxed tracking-[0.12em] uppercase text-acs-navy">' +
-            esc(r.courseCode) + '<span class="font-medium text-acs-slate">: ' + esc(r.courseTitle) + '</span>' +
+            esc(r.courseTitle) + '<span class="font-medium text-acs-slate"> (' + esc(r.courseCode) + ')</span>' +
           '</p>' +
           '<h4 class="mt-3">' + title + '</h4>' +
           '<p class="mt-3 text-[13px] leading-relaxed text-acs-ink/70">' +
             '<span class="font-semibold text-acs-navy">Topic:</span> ' + esc(r.topic) +
           '</p>' +
+          // The stored file name, shown verbatim so a resource can be matched
+          // against the PDF that opens.
+          (r.fileName
+            ? '<p class="mt-2 flex items-start gap-1.5 text-[12px] text-acs-slate">' +
+                '<i data-lucide="file-text" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-acs-navy"></i>' +
+                '<span class="file-name break-words">' + esc(r.fileName) + '</span>' +
+              '</p>'
+            : '') +
           '<div class="mt-auto flex items-center justify-between gap-3 pt-5">' +
             typeBadge(r.type) +
             '<span class="text-[12px] whitespace-nowrap ' + (live ? 'text-acs-slate' : 'text-acs-slate/60') + '">' +
