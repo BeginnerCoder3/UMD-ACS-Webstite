@@ -556,10 +556,6 @@
       { courseCode: 'CHEM 231/237', topic: 'Alkene Reactions',
         resourceTitle: 'Alkene Reactions', type: 'Guide (PDF)', dateAdded: '2026-08',
         file: 'Alkene Reactions.pdf' },
-      { courseCode: 'CHEM 231/237', topic: 'Alkene Reactions',
-        resourceTitle: 'Alkene Reaction Study Guide', type: 'Guide (Doc)', dateAdded: '2026-08',
-        link: 'https://docs.google.com/document/d/1PJlUwZ4wOlO486AYOVE49ZFoKMQWE55dV2moqE33ltg/edit?tab=t.0#heading=h.xj3438h7oqpg' },
-
       { courseCode: 'CHEM 231/237', topic: 'Alkyne Reactions',
         resourceTitle: 'Alkyne Reactions', type: 'Guide (PDF)', dateAdded: '2026-08',
         file: 'Alkyne Reactions.pdf' },
@@ -648,12 +644,10 @@
        out of sync with the array as entries are added. */
     function renderMeta() {
       const files = resources.filter(r => r.fileName).length;
-      const links = resources.filter(r => r.link && !r.fileName).length;
       const stamps = resources.map(r => r.dateAdded).filter(Boolean).sort();
       const latest = stamps.length ? stamps[stamps.length - 1] : '';
       metaEl.innerHTML =
         '<span>' + files + (files === 1 ? ' file' : ' files') + '</span>' +
-        '<span>' + links + (links === 1 ? ' linked doc' : ' linked docs') + '</span>' +
         '<span>' + COURSES.length + ' courses</span>' +
         '<span>updated ' + (latest ? esc(prettyDate(latest)) : 'not yet published') + '</span>';
 
