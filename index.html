@@ -395,6 +395,17 @@
         </div>
       </div>
 
+      <!-- Instagram callout: closes the About section as a note on the chapter,
+           directly under What is ACS? -->
+      <div class="reveal mt-12 border-l-[3px] border-acs-gold bg-white px-6 py-5">
+        <p class="text-acs-ink/85 leading-relaxed">
+          Check out our
+          <a href="https://www.instagram.com/umd_acs/" target="_blank" rel="noopener"
+             class="font-semibold text-acs-navy border-b border-acs-gold pb-0.5 hover:text-acs-deep transition-colors">Instagram</a>
+          for our upcoming internship spotlight series!
+        </p>
+      </div>
+
     </div>
   </section>
 
@@ -490,7 +501,10 @@
           </p>
 
 
-          <details class="course-list mt-4 border-t border-acs-line pt-4">
+          <!-- Bottom group: pinned with mt-auto so the rule above Available
+               Courses and the button below it share one baseline across both cards. -->
+          <div class="card-foot mt-auto pt-6">
+            <details class="course-list border-t border-acs-line pt-4">
             <summary class="inline-flex items-center gap-1.5 text-sm font-semibold text-acs-navy border-b border-acs-gold pb-0.5 hover:text-acs-ink transition-colors">
               Available Courses
               <i data-lucide="chevron-down" class="wm-chevron h-4 w-4 shrink-0"></i>
@@ -536,14 +550,15 @@
                 <span class="text-acs-ink/80">Physics 2</span>
                 <span class="shrink-0 font-mono text-[12px] font-semibold tracking-wide text-acs-navy">PHYS260</span>
               </li>
-            </ul>
-          </details>
+              </ul>
+            </details>
 
-          <div class="mt-auto pt-8">
-            <a href="#events" class="inline-flex items-center gap-2 bg-acs-navy px-6 py-3 text-sm font-semibold tracking-wide text-white hover:bg-acs-gold hover:text-acs-navy transition-colors duration-200">
-              See the Schedule
-              <i data-lucide="arrow-right" class="h-4 w-4"></i>
-            </a>
+            <div class="pt-8">
+              <a href="#events" class="inline-flex items-center gap-2 border border-transparent bg-acs-navy px-6 py-3 text-sm font-semibold tracking-wide text-white hover:bg-acs-gold hover:text-acs-navy transition-colors duration-200">
+                See the Schedule
+                <i data-lucide="arrow-right" class="h-4 w-4"></i>
+              </a>
+            </div>
           </div>
         </div>
 
@@ -565,7 +580,10 @@
           <p class="mt-3 text-acs-ink/70 leading-relaxed">Rates vary by tutor, and sessions are scheduled around your availability. Fill out the sign-up form below, and we’ll match you with one!</p>
 
 
-          <details class="course-list mt-4 border-t border-acs-line pt-4">
+          <!-- Bottom group: pinned with mt-auto so the rule above Available
+               Courses and the button below it share one baseline across both cards. -->
+          <div class="card-foot mt-auto pt-6">
+            <details class="course-list border-t border-acs-line pt-4">
             <summary class="inline-flex items-center gap-1.5 text-sm font-semibold text-acs-navy border-b border-acs-gold pb-0.5 hover:text-acs-ink transition-colors">
               Available Courses
               <i data-lucide="chevron-down" class="wm-chevron h-4 w-4 shrink-0"></i>
@@ -619,13 +637,14 @@
                 <span class="text-acs-ink/80">Physics 2 Lab</span>
                 <span class="shrink-0 font-mono text-[12px] font-semibold tracking-wide text-acs-navy">PHYS261</span>
               </li>
-            </ul>
-          </details>
+              </ul>
+            </details>
 
-          <div class="mt-auto pt-8">
-            <a href="https://forms.gle/js4oTczsJXhvE2TC8" target="_blank" rel="noopener" class="inline-flex items-center gap-2 border border-acs-navy px-6 py-3 text-sm font-semibold tracking-wide text-acs-navy hover:bg-acs-gold hover:border-acs-gold transition-colors duration-200">
-              Sign-Up Sheet <i data-lucide="pen-line" class="h-4 w-4"></i>
-            </a>
+            <div class="pt-8">
+              <a href="https://forms.gle/js4oTczsJXhvE2TC8" target="_blank" rel="noopener" class="inline-flex items-center gap-2 border border-acs-navy px-6 py-3 text-sm font-semibold tracking-wide text-acs-navy hover:bg-acs-gold hover:border-acs-gold transition-colors duration-200">
+                Sign-Up Sheet <i data-lucide="pen-line" class="h-4 w-4"></i>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -806,7 +825,7 @@
         <p class="mt-3 text-[11px] font-semibold tracking-[0.22em] uppercase text-acs-slate">* More coming soon</p>
       </div>
 
-      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-acs-line bg-white">
+      <div class="mt-12 grid md:grid-cols-3 border-t border-l border-acs-line bg-white">
         <!-- Each card is a flex column and each underlined link sits in an mt-auto
              wrapper, so all four links share one baseline no matter how many lines
              the blurb above them runs to. -->
@@ -832,24 +851,6 @@
             <span class="inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">Browse the database <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
           </div>
         </a>
-        <a href="#events" class="reveal reveal-delay-3 group flex h-full flex-col border-r border-b border-acs-line p-7 hover:bg-acs-sky transition-colors duration-200">
-          <h3 class="font-display font-semibold text-lg text-acs-navy">Outreach Impact</h3>
-          <p class="mt-2.5 text-sm text-acs-ink/75 leading-relaxed">We reach local elementary students through demos and school visits throughout the year.</p>
-          <div class="mt-auto pt-4">
-            <span class="inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5">See outreach events <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
-          </div>
-        </a>
-      </div>
-
-      <!-- Highlight callout: sits between the card grid and the database CTA so it
-           reads as a note on the section, not as a fifth card. -->
-      <div class="reveal mt-10 border-l-[3px] border-acs-gold bg-acs-sky px-6 py-5">
-        <p class="text-acs-ink/85 leading-relaxed">
-          Check out our
-          <a href="https://www.instagram.com/umd_acs/" target="_blank" rel="noopener"
-             class="font-semibold text-acs-navy border-b border-acs-gold pb-0.5 hover:text-acs-deep transition-colors">Instagram</a>
-          for our upcoming internship spotlight series!
-        </p>
       </div>
 
       <div class="reveal mt-10">
