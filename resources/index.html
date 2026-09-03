@@ -108,6 +108,31 @@
 
     .mobile-menu { transition: opacity .25s ease, transform .25s ease; }
 
+    /* Raster watermark tiles, same treatment as the home page. The source PNGs
+       carry no alpha channel - flat white is ~88% of every file - so multiply is
+       what keeps each section's base colour intact: white multiplies away to the
+       backdrop and only the pale glyph ink darkens it. Plain opacity would lay a
+       washed-out white box over the sky and cream sections instead. */
+    .img-wm {
+      position: absolute; pointer-events: none; user-select: none;
+      z-index: 0; opacity: .22; mix-blend-mode: multiply;
+      max-width: none;   /* the tiles are deliberately wider than their column */
+    }
+    /* The navy footer needs the inverse: multiply would sink the pale ink into
+       the dark ground. Inverting turns the sheet's white to black - the neutral
+       value for screen - so only the glyphs lift the backdrop. */
+    .img-wm-dark { mix-blend-mode: screen; filter: invert(1); }
+    /* Content sits above the watermarks without either needing a stacking hack. */
+    .section-body { position: relative; z-index: 1; }
+
+    @media (max-width: 767px) {
+      /* Small screens have no outer margin to spare - the art would land under text. */
+      .img-wm { display: none; }
+    }
+    @media (prefers-contrast: more) {
+      .img-wm { display: none; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .reveal { transition: none; opacity: 1; transform: none; }
       * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
@@ -183,8 +208,11 @@
   </nav>
 
   <!-- ============================= MASTHEAD ============================= -->
-  <header class="relative bg-acs-sky">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10 pt-12 lg:pt-16 pb-10">
+  <header class="relative overflow-hidden bg-acs-sky">
+      <img src="../Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm" style="left:569px;top:-9px;width:520px;transform:rotate(-9deg)">
+      <img src="../Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm" style="left:-58px;top:-56px;width:520px;transform:rotate(7deg)">
+      <img src="../Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm" style="left:1174px;top:-64px;width:520px;transform:rotate(-5deg)">
+    <div class="section-body mx-auto max-w-7xl px-6 lg:px-10 pt-12 lg:pt-16 pb-10">
       <nav aria-label="Breadcrumb" class="text-[13px] text-acs-slate">
         <a href="../index.html" class="hover:text-acs-navy transition-colors">Home</a>
         <span class="mx-2 text-acs-line">/</span>
@@ -208,8 +236,13 @@
   </header>
 
   <!-- ============================= RESOURCE DATABASE ============================= -->
-  <section id="database" class="relative py-16 lg:py-20 bg-white">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+  <section id="database" class="relative overflow-hidden py-16 lg:py-20 bg-white">
+      <img src="../Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm" style="left:91px;top:1045px;width:600px;transform:rotate(8deg)">
+      <img src="../Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm" style="left:764px;top:2158px;width:600px;transform:rotate(-11deg)">
+      <img src="../Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm" style="left:802px;top:36px;width:600px;transform:rotate(6deg)">
+      <img src="../Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm" style="left:46px;top:260px;width:600px;transform:rotate(-7deg)">
+      <img src="../Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm" style="left:40px;top:1834px;width:600px;transform:rotate(10deg)">
+    <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
 
       <!-- Filter block. Both rows always render, so switching course swaps the
            topic chips in place without the grid below jumping. -->
@@ -247,8 +280,11 @@
   </section>
 
   <!-- ============================= CONTRIBUTE ============================= -->
-  <section id="contribute" class="relative scroll-mt-24 py-16 lg:py-20 bg-acs-cream">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+  <section id="contribute" class="relative overflow-hidden scroll-mt-24 py-16 lg:py-20 bg-acs-cream">
+      <img src="../Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm" style="left:787px;top:136px;width:540px;transform:rotate(-8deg)">
+      <img src="../Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm" style="left:55px;top:44px;width:540px;transform:rotate(10deg)">
+      <img src="../Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm" style="left:1539px;top:788px;width:540px;transform:rotate(-6deg)">
+    <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal border border-acs-line">
         <div class="h-[3px] w-full bg-acs-gold"></div>
         <div class="grid lg:grid-cols-2">
@@ -299,9 +335,12 @@
   </section>
 
   <!-- ============================= FOOTER ============================= -->
-  <footer class="relative bg-acs-navy text-white">
+  <footer class="relative overflow-hidden bg-acs-navy text-white">
+      <img src="../Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm img-wm-dark" style="left:835px;top:-30px;width:400px;transform:rotate(7deg)">
+      <img src="../Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm img-wm-dark" style="left:32px;top:7px;width:400px;transform:rotate(-6deg)">
+      <img src="../Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm img-wm-dark" style="left:1309px;top:4px;width:400px;transform:rotate(5deg)">
     <div class="h-[3px] w-full bg-acs-gold"></div>
-    <div class="mx-auto max-w-7xl px-6 lg:px-10 py-16">
+    <div class="section-body mx-auto max-w-7xl px-6 lg:px-10 py-16">
       <!-- Two columns only: the Navigate link list was removed as a duplicate of
            the sticky nav directly above it. -->
       <div class="grid md:grid-cols-2 gap-12 items-start">
