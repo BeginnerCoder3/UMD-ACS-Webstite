@@ -106,18 +106,6 @@
     .inst-name { font-weight: 700; font-size: 14px; letter-spacing: .025em; color: #003A70; }
     .inst-sub  { font-weight: 500; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: #64748B; }
 
-    /* Decorative chemistry line-art. Sits in the outer margins of a section at
-       very low opacity — present enough to fill dead space, far too faint to
-       compete with body copy. Never interactive, never announced. */
-    .chem-wm {
-      position: absolute; pointer-events: none; user-select: none;
-      color: #003A70; opacity: .06; z-index: 0;
-    }
-    /* Glyphs that sit inside the column rather than out in the margin pass
-       directly behind body copy, so they drop a further stop; the large
-       feature pieces drop one more again. Range stays 0.03-0.06. */
-    .chem-wm-mid { opacity: .035; }
-    .chem-wm-lg  { opacity: .03; }
     /* Content sits above the watermarks without either needing a stacking hack. */
     .section-body { position: relative; z-index: 1; }
 
@@ -128,15 +116,20 @@
        washed-out white box over the cream and sky sections instead. */
     .img-wm {
       position: absolute; pointer-events: none; user-select: none;
-      z-index: 0; opacity: .18; mix-blend-mode: multiply;
+      z-index: 0; opacity: .12; mix-blend-mode: multiply;
+      max-width: none;   /* the tiles are deliberately wider than their column */
     }
+    /* The navy footer needs the inverse trick: multiply would sink the pale ink
+       into the dark ground. Inverting turns the sheet's white to black — which is
+       the neutral value for screen — so only the glyphs lift the backdrop. */
+    .img-wm-dark { mix-blend-mode: screen; filter: invert(1); }
 
     @media (max-width: 767px) {
       /* Small screens have no outer margin to spare — the art would land under text. */
-      .chem-wm, .img-wm { display: none; }
+      .img-wm { display: none; }
     }
     @media (prefers-contrast: more) {
-      .chem-wm, .img-wm { display: none; }
+      .img-wm { display: none; }
     }
 
     /* Hairline separator between inline meta items */
@@ -168,162 +161,12 @@
 
 <body class="antialiased bg-white">
 
-  <!-- ===================== CHEMISTRY WATERMARK SYMBOLS =====================
-       Defined once and referenced with <use> so the path data is not repeated
-       per section. Purely decorative: aria-hidden, no pointer events. -->
-  <svg width="0" height="0" aria-hidden="true" focusable="false" class="absolute">
-    <defs>
-      <!-- Benzene: hexagon + delocalisation circle -->
-      <g id="wm-benzene" fill="none" stroke="currentColor" stroke-width="2">
-        <polygon points="26,15 0,30 -26,15 -26,-15 0,-30 26,-15" />
-        <circle cx="0" cy="0" r="16" />
-      </g>
-
-      <!-- Naphthalene: two hexagons sharing the vertical bond at x = 26 -->
-      <g id="wm-fused" fill="none" stroke="currentColor" stroke-width="2">
-        <polygon points="26,15 0,30 -26,15 -26,-15 0,-30 26,-15" />
-        <polygon points="78,15 52,30 26,15 26,-15 52,-30 78,-15" />
-      </g>
-
-      <!-- Reaction pathway: substrate ring, arrow, product ring -->
-      <g id="wm-pathway" fill="none" stroke="currentColor" stroke-width="2">
-        <polygon points="-70,12 -91,24 -112,12 -112,-12 -91,-24 -70,-12" />
-        <line x1="-60" y1="0" x2="42" y2="0" />
-        <polyline points="32,-7 44,0 32,7" />
-        <line x1="-24" y1="-14" x2="6" y2="-14" stroke-dasharray="4 5" />
-        <polygon points="112,12 91,24 70,12 70,-12 91,-24 112,-12" />
-        <circle cx="91" cy="0" r="13" />
-      </g>
-
-      <!-- Periodic table motif: element cells carrying the real first eleven
-           elements — atomic number in the top-left corner, symbol centred below,
-           the way a printed table sets them. The leading gap on the bottom row is
-           the s/p block split, so the shape reads as a periodic table and not as
-           an arbitrary 4x3 grid. -->
-      <g id="wm-grid" fill="none" stroke="currentColor" stroke-width="1.5">
-        <rect x="0"   y="0"  width="30" height="30" />
-        <rect x="36"  y="0"  width="30" height="30" />
-        <rect x="72"  y="0"  width="30" height="30" />
-        <rect x="108" y="0"  width="30" height="30" />
-        <rect x="0"   y="36" width="30" height="30" />
-        <rect x="36"  y="36" width="30" height="30" />
-        <rect x="72"  y="36" width="30" height="30" />
-        <rect x="108" y="36" width="30" height="30" />
-        <rect x="36"  y="72" width="30" height="30" />
-        <rect x="72"  y="72" width="30" height="30" />
-        <rect x="108" y="72" width="30" height="30" />
-
-        <g fill="currentColor" stroke="none" font-family="Poppins, sans-serif" font-size="7">
-          <text x="3"   y="10">1</text>
-          <text x="39"  y="10">2</text>
-          <text x="75"  y="10">3</text>
-          <text x="111" y="10">4</text>
-          <text x="3"   y="46">5</text>
-          <text x="39"  y="46">6</text>
-          <text x="75"  y="46">7</text>
-          <text x="111" y="46">8</text>
-          <text x="39"  y="82">9</text>
-          <text x="75"  y="82">10</text>
-          <text x="111" y="82">11</text>
-        </g>
-        <g fill="currentColor" stroke="none" font-family="Poppins, sans-serif" font-size="13"
-           font-weight="600" text-anchor="middle">
-          <text x="15"  y="25">H</text>
-          <text x="51"  y="25">He</text>
-          <text x="87"  y="25">Li</text>
-          <text x="123" y="25">Be</text>
-          <text x="15"  y="61">B</text>
-          <text x="51"  y="61">C</text>
-          <text x="87"  y="61">N</text>
-          <text x="123" y="61">O</text>
-          <text x="51"  y="97">F</text>
-          <text x="87"  y="97">Ne</text>
-          <text x="123" y="97">Na</text>
-        </g>
-      </g>
-
-      <!-- Atomic orbital diagram: crossed p lobes over a dashed s shell, nucleus
-           at the origin. Centred on 0,0 like the ring glyphs above. -->
-      <g id="wm-orbital" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="0" cy="0" r="19" stroke-dasharray="4 6" />
-        <ellipse cx="0" cy="0" rx="38" ry="14" />
-        <ellipse cx="0" cy="0" rx="14" ry="38" />
-        <ellipse cx="0" cy="0" rx="38" ry="14" transform="rotate(45)" />
-        <circle cx="0" cy="0" r="3.5" fill="currentColor" stroke="none" />
-      </g>
-
-      <!-- Structural formula fragment: zig-zag chain with a carbonyl and a hydroxyl -->
-      <g id="wm-chain" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="0,20 26,4 52,20 78,4 104,20 130,4" />
-        <line x1="78" y1="4" x2="78" y2="-24" />
-        <line x1="84" y1="4" x2="84" y2="-24" />
-        <line x1="130" y1="4" x2="156" y2="20" />
-        <circle cx="164" cy="24" r="7" />
-      </g>
-
-      <!-- Cyclohexane chair conformation. Drawn the textbook way: two offset
-           zig-zags whose opposite bonds are parallel, with axial bonds
-           alternating up and down around the ring. viewBox "-60 -50 120 100". -->
-      <g id="wm-chair" fill="none" stroke="currentColor" stroke-width="2">
-        <polygon points="-50,10 -16,22 18,10 50,-10 16,-22 -18,-10" />
-        <line x1="-50" y1="10" x2="-50" y2="-8" />
-        <line x1="-16" y1="22" x2="-16" y2="40" />
-        <line x1="18"  y1="10" x2="18"  y2="-8" />
-        <line x1="50"  y1="-10" x2="50" y2="8" />
-        <line x1="16"  y1="-22" x2="16" y2="-40" />
-        <line x1="-18" y1="-10" x2="-18" y2="8" />
-      </g>
-
-      <!-- Glassware silhouettes: Erlenmeyer flask beside a graduated beaker,
-           both with a fill line. viewBox "-40 -46 130 84". -->
-      <g id="wm-glass" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="-22" y1="-40" x2="-4" y2="-40" />
-        <path d="M -18,-40 L -18,-20 L -34,28 L 8,28 L -8,-20 L -8,-40" />
-        <line x1="-27" y1="12" x2="1" y2="12" />
-        <line x1="34" y1="-24" x2="34" y2="28" />
-        <line x1="34" y1="28" x2="78" y2="28" />
-        <line x1="78" y1="28" x2="78" y2="-24" />
-        <line x1="28" y1="-24" x2="40" y2="-24" />
-        <line x1="72" y1="-24" x2="84" y2="-24" />
-        <line x1="34" y1="4"  x2="78" y2="4" />
-        <line x1="66" y1="-12" x2="78" y2="-12" />
-        <line x1="70" y1="-2"  x2="78" y2="-2" />
-      </g>
-
-      <!-- Polymer: repeat unit bracketed out of a zig-zag backbone, with the
-           degree-of-polymerisation subscript. viewBox "-110 -40 220 80". -->
-      <g id="wm-polymer" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="-100,10 -75,-6 -50,10 -25,-6 0,10 25,-6 50,10 75,-6 100,10" />
-        <line x1="-25" y1="-6" x2="-25" y2="-28" />
-        <line x1="25"  y1="-6" x2="25"  y2="-28" />
-        <circle cx="25" cy="-33" r="5" />
-        <path d="M -32,-32 L -42,-32 L -42,26 L -32,26" />
-        <path d="M 44,-32 L 54,-32 L 54,26 L 44,26" />
-        <text x="60" y="32" fill="currentColor" stroke="none"
-              font-family="Poppins, sans-serif" font-size="16" font-style="italic">n</text>
-      </g>
-
-      <!-- Equilibrium: opposed half-arrows under a heat symbol.
-           viewBox "-80 -40 160 80". -->
-      <g id="wm-arrows" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="-64" y1="-8" x2="64" y2="-8" />
-        <polyline points="52,-16 66,-8" />
-        <line x1="64" y1="10" x2="-64" y2="10" />
-        <polyline points="-52,18 -66,10" />
-        <polygon points="0,-34 9,-20 -9,-20" />
-      </g>
-    </defs>
-  </svg>
-
   <!-- ============================= HERO / MASTHEAD ============================= -->
   <header id="home" class="relative overflow-hidden bg-white">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-17.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm -left-24 top-8 w-[400px]" style="transform:rotate(-12deg)">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-19.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm right-[-90px] bottom-[6%] w-[460px]" style="transform:rotate(9deg)">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[42%] top-[54%] w-[320px]" style="transform:rotate(21deg)">
-      <svg class="chem-wm -left-16 bottom-24 h-32 w-32" viewBox="-45 -45 90 90" aria-hidden="true" focusable="false"><use href="#wm-orbital"/></svg>
-      <svg class="chem-wm chem-wm-lg left-[34%] top-[6%] h-44 w-[17.5rem]" viewBox="-40 -46 130 84" aria-hidden="true" focusable="false"><use href="#wm-glass"/></svg>
-      <svg class="chem-wm chem-wm-mid left-[18%] bottom-[8%] h-28 w-36" viewBox="-60 -50 120 100" aria-hidden="true" focusable="false"><use href="#wm-chair"/></svg>
-      <svg class="chem-wm -right-12 bottom-1/3 h-24 w-24" viewBox="-40 -40 80 80" aria-hidden="true" focusable="false"><use href="#wm-benzene"/></svg>
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-17.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[-8%] top-[2%] w-[720px]" style="transform:rotate(-10deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-17.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[38%] top-[30%] w-[560px]" style="transform:rotate(14deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-17.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm right-[-6%] bottom-[-4%] w-[820px]" style="transform:rotate(7deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-17.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[12%] bottom-[6%] w-[520px]" style="transform:rotate(-22deg)">
 
     <!-- Institutional bar. Both lockups are the same two-row structure at the same
          h-11 logo size, so the seals sit on one horizontal axis and the wordmarks
@@ -488,16 +331,10 @@
        the same membership pitch split across two near-identical three-column grids.
        Benefits now run as editorial prose columns rather than bordered cards. -->
   <section id="about" class="relative overflow-hidden py-20 lg:py-28 bg-acs-cream">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm -right-28 top-10 w-[440px]" style="transform:rotate(14deg)">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-20.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[-70px] bottom-[8%] w-[380px]" style="transform:rotate(-8deg)">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-17.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[38%] top-[30%] w-[300px]" style="transform:rotate(-24deg)">
-      <svg class="chem-wm -right-16 top-10 h-28 w-40" viewBox="-30 -40 120 80" aria-hidden="true" focusable="false"><use href="#wm-fused"/></svg>
-      <svg class="chem-wm -left-12 bottom-16 h-32 w-32" viewBox="-40 -40 80 80" aria-hidden="true" focusable="false"><use href="#wm-benzene"/></svg>
-      <svg class="chem-wm -left-20 top-1/3 h-28 w-28" viewBox="-45 -45 90 90" aria-hidden="true" focusable="false"><use href="#wm-orbital"/></svg>
-      <svg class="chem-wm -right-24 bottom-8 h-28 w-40" viewBox="-10 -10 160 122" aria-hidden="true" focusable="false"><use href="#wm-grid"/></svg>
-      <svg class="chem-wm chem-wm-lg left-[38%] top-[10%] h-36 w-[26rem]" viewBox="-110 -40 220 80" aria-hidden="true" focusable="false"><use href="#wm-polymer"/></svg>
-      <svg class="chem-wm chem-wm-mid right-[28%] bottom-[10%] h-28 w-[8.4rem]" viewBox="-60 -50 120 100" aria-hidden="true" focusable="false"><use href="#wm-chair"/></svg>
-      <svg class="chem-wm chem-wm-mid left-[46%] bottom-[36%] h-16 w-32" viewBox="-80 -40 160 80" aria-hidden="true" focusable="false"><use href="#wm-arrows"/></svg>
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm right-[-7%] top-[-3%] w-[780px]" style="transform:rotate(12deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[30%] top-[38%] w-[600px]" style="transform:rotate(-16deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[-9%] bottom-[2%] w-[700px]" style="transform:rotate(5deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm right-[26%] bottom-[-6%] w-[540px]" style="transform:rotate(-8deg)">
 
     <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
 
@@ -567,15 +404,10 @@
   <!-- Band: crisp white. Section backgrounds alternate sky → cream → white → sky …
        down the page; each band is one flat color edge to edge, never split. -->
   <section id="events" class="relative overflow-hidden py-20 lg:py-28 bg-acs-sky">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-19.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm -left-20 top-[12%] w-[420px]" style="transform:rotate(11deg)">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-17.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm right-[-100px] bottom-4 w-[480px]" style="transform:rotate(-15deg)">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-20.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[55%] top-[6%] w-[310px]" style="transform:rotate(6deg)">
-      <svg class="chem-wm -right-10 top-24 h-36 w-48" viewBox="-10 -10 160 122" aria-hidden="true" focusable="false"><use href="#wm-grid"/></svg>
-      <svg class="chem-wm -left-24 top-1/2 h-20 w-64" viewBox="-130 -40 260 80" aria-hidden="true" focusable="false"><use href="#wm-pathway"/></svg>
-      <svg class="chem-wm -left-14 bottom-10 h-28 w-28" viewBox="-40 -40 80 80" aria-hidden="true" focusable="false"><use href="#wm-benzene"/></svg>
-      <svg class="chem-wm chem-wm-lg right-[30%] top-[6%] h-48 w-[19rem]" viewBox="-40 -46 130 84" aria-hidden="true" focusable="false"><use href="#wm-glass"/></svg>
-      <svg class="chem-wm chem-wm-mid left-[40%] bottom-[12%] h-16 w-32" viewBox="-80 -40 160 80" aria-hidden="true" focusable="false"><use href="#wm-arrows"/></svg>
-      <svg class="chem-wm chem-wm-mid left-1/4 top-[45%] h-24 w-[7.2rem]" viewBox="-60 -50 120 100" aria-hidden="true" focusable="false"><use href="#wm-chair"/></svg>
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-19.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[-6%] top-[6%] w-[760px]" style="transform:rotate(-9deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-19.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[44%] top-[12%] w-[580px]" style="transform:rotate(18deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-19.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm right-[-8%] bottom-[8%] w-[840px]" style="transform:rotate(-13deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-19.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[18%] bottom-[-4%] w-[520px]" style="transform:rotate(6deg)">
 
     <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
@@ -612,15 +444,10 @@
 
   <!-- ============================= TUTORING ============================= -->
   <section id="tutoring" class="relative overflow-hidden py-20 lg:py-28 bg-white">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-20.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm -right-24 top-[14%] w-[430px]" style="transform:rotate(-10deg)">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[-80px] bottom-[10%] w-[400px]" style="transform:rotate(17deg)">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-19.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[30%] bottom-[2%] w-[330px]" style="transform:rotate(-5deg)">
-      <svg class="chem-wm -right-14 bottom-12 h-24 w-64" viewBox="-10 -40 200 80" aria-hidden="true" focusable="false"><use href="#wm-chain"/></svg>
-      <svg class="chem-wm -left-16 top-20 h-32 w-32" viewBox="-45 -45 90 90" aria-hidden="true" focusable="false"><use href="#wm-orbital"/></svg>
-      <svg class="chem-wm -left-20 bottom-24 h-28 w-40" viewBox="-30 -40 120 80" aria-hidden="true" focusable="false"><use href="#wm-fused"/></svg>
-      <svg class="chem-wm chem-wm-lg left-[36%] top-[8%] h-40 w-[27.5rem]" viewBox="-110 -40 220 80" aria-hidden="true" focusable="false"><use href="#wm-polymer"/></svg>
-      <svg class="chem-wm chem-wm-mid right-[24%] bottom-[8%] h-32 w-[12.4rem]" viewBox="-40 -46 130 84" aria-hidden="true" focusable="false"><use href="#wm-glass"/></svg>
-      <svg class="chem-wm chem-wm-mid left-[20%] bottom-[30%] h-24 w-24" viewBox="-40 -40 80 80" aria-hidden="true" focusable="false"><use href="#wm-benzene"/></svg>
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-20.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm right-[-5%] top-[4%] w-[800px]" style="transform:rotate(-11deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-20.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[26%] top-[34%] w-[620px]" style="transform:rotate(9deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-20.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[-8%] bottom-[6%] w-[700px]" style="transform:rotate(16deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-20.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm right-[30%] bottom-[-5%] w-[540px]" style="transform:rotate(-6deg)">
 
     <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
@@ -815,15 +642,10 @@
 
   <!-- ============================= HOW TO JOIN ============================= -->
   <section id="join" class="relative overflow-hidden py-20 lg:py-28 bg-acs-sky">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-17.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm -left-28 bottom-[14%] w-[450px]" style="transform:rotate(13deg)">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-19.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm right-[-70px] top-[8%] w-[390px]" style="transform:rotate(-19deg)">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[48%] bottom-[6%] w-[300px]" style="transform:rotate(8deg)">
-      <svg class="chem-wm -right-20 top-16 h-20 w-64" viewBox="-130 -40 260 80" aria-hidden="true" focusable="false"><use href="#wm-pathway"/></svg>
-      <svg class="chem-wm -left-24 bottom-16 h-28 w-40" viewBox="-10 -10 160 122" aria-hidden="true" focusable="false"><use href="#wm-grid"/></svg>
-      <svg class="chem-wm -right-16 bottom-1/4 h-28 w-28" viewBox="-45 -45 90 90" aria-hidden="true" focusable="false"><use href="#wm-orbital"/></svg>
-      <svg class="chem-wm chem-wm-lg left-[30%] bottom-[4%] h-44 w-[13.2rem]" viewBox="-60 -50 120 100" aria-hidden="true" focusable="false"><use href="#wm-chair"/></svg>
-      <svg class="chem-wm chem-wm-mid right-[34%] top-[14%] h-16 w-32" viewBox="-80 -40 160 80" aria-hidden="true" focusable="false"><use href="#wm-arrows"/></svg>
-      <svg class="chem-wm chem-wm-mid left-[48%] top-[40%] h-20 w-32" viewBox="-30 -40 120 80" aria-hidden="true" focusable="false"><use href="#wm-fused"/></svg>
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-17.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[-7%] top-[8%] w-[740px]" style="transform:rotate(13deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-17.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[40%] top-[20%] w-[560px]" style="transform:rotate(-19deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-17.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm right-[-6%] bottom-[4%] w-[820px]" style="transform:rotate(8deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-17.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[20%] bottom-[-6%] w-[520px]" style="transform:rotate(-4deg)">
 
     <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
@@ -903,12 +725,6 @@
 
   <!-- ============================= FAQ ============================= -->
   <section id="faq" class="relative overflow-hidden py-20 lg:py-28 bg-acs-cream">
-      <svg class="chem-wm -left-14 top-28 h-36 w-36" viewBox="-40 -40 80 80" aria-hidden="true" focusable="false"><use href="#wm-benzene"/></svg>
-      <svg class="chem-wm -right-16 top-16 h-24 w-64" viewBox="-10 -40 200 80" aria-hidden="true" focusable="false"><use href="#wm-chain"/></svg>
-      <svg class="chem-wm -right-20 bottom-14 h-28 w-40" viewBox="-30 -40 120 80" aria-hidden="true" focusable="false"><use href="#wm-fused"/></svg>
-      <svg class="chem-wm chem-wm-lg right-[36%] top-[8%] h-44 w-[17.5rem]" viewBox="-40 -46 130 84" aria-hidden="true" focusable="false"><use href="#wm-glass"/></svg>
-      <svg class="chem-wm chem-wm-mid left-[28%] bottom-[10%] h-32 w-[22rem]" viewBox="-110 -40 220 80" aria-hidden="true" focusable="false"><use href="#wm-polymer"/></svg>
-      <svg class="chem-wm chem-wm-mid left-[46%] top-[30%] h-24 w-[7.2rem]" viewBox="-60 -50 120 100" aria-hidden="true" focusable="false"><use href="#wm-chair"/></svg>
 
     <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
@@ -981,16 +797,10 @@
 
   <!-- ============================= RESOURCES PREVIEW ============================= -->
   <section id="resources" class="relative overflow-hidden py-20 lg:py-28 bg-white">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm -right-20 bottom-[10%] w-[470px]" style="transform:rotate(-13deg)">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-20.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[-90px] top-[10%] w-[410px]" style="transform:rotate(10deg)">
-      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-17.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[52%] top-[40%] w-[320px]" style="transform:rotate(-7deg)">
-      <svg class="chem-wm -right-16 bottom-10 h-28 w-40" viewBox="-30 -40 120 80" aria-hidden="true" focusable="false"><use href="#wm-fused"/></svg>
-      <svg class="chem-wm -left-20 top-14 h-28 w-40" viewBox="-10 -10 160 122" aria-hidden="true" focusable="false"><use href="#wm-grid"/></svg>
-      <svg class="chem-wm -left-24 bottom-20 h-20 w-64" viewBox="-130 -40 260 80" aria-hidden="true" focusable="false"><use href="#wm-pathway"/></svg>
-      <svg class="chem-wm chem-wm-lg right-[10%] top-[6%] h-56 w-56" viewBox="-45 -45 90 90" aria-hidden="true" focusable="false"><use href="#wm-orbital"/></svg>
-      <svg class="chem-wm chem-wm-mid left-[52%] top-[18%] h-28 w-[6.8rem]" viewBox="-40 -46 130 84" aria-hidden="true" focusable="false"><use href="#wm-glass"/></svg>
-      <svg class="chem-wm chem-wm-mid left-[36%] bottom-[8%] h-16 w-32" viewBox="-80 -40 160 80" aria-hidden="true" focusable="false"><use href="#wm-arrows"/></svg>
-      <svg class="chem-wm chem-wm-mid right-[30%] bottom-[24%] h-24 w-24" viewBox="-40 -40 80 80" aria-hidden="true" focusable="false"><use href="#wm-benzene"/></svg>
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm right-[-8%] top-[2%] w-[780px]" style="transform:rotate(-12deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[32%] top-[40%] w-[600px]" style="transform:rotate(10deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm left-[-6%] bottom-[4%] w-[720px]" style="transform:rotate(-7deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-18.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm right-[24%] bottom-[-8%] w-[540px]" style="transform:rotate(15deg)">
 
     <div class="section-body mx-auto max-w-7xl px-6 lg:px-10">
       <div class="reveal max-w-3xl">
@@ -1056,9 +866,12 @@
   </section>
 
   <!-- ============================= FOOTER ============================= -->
-  <footer class="relative bg-acs-navy text-white">
+  <footer class="relative overflow-hidden bg-acs-navy text-white">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-20.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm img-wm-dark left-[-6%] top-[-10%] w-[640px]" style="transform:rotate(-8deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-20.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm img-wm-dark left-[42%] top-[10%] w-[520px]" style="transform:rotate(12deg)">
+      <img src="Website%20Backgrounds/acs_speaker_series_instagram_posts-20.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" draggable="false" class="img-wm img-wm-dark right-[-7%] bottom-[-12%] w-[700px]" style="transform:rotate(-5deg)">
     <div class="h-[3px] w-full bg-acs-gold"></div>
-    <div class="mx-auto max-w-7xl px-6 lg:px-10 py-16">
+    <div class="section-body mx-auto max-w-7xl px-6 lg:px-10 py-16">
       <!-- Two columns only: the Navigate link list was removed as a duplicate of
            the sticky nav directly above it. -->
       <div class="grid md:grid-cols-2 gap-12 items-start">
