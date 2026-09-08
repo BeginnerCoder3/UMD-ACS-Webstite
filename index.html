@@ -247,24 +247,24 @@
 
             <figcaption class="flex items-center justify-between gap-3 border-b border-acs-line px-5 py-3">
               <span class="text-[11px] font-semibold tracking-[0.24em] uppercase text-acs-navy">Molecule of the Week</span>
-              <span id="motw-tag" class="bg-acs-gold px-2 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase text-acs-navy">Noble Gas Compound</span>
+              <span id="motw-tag" class="bg-acs-gold px-2 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase text-acs-navy">Antimicrobial / Antifungal Agent</span>
             </figcaption>
 
             <canvas id="molecule-canvas" class="w-full h-[300px] sm:h-[360px] bg-white"></canvas>
 
             <div class="border-t border-acs-line px-5 py-5">
               <h2 id="motw-name" class="font-display font-semibold text-2xl leading-tight text-acs-navy">
-                Xenon Tetrafluoride
+                Pyrithione
               </h2>
               <p class="mt-1.5 text-[13px] text-acs-slate">
-                <span id="motw-formula">XeF<sub>4</sub></span>
+                <span id="motw-formula">C<sub>5</sub>H<sub>5</sub>NOS</span>
                 <span class="mx-2 text-acs-rule">|</span>
-                PubChem CID <span id="motw-cid">123324</span>
+                PubChem CID <span id="motw-cid">1570</span>
               </p>
               <p id="motw-desc" class="mt-3 text-sm leading-relaxed text-acs-ink/80">
-                An inorganic compound and one of the first discovered binary noble gas compounds. It forms colorable crystals and exhibits a square planar molecular geometry.
+                Pyrithione (1-hydroxy-2-pyridinethione) is an organosulfur compound with potent antimicrobial and antifungal properties. Its coordination complex, zinc pyrithione, is widely used in over-the-counter anti-dandruff shampoos and medical treatments.
               </p>
-              <a id="motw-link" href="https://pubchem.ncbi.nlm.nih.gov/compound/Xenon-tetrafluoride" target="_blank" rel="noopener"
+              <a id="motw-link" href="https://pubchem.ncbi.nlm.nih.gov/compound/1570" target="_blank" rel="noopener"
                  class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5 hover:text-acs-ink transition-colors">
                 3D structure from PubChem (NIH)
                 <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
@@ -1277,12 +1277,12 @@
        `url` is optional: set it when PubChem's named compound page reads better
        than the bare /compound/<cid> URL. Omit it and the CID link is used. */
     const MOTW = {
-      name: 'Hexachlorophene',
-      formula: 'C13H6Cl6O2',
-      cid: 3598,
-      url: 'https://pubchem.ncbi.nlm.nih.gov/compound/Hexachlorophene',
-      tag: 'Organochlorine / Antiseptic',
-      desc: 'Hexachlorophene is an organochlorine compound historically used as an antibacterial agent and topical disinfectant in soaps and healthcare products. It functions as an anti-infective against Gram-positive bacteria, though modern use is tightly regulated due to toxicity concerns.',
+      name: 'Pyrithione',
+      formula: 'C5H5NOS',
+      cid: 1570,
+      url: 'https://pubchem.ncbi.nlm.nih.gov/compound/1570',
+      tag: 'Antimicrobial / Antifungal Agent',
+      desc: 'Pyrithione (1-hydroxy-2-pyridinethione) is an organosulfur compound with potent antimicrobial and antifungal properties. Its coordination complex, zinc pyrithione, is widely used in over-the-counter anti-dandruff shampoos and medical treatments.',
     };
 
     (function renderMotwText() {
