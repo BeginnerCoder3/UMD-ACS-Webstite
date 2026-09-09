@@ -492,6 +492,14 @@
             Wednesdays · 6:30 – 8:30 PM
           </div>
 
+          <!-- Same room code / building / street order the event cards use, so the
+               two places a student can read the location agree line for line. -->
+          <div class="mt-2 flex items-start gap-2 text-sm font-semibold text-acs-ink">
+            <i data-lucide="map-pin" class="mt-0.5 h-4 w-4 shrink-0 text-acs-navy"></i>
+            JMZ 1103
+          </div>
+          <p class="mt-1 pl-6 text-[12.5px] text-acs-ink/55">Jiménez Hall · 4125 N. Library Lane, College Park, MD 20742</p>
+
           <p class="mt-5 text-acs-ink/80 leading-relaxed text-lg">
             Want to review for an exam or need a productive place to study? Join us for dedicated study sessions where you can work alongside other students, stay accountable, ask questions, and get help from an officer when you need it!
           </p>
@@ -983,7 +991,8 @@
     ];
     const tutoringEvents = TUTORING_DATES.map(date => ({
       title: 'Drop-In Study & Tutoring', category: 'Tutoring',
-      date, time: '18:00', endTime: '20:00', location: 'Chemistry Building, UMD',
+      date, time: '18:00', endTime: '20:00',
+      location: 'JMZ 1103', venue: 'Jiménez Hall', address: '4125 N. Library Lane, College Park, MD 20742',
       desc: 'Free drop-in help with any CHEM or BCHM course. Bring your problem set, or just come study alongside other people taking the same classes.',
     }));
 
@@ -995,7 +1004,8 @@
 
       { title: 'First Look Fair', category: 'Social', date: '2026-09-10', time: '09:00', endTime: '16:00', location: 'McKeldin Mall, UMD',
         desc: 'Find our table at the fall org fair. Stop by to meet the officers, ask questions, and sign up!' },
-      { title: 'Interest Meeting', category: 'Professional', date: '2026-09-14', time: '18:00', endTime: '19:00', location: 'CHEM 1407',
+      { title: 'Interest Meeting', category: 'Professional', date: '2026-09-14', time: '18:00', endTime: '19:00',
+        location: 'MTH B0421', venue: 'Mathematics Building', address: '4176 Campus Dr, College Park, MD 20742',
         desc: 'Our kickoff meeting for the year. We cover what the chapter does, how membership and service hours work, and how to get involved.' },
 
       { title: 'Speaker Series Vol. 1: Manessa Lormejuste', category: 'Speaker Series', date: '2026-09-17', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
@@ -1057,6 +1067,16 @@
         + String(next.getMonth() + 1).padStart(2, '0')
         + String(next.getDate()).padStart(2, '0');
     }
+    /* Room code first, then building and street address when the entry carries
+       them: 'JMZ 1103, Jiménez Hall, 4125 N. Library Lane, College Park, MD 20742'. */
+    function fullLocation(ev) {
+      return [ev.location, ev.venue, ev.address].filter(Boolean).join(', ');
+    }
+    /* Second line under the pin in the event cards: building then street. */
+    function addressLine(ev) {
+      return [ev.venue, ev.address].filter(Boolean).join(' · ');
+    }
+
     function googleCalendarUrl(ev) {
       // Entries with no `time` are all-day and use bare dates instead of stamps.
       const allDay = !ev.time;
@@ -1070,7 +1090,7 @@
         text: 'UMD ACS · ' + ev.title,
         dates: start + '/' + end,
         details: ev.desc + '\n\nHosted by the ACS Student Chapter at the University of Maryland. Questions? acsumcp@gmail.com',
-        location: ev.location,
+        location: fullLocation(ev),
       });
       return 'https://calendar.google.com/calendar/render?' + params.toString();
     }
@@ -1246,6 +1266,7 @@
               <p class="flex items-start gap-2"><i data-lucide="calendar" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-acs-navy"></i> ${prettyDateRange(ev)}</p>
               <p class="flex items-start gap-2"><i data-lucide="clock" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-acs-navy"></i> ${ev.time ? prettyTime(ev.time) + (ev.endTime ? ' – ' + prettyTime(ev.endTime) : '') : 'All day'}</p>
               <p class="flex items-start gap-2"><i data-lucide="map-pin" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-acs-navy"></i> <span class="break-words">${ev.location}</span></p>
+              ${addressLine(ev) ? `<p class="pl-[1.375rem] text-[12.5px] text-acs-ink/55 break-words">${addressLine(ev)}</p>` : ''}
             </div>
             <p class="mt-4 text-sm text-acs-ink/75 leading-relaxed flex-1">${ev.desc}</p>
             ${past
