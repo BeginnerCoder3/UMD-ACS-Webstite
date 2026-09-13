@@ -709,10 +709,6 @@
               </li>
               <li class="flex items-start gap-3 py-3.5 text-acs-ink/85">
                 <i data-lucide="check" class="h-4 w-4 text-acs-navy shrink-0 mt-1"></i>
-                <span>Be registered to take or have previously taken at least one CHEM or BCHM course at UMD.</span>
-              </li>
-              <li class="flex items-start gap-3 py-3.5 text-acs-ink/85">
-                <i data-lucide="check" class="h-4 w-4 text-acs-navy shrink-0 mt-1"></i>
                 <span>Attend at least three events per semester and complete the required service hours.</span>
               </li>
               <li class="flex items-start gap-3 py-3.5 text-acs-ink/85">
@@ -765,7 +761,7 @@
             <span class="faq-mark shrink-0 mt-1 text-2xl leading-none font-light text-acs-navy">+</span>
           </summary>
           <p class="pb-5 pr-10 text-acs-ink/80 leading-relaxed">
-            Any University of Maryland undergraduate or graduate student who is registered to take or has already taken at least one CHEM or BCHM course at UMD. Every major and every skill level is welcome. We are looking for students that are excited about STEM, networking, and community service.
+            Any University of Maryland undergraduate or graduate student! Every major and every skill level is welcome. We are looking for students who are excited about STEM, networking, and community service.
           </p>
         </details>
 
@@ -980,21 +976,28 @@
        EVENTS DATA + RENDER + GOOGLE CALENDAR LINK GENERATION
        ============================================================ */
     /* ACS Fall 2026 schedule. `endDate` is optional and only set on multi-day
-       entries (the supply drive); everything else ends the day it starts. */
+       entries (the supply drive); everything else ends the day it starts.
+       `location` is optional too — entries with no venue on the chapter calendar
+       carry none, and the cards leave the line out. */
 
-    // 16 identical drop-in sessions — listed as dates rather than repeated objects.
+    // 15 identical drop-in sessions — listed as dates rather than repeated objects.
+    // Sessions run 6:30–8:30 PM; only the opening session on Sep 2 runs 6–8 PM.
     const TUTORING_DATES = [
-      '2026-09-02', '2026-09-09', '2026-09-16', '2026-09-23', '2026-09-30',
+      '2026-09-09', '2026-09-16', '2026-09-23',
       '2026-10-07', '2026-10-14', '2026-10-21', '2026-10-28',
       '2026-11-04', '2026-11-11', '2026-11-18',
       '2026-12-01', '2026-12-02', '2026-12-08', '2026-12-09',
     ];
-    const tutoringEvents = TUTORING_DATES.map(date => ({
+    const tutoringSession = (date, time = '18:30', endTime = '20:30') => ({
       title: 'Drop-In Study & Tutoring', category: 'Tutoring',
-      date, time: '18:00', endTime: '20:00',
+      date, time, endTime,
       location: 'JMZ 1103', venue: 'Jiménez Hall', address: '4125 N. Library Lane, College Park, MD 20742',
       desc: 'Free drop-in help with any CHEM or BCHM course. Bring your problem set, or just come study alongside other people taking the same classes.',
-    }));
+    });
+    const tutoringEvents = [
+      tutoringSession('2026-09-02', '18:00', '20:00'),
+      ...TUTORING_DATES.map(date => tutoringSession(date)),
+    ];
 
     /* Speaker Series entries carry `speaker` and `field` so the name can be shown
        on its own line instead of being buried in the description. An entry with
@@ -1002,53 +1005,54 @@
     const events = [
       ...tutoringEvents,
 
-      { title: 'First Look Fair', category: 'Social', date: '2026-09-10', time: '09:00', endTime: '16:00', location: 'McKeldin Mall, UMD',
+      { title: 'First Look Fair', category: 'Social', date: '2026-09-10', time: '10:00', endTime: '15:00', location: 'McKeldin Mall, UMD',
         desc: 'Find our table at the fall org fair. Stop by to meet the officers, ask questions, and sign up!' },
       { title: 'Interest Meeting', category: 'Professional', date: '2026-09-14', time: '18:00', endTime: '19:00',
         location: 'MTH B0421', venue: 'Mathematics Building', address: '4176 Campus Dr, College Park, MD 20742',
         desc: 'Our kickoff meeting for the year. We cover what the chapter does, how membership and service hours work, and how to get involved.' },
 
-      { title: 'Speaker Series Vol. 1: Manessa Lormejuste', category: 'Speaker Series', date: '2026-09-17', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
+      { title: 'Speaker Series Vol. 1: Manessa Lormejuste', category: 'Speaker Series', date: '2026-09-24', time: '18:30', endTime: '19:30',
         speaker: 'Manessa Lormejuste', field: 'Cosmetic Chemistry',
-        desc: 'We open the semester with a look at cosmetic chemistry! Come meet Maneesa Lormejuste, a beauty scientist, product developer, and entrepreneur.' },
-      { title: 'Speaker Series Vol. 2: Krystle McClain', category: 'Speaker Series', date: '2026-10-01', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
+        desc: 'We open the semester with a look at cosmetic chemistry! Come meet Manessa Lormejuste, a beauty scientist, product developer, and entrepreneur.' },
+      { title: 'Speaker Series Vol. 2: Krystle McClain', category: 'Speaker Series', date: '2026-10-01', time: '18:30', endTime: '19:30',
         speaker: 'Krystle McClain', field: 'Environmental Chemistry',
         desc: 'Our second speaker this semester is Krystle McClain, a UMD alumna and environmental engineer with over a decade at the Navy, Air Force, and EPA. Come learn about her career, the challenges she overcame, and her advocacy for Black engineers in STEM.' },
-      { title: 'Speaker Series Vol. 3: Perry Gerakines', category: 'Speaker Series', date: '2026-10-15', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
+      { title: 'Speaker Series Vol. 3: Perry Gerakines', category: 'Speaker Series', date: '2026-10-15', time: '18:30', endTime: '19:30',
         speaker: 'Perry Gerakines', field: 'Astrochemistry',
         desc: 'Come hear Perry Gerakines, a NASA astrochemist, talk about interstellar ices, spectroscopy, and astrobiology. Formerly a physics professor at UAB, learn more about his research and experiences in astrosciences.' },
-      { title: 'Speaker Series Vol. 4: Eugene Peters', category: 'Speaker Series', date: '2026-10-29', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
-        speaker: 'Eugene Peters', field: 'Nuclear / Forensics Chemistry',
+      { title: 'Speaker Series Vol. 4: Gene Peters', category: 'Speaker Series', date: '2026-10-29', time: '18:30', endTime: '19:30',
+        speaker: 'Gene Peters', field: 'Nuclear / Forensics Chemistry',
         desc: 'Next up is Gene Peters! Currently a Senior Physical Scientist at the FBI Laboratory and previously a Repository Site Branch Chief at the U.S. Nuclear Commission, learn about Gene’s extensive career in both the field in forensic chemistry and nuclear chemistry.' },
-      { title: 'Speaker Series Vol. 5: Emily Arndt', category: 'Speaker Series', date: '2026-11-12', time: '18:30', endTime: '19:30', location: 'CHEM 1407',
+      { title: 'Speaker Series Vol. 5: Emily Arndt', category: 'Speaker Series', date: '2026-11-12', time: '18:30', endTime: '19:30',
         speaker: 'Emily Arndt', field: 'Polymers / Materials Chemistry',
-        desc: 'We wrap up the fall series with polymers and materials chemistry! Emily Ardnt is a Lead Polymer Synthetic Chemist at Bridgestone Americas. Ardnt has a PhD from MIT in Materials Science Engineering. Arndt is coming to speak about her experience in industry, and her lab work with polymers.' },
+        desc: 'We wrap up the fall series with polymers and materials chemistry! Emily Arndt is a Lead Polymer Synthetic Chemist at Bridgestone Americas. Arndt has a PhD from MIT in Materials Science Engineering. Arndt is coming to speak about her experience in industry, and her lab work with polymers.' },
 
-      { title: 'Five Guys Fundraiser', category: 'Fundraiser', date: '2026-09-22', time: '18:30', endTime: '20:30', location: 'Five Guys, College Park',
+      { title: 'Five Guys Fundraiser', category: 'Fundraiser', date: '2026-09-22', time: '18:30', endTime: '20:30',
+        location: 'Five Guys, College Park', address: '7346 Baltimore Ave, College Park, MD 20740',
         desc: 'Grab dinner and support the chapter — a share of the night’s sales comes back to us. Mention ACS at the register.' },
 
-      { title: 'Taylor Lab Tour', category: 'Lab Visit', date: '2026-09-28', time: '15:00', endTime: '16:00', location: 'Chemistry Building, UMD',
+      { title: 'Taylor Lab Tour', category: 'Lab Visit', date: '2026-09-29', time: '15:00', endTime: '16:00',
         desc: 'A behind-the-scenes look at an active research group on campus, led by the people who work in it.' },
-      { title: 'NIST Neutron Lab Tour', category: 'Lab Visit', date: '2026-10-10', time: '12:00', endTime: '14:00', location: 'NIST, Gaithersburg, MD',
+      { title: 'NIST Neutron Lab Tour', category: 'Lab Visit', date: '2026-10-09', time: '12:00', endTime: '14:00',
         desc: 'Tour the NIST Center for Neutron Research, a staple of chemistry, engineering, materials, and physics research.' },
-      { title: 'Department Lab Tour', category: 'Lab Visit', date: '2026-11-09', time: '15:00', endTime: '16:00', location: 'Chemistry Building, UMD',
+      { title: 'Lab Tour', category: 'Lab Visit', date: '2026-11-09', time: '15:00', endTime: '16:00',
         desc: 'Come learn what day-to-day research looks like and hear about the work being done in the department.' },
 
-      { title: 'Chemistry Night @ Springhill Lake Elementary', category: 'Outreach', date: '2026-10-12', time: '15:30', endTime: '17:00', location: 'Springhill Lake Elementary',
+      { title: 'Chemistry Night @ Springhill Lake Elementary', category: 'Outreach', date: '2026-10-12', time: '15:30', endTime: '17:00',
         desc: 'Hands-on demos with local elementary students. A good way to give back and earn service hours.' },
-      { title: 'Chemistry Night @ Rosa L. Parks Elementary', category: 'Outreach', date: '2026-10-26', time: '15:30', endTime: '17:00', location: 'Rosa L. Parks Elementary',
-        desc: 'Come explore chemistry and biochemistry topics in a fun, easy-to-understand way with local students.' },
-      { title: 'Chemistry Night @ Paint Branch Elementary', category: 'Outreach', date: '2026-11-02', time: '15:30', endTime: '17:00', location: 'Paint Branch Elementary',
-        desc: 'Our last school visit of the fall — experiments, demos, and a chance to try on some lab gear.' },
 
-      { title: 'Mole Day', category: 'Social', date: '2026-10-23', time: '18:00', endTime: '20:00',
-        location: 'ESJ (Edward St. John Learning and Teaching Center)',
+      { title: 'STEM Resume Workshop', category: 'Professional', date: '2026-10-26', time: '15:30', endTime: '17:00',
+        desc: 'Bring a draft or start from scratch. We go over what STEM employers look for and give feedback on your resume.' },
+      { title: 'Job & Internship Interview Workshop', category: 'Professional', date: '2026-11-02', time: '15:30', endTime: '17:00',
+        desc: 'Practice the questions that come up in job and internship interviews, and pick up tips on how to prepare for them.' },
+
+      { title: 'Mole Day Celebration', category: 'Social', date: '2026-10-23', time: '18:00', endTime: '20:00',
         desc: 'Celebrate Mole Day (6.02 × 10²³) with us — food, demos, and chemistry games. Open to everyone, members or not.' },
 
-      { title: 'School Supply Drive', category: 'Outreach', date: '2026-11-16', endDate: '2026-11-24', location: 'Chemistry Building, UMD',
+      { title: 'School Supply Drive', category: 'Outreach', date: '2026-11-16', endDate: '2026-11-24',
         desc: 'A week-long service drive collecting school supplies for local schools. Drop off supplies any day it is running — counts toward service hours.' },
 
-      { title: 'Pie-A-Professor & End of Semester Celebration', category: 'Social', date: '2026-12-04', time: '16:00', endTime: '17:00', location: 'Chemistry Building, UMD',
+      { title: 'Pie-A-Professor & End of Semester Celebration', category: 'Social', date: '2026-12-04', time: '16:00', endTime: '17:00',
         desc: 'We close out the semester with pie, professors, and questionable aim. Everyone is welcome.' },
     ];
 
@@ -1090,8 +1094,9 @@
         text: 'UMD ACS · ' + ev.title,
         dates: start + '/' + end,
         details: ev.desc + '\n\nHosted by the ACS Student Chapter at the University of Maryland. Questions? acsumcp@gmail.com',
-        location: fullLocation(ev),
       });
+      // Entries with no venue on the chapter calendar leave the field off entirely.
+      if (fullLocation(ev)) params.set('location', fullLocation(ev));
       return 'https://calendar.google.com/calendar/render?' + params.toString();
     }
 
@@ -1200,9 +1205,9 @@
             <span class="inline-flex items-center gap-1.5 min-w-0">
               <i data-lucide="calendar" class="h-3.5 w-3.5 shrink-0 text-acs-navy"></i><span>${whenLabel(ev)}</span>
             </span>
-            <span class="inline-flex items-center gap-1.5 min-w-0">
+            ${ev.location ? `<span class="inline-flex items-center gap-1.5 min-w-0">
               <i data-lucide="map-pin" class="h-3.5 w-3.5 shrink-0 text-acs-navy"></i><span class="break-words">${ev.location}</span>
-            </span>
+            </span>` : ''}
           </div>
         </a>
       `).join('');
@@ -1265,7 +1270,7 @@
             <div class="mt-4 pt-4 border-t border-acs-line space-y-1.5 text-[13px] text-acs-ink/70">
               <p class="flex items-start gap-2"><i data-lucide="calendar" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-acs-navy"></i> ${prettyDateRange(ev)}</p>
               <p class="flex items-start gap-2"><i data-lucide="clock" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-acs-navy"></i> ${ev.time ? prettyTime(ev.time) + (ev.endTime ? ' – ' + prettyTime(ev.endTime) : '') : 'All day'}</p>
-              <p class="flex items-start gap-2"><i data-lucide="map-pin" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-acs-navy"></i> <span class="break-words">${ev.location}</span></p>
+              ${ev.location ? `<p class="flex items-start gap-2"><i data-lucide="map-pin" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-acs-navy"></i> <span class="break-words">${ev.location}</span></p>` : ''}
               ${addressLine(ev) ? `<p class="pl-[1.375rem] text-[12.5px] text-acs-ink/55 break-words">${addressLine(ev)}</p>` : ''}
             </div>
             <p class="mt-4 text-sm text-acs-ink/75 leading-relaxed flex-1">${ev.desc}</p>
