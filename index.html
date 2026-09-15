@@ -980,10 +980,10 @@
        `location` is optional too — entries with no venue on the chapter calendar
        carry none, and the cards leave the line out. */
 
-    // 15 identical drop-in sessions — listed as dates rather than repeated objects.
+    // 16 identical drop-in sessions — listed as dates rather than repeated objects.
     // Sessions run 6:30–8:30 PM; only the opening session on Sep 2 runs 6–8 PM.
     const TUTORING_DATES = [
-      '2026-09-09', '2026-09-16', '2026-09-23',
+      '2026-09-09', '2026-09-16', '2026-09-23', '2026-09-30',
       '2026-10-07', '2026-10-14', '2026-10-21', '2026-10-28',
       '2026-11-04', '2026-11-11', '2026-11-18',
       '2026-12-01', '2026-12-02', '2026-12-08', '2026-12-09',
@@ -1011,19 +1011,19 @@
         location: 'MTH B0421', venue: 'Mathematics Building', address: '4176 Campus Dr, College Park, MD 20742',
         desc: 'Our kickoff meeting for the year. We cover what the chapter does, how membership and service hours work, and how to get involved.' },
 
-      { title: 'Speaker Series Vol. 1: Manessa Lormejuste', category: 'Speaker Series', date: '2026-09-24', time: '18:30', endTime: '19:30',
+      { title: 'Speaker Series Vol. 1: Manessa Lormejuste', category: 'Speaker Series', date: '2026-09-24', time: '18:30', endTime: '19:30', location: 'ASY3203',
         speaker: 'Manessa Lormejuste', field: 'Cosmetic Chemistry',
         desc: 'We open the semester with a look at cosmetic chemistry! Come meet Manessa Lormejuste, a beauty scientist, product developer, and entrepreneur.' },
-      { title: 'Speaker Series Vol. 2: Krystle McClain', category: 'Speaker Series', date: '2026-10-01', time: '18:30', endTime: '19:30',
+      { title: 'Speaker Series Vol. 2: Krystle McClain', category: 'Speaker Series', date: '2026-10-01', time: '18:30', endTime: '19:30', location: 'ASY3203',
         speaker: 'Krystle McClain', field: 'Environmental Chemistry',
         desc: 'Our second speaker this semester is Krystle McClain, a UMD alumna and environmental engineer with over a decade at the Navy, Air Force, and EPA. Come learn about her career, the challenges she overcame, and her advocacy for Black engineers in STEM.' },
-      { title: 'Speaker Series Vol. 3: Perry Gerakines', category: 'Speaker Series', date: '2026-10-15', time: '18:30', endTime: '19:30',
+      { title: 'Speaker Series Vol. 3: Perry Gerakines', category: 'Speaker Series', date: '2026-10-15', time: '18:30', endTime: '19:30', location: 'ASY3203',
         speaker: 'Perry Gerakines', field: 'Astrochemistry',
         desc: 'Come hear Perry Gerakines, a NASA astrochemist, talk about interstellar ices, spectroscopy, and astrobiology. Formerly a physics professor at UAB, learn more about his research and experiences in astrosciences.' },
-      { title: 'Speaker Series Vol. 4: Gene Peters', category: 'Speaker Series', date: '2026-10-29', time: '18:30', endTime: '19:30',
+      { title: 'Speaker Series Vol. 4: Gene Peters', category: 'Speaker Series', date: '2026-10-29', time: '18:30', endTime: '19:30', location: 'ASY3203',
         speaker: 'Gene Peters', field: 'Nuclear / Forensics Chemistry',
         desc: 'Next up is Gene Peters! Currently a Senior Physical Scientist at the FBI Laboratory and previously a Repository Site Branch Chief at the U.S. Nuclear Commission, learn about Gene’s extensive career in both the field in forensic chemistry and nuclear chemistry.' },
-      { title: 'Speaker Series Vol. 5: Emily Arndt', category: 'Speaker Series', date: '2026-11-12', time: '18:30', endTime: '19:30',
+      { title: 'Speaker Series Vol. 5: Emily Arndt', category: 'Speaker Series', date: '2026-11-12', time: '18:30', endTime: '19:30', location: 'ASY3203',
         speaker: 'Emily Arndt', field: 'Polymers / Materials Chemistry',
         desc: 'We wrap up the fall series with polymers and materials chemistry! Emily Arndt is a Lead Polymer Synthetic Chemist at Bridgestone Americas. Arndt has a PhD from MIT in Materials Science Engineering. Arndt is coming to speak about her experience in industry, and her lab work with polymers.' },
 
@@ -1044,10 +1044,10 @@
       { title: 'Chemistry Night @ Springhill Lake Elementary', category: 'Outreach', date: '2026-10-12', time: '15:30', endTime: '17:00',
         desc: 'Hands-on demos with local elementary students. A good way to give back and earn service hours.' },
 
-      { title: 'STEM Resume Workshop', category: 'Professional', date: '2026-10-26', time: '15:30', endTime: '17:00',
-        desc: 'Bring a draft or start from scratch. We go over what STEM employers look for and give feedback on your resume.' },
-      { title: 'Job & Internship Interview Workshop', category: 'Professional', date: '2026-11-02', time: '15:30', endTime: '17:00',
-        desc: 'Practice the questions that come up in job and internship interviews, and pick up tips on how to prepare for them.' },
+      { title: 'Professional Development Workshop 1 (TBD)', category: 'Professional', date: '2026-10-26', time: '15:30', endTime: '17:00',
+        desc: 'The first of two career workshops this fall. Topic to be announced — watch our Instagram and the chapter email for details.' },
+      { title: 'Professional Development Workshop 2 (TBD)', category: 'Professional', date: '2026-11-02', time: '15:30', endTime: '17:00',
+        desc: 'The second of two career workshops this fall. Topic to be announced — watch our Instagram and the chapter email for details.' },
 
       { title: 'Mole Day Celebration', category: 'Social', date: '2026-10-23', time: '18:00', endTime: '20:00',
         desc: 'Celebrate Mole Day (6.02 × 10²³) with us — food, demos, and chemistry games. Open to everyone, members or not.' },
@@ -1306,12 +1306,12 @@
        `url` is optional: set it when PubChem's named compound page reads better
        than the bare /compound/<cid> URL. Omit it and the CID link is used. */
     const MOTW = {
-      name: 'Pyrithione',
-      formula: 'C5H5NOS',
-      cid: 1570,
-      url: 'https://pubchem.ncbi.nlm.nih.gov/compound/1570',
-      tag: 'Antimicrobial / Antifungal Agent',
-      desc: 'Pyrithione (1-hydroxy-2-pyridinethione) is an organosulfur compound with potent antimicrobial and antifungal properties. Its coordination complex, zinc pyrithione, is widely used in over-the-counter anti-dandruff shampoos and medical treatments.',
+      name: '(–)-Hydroxycitric acid',
+      formula: 'C6H8O8',
+      cid: 185620,
+      url: 'https://pubchem.ncbi.nlm.nih.gov/compound/185620',
+      tag: 'Organic Acid / Dietary Derivative',
+      desc: '(–)-Hydroxycitric acid (HCA) is a derivative of citric acid found in tropical plants such as Garcinia cambogia and Hibiscus subdariffa. It acts as a competitive inhibitor of ATP citrate lyase, an enzyme involved in fatty acid biosynthesis.',
     };
 
     (function renderMotwText() {
