@@ -247,24 +247,24 @@
 
             <figcaption class="flex items-center justify-between gap-3 border-b border-acs-line px-5 py-3">
               <span class="text-[11px] font-semibold tracking-[0.24em] uppercase text-acs-navy">Molecule of the Week</span>
-              <span id="motw-tag" class="bg-acs-gold px-2 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase text-acs-navy">Antimicrobial / Antifungal Agent</span>
+              <span id="motw-tag" class="bg-acs-gold px-2 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase text-acs-navy">Ester / Cosmetic Emollient</span>
             </figcaption>
 
             <canvas id="molecule-canvas" class="w-full h-[300px] sm:h-[360px] bg-white"></canvas>
 
             <div class="border-t border-acs-line px-5 py-5">
               <h2 id="motw-name" class="font-display font-semibold text-2xl leading-tight text-acs-navy">
-                Pyrithione
+                Isopropyl myristate
               </h2>
               <p class="mt-1.5 text-[13px] text-acs-slate">
-                <span id="motw-formula">C<sub>5</sub>H<sub>5</sub>NOS</span>
+                <span id="motw-formula">C<sub>17</sub>H<sub>34</sub>O<sub>2</sub></span>
                 <span class="mx-2 text-acs-rule">|</span>
-                PubChem CID <span id="motw-cid">1570</span>
+                PubChem CID <span id="motw-cid">8042</span>
               </p>
               <p id="motw-desc" class="mt-3 text-sm leading-relaxed text-acs-ink/80">
-                Pyrithione (1-hydroxy-2-pyridinethione) is an organosulfur compound with potent antimicrobial and antifungal properties. Its coordination complex, zinc pyrithione, is widely used in over-the-counter anti-dandruff shampoos and medical treatments.
+                Isopropyl myristate is the ester of isopropanol and myristic acid, commonly used as a solvent, emollient, and penetration enhancer in cosmetics and topical medicinal preparations.
               </p>
-              <a id="motw-link" href="https://pubchem.ncbi.nlm.nih.gov/compound/1570" target="_blank" rel="noopener"
+              <a id="motw-link" href="https://pubchem.ncbi.nlm.nih.gov/compound/8042" target="_blank" rel="noopener"
                  class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5 hover:text-acs-ink transition-colors">
                 3D structure from PubChem (NIH)
                 <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
@@ -975,28 +975,35 @@
     /* ============================================================
        EVENTS DATA + RENDER + GOOGLE CALENDAR LINK GENERATION
        ============================================================ */
-    /* ACS Fall 2026 schedule. `endDate` is optional and only set on multi-day
-       entries (the supply drive); everything else ends the day it starts.
+    /* ACS Fall 2026 schedule. `endDate` is optional and set only on multi-day
+       entries; nothing on the current calendar runs long, so every entry here
+       ends the day it starts, but the field is still honoured everywhere.
        `location` is optional too — entries with no venue on the chapter calendar
        carry none, and the cards leave the line out. */
 
-    // 16 identical drop-in sessions — listed as dates rather than repeated objects.
+    // 16 drop-in sessions — listed as dates rather than repeated objects. They are
+    // otherwise identical except for the room, which moves twice during the term,
+    // so the dates are grouped under the room that hosts them.
     // Sessions run 6:30–8:30 PM; only the opening session on Sep 2 runs 6–8 PM.
-    const TUTORING_DATES = [
-      '2026-09-09', '2026-09-16', '2026-09-23', '2026-09-30',
-      '2026-10-07', '2026-10-14', '2026-10-21', '2026-10-28',
-      '2026-11-04', '2026-11-11', '2026-11-18',
-      '2026-12-01', '2026-12-02', '2026-12-08', '2026-12-09',
+    const TUTORING_ROOMS = [
+      { room: 'JMZ 1103', dates: ['2026-09-09', '2026-09-16'] },
+      { room: 'JMZ 0103', dates: ['2026-09-23'] },
+      { room: 'JMZ 2122', dates: [
+        '2026-09-30',
+        '2026-10-07', '2026-10-14', '2026-10-21', '2026-10-28',
+        '2026-11-04', '2026-11-11', '2026-11-18',
+        '2026-12-01', '2026-12-02', '2026-12-08', '2026-12-09',
+      ] },
     ];
-    const tutoringSession = (date, time = '18:30', endTime = '20:30') => ({
+    const tutoringSession = (date, room, time = '18:30', endTime = '20:30') => ({
       title: 'Drop-In Study & Tutoring', category: 'Tutoring',
       date, time, endTime,
-      location: 'JMZ 1103', venue: 'Jiménez Hall', address: '4125 N. Library Lane, College Park, MD 20742',
+      location: room, venue: 'Jiménez Hall', address: '4125 N. Library Lane, College Park, MD 20742',
       desc: 'Free drop-in help with any CHEM or BCHM course. Bring your problem set, or just come study alongside other people taking the same classes.',
     });
     const tutoringEvents = [
-      tutoringSession('2026-09-02', '18:00', '20:00'),
-      ...TUTORING_DATES.map(date => tutoringSession(date)),
+      tutoringSession('2026-09-02', 'JMZ 1103', '18:00', '20:00'),
+      ...TUTORING_ROOMS.flatMap(({ room, dates }) => dates.map(date => tutoringSession(date, room))),
     ];
 
     /* Speaker Series entries carry `speaker` and `field` so the name can be shown
@@ -1005,7 +1012,7 @@
     const events = [
       ...tutoringEvents,
 
-      { title: 'First Look Fair', category: 'Social', date: '2026-09-10', time: '10:00', endTime: '15:00', location: 'McKeldin Mall, UMD',
+      { title: 'First Look Fair', category: 'Social', date: '2026-09-10', time: '10:00', endTime: '15:00', location: 'McKeldin Mall',
         desc: 'Find our table at the fall org fair. Stop by to meet the officers, ask questions, and sign up!' },
       { title: 'Interest Meeting', category: 'Professional', date: '2026-09-14', time: '18:00', endTime: '19:00',
         location: 'MTH B0421', venue: 'Mathematics Building', address: '4176 Campus Dr, College Park, MD 20742',
@@ -1044,16 +1051,16 @@
       { title: 'Chemistry Night @ Springhill Lake Elementary', category: 'Outreach', date: '2026-10-12', time: '15:30', endTime: '17:00',
         desc: 'Hands-on demos with local elementary students. A good way to give back and earn service hours.' },
 
-      { title: 'Professional Development Workshop 1 (TBD)', category: 'Professional', date: '2026-10-26', time: '15:30', endTime: '17:00',
+      { title: 'Professional Development Workshop 1 (TBD)', category: 'Professional', date: '2026-10-26',
         desc: 'The first of two career workshops this fall. Topic to be announced — watch our Instagram and the chapter email for details.' },
-      { title: 'Professional Development Workshop 2 (TBD)', category: 'Professional', date: '2026-11-02', time: '15:30', endTime: '17:00',
+      { title: 'Professional Development Workshop 2 (TBD)', category: 'Professional', date: '2026-11-02',
         desc: 'The second of two career workshops this fall. Topic to be announced — watch our Instagram and the chapter email for details.' },
 
       { title: 'Mole Day Celebration', category: 'Social', date: '2026-10-23', time: '18:00', endTime: '20:00',
         desc: 'Celebrate Mole Day (6.02 × 10²³) with us — food, demos, and chemistry games. Open to everyone, members or not.' },
 
-      { title: 'School Supply Drive', category: 'Outreach', date: '2026-11-16', endDate: '2026-11-24',
-        desc: 'A week-long service drive collecting school supplies for local schools. Drop off supplies any day it is running — counts toward service hours.' },
+      { title: 'School Supply Drive', category: 'Outreach', date: '2026-11-16',
+        desc: 'Our service drive collecting school supplies for local schools kicks off today. Watch our Instagram and the chapter email for drop-off details — it counts toward service hours.' },
 
       { title: 'Pie-A-Professor & End of Semester Celebration', category: 'Social', date: '2026-12-04', time: '16:00', endTime: '17:00',
         desc: 'We close out the semester with pie, professors, and questionable aim. Everyone is welcome.' },
@@ -1110,8 +1117,9 @@
     function prettyDate(dateStr) {
       return toLocalDate(dateStr).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
     }
-    /* Multi-day entries read as a range ("Mon, Nov 16 – Tue, Nov 24, 2026"); the
-       year is printed once, on the end date. */
+    /* Multi-day entries read as a range ("Mon, Nov 16 – Fri, Nov 20, 2026"); the
+       year is printed once, on the end date. Nothing on the current calendar
+       spans days, so this path is unused until one does. */
     function prettyDateRange(ev) {
       if (!ev.endDate || ev.endDate === ev.date) return prettyDate(ev.date);
       const start = toLocalDate(ev.date)
@@ -1151,7 +1159,7 @@
     /* An event counts as past once its end time has elapsed. Parsed as local time
        so a same-day event stays "upcoming" until it actually finishes. */
     function eventEnd(ev) {
-      // endDate for multi-day runs: the supply drive stays "upcoming" until the
+      // endDate for multi-day runs: such an entry stays "upcoming" until the
       // final day elapses, not the day it opens.
       const [y, m, d] = (ev.endDate || ev.date).split('-').map(Number);
       const [h, min] = (ev.endTime || ev.time || '23:59').split(':').map(Number);
@@ -1315,59 +1323,121 @@
        and paste it in below. Drop the field and the viewer falls back to
        fetching PubChem by CID, which works whenever their API is not busy. */
     const MOTW = {
-      name: '(–)-Hydroxycitric acid',
-      formula: 'C6H8O8',
-      cid: 185620,
-      url: 'https://pubchem.ncbi.nlm.nih.gov/compound/185620',
-      tag: 'Organic Acid / Dietary Derivative',
-      desc: '(–)-Hydroxycitric acid (HCA) is a derivative of citric acid found in tropical plants such as Garcinia cambogia and Hibiscus subdariffa. It acts as a competitive inhibitor of ATP citrate lyase, an enzyme involved in fatty acid biosynthesis.',
-      sdf: `C6H8O8
-NCtclcactv09162619353D 0   0.00000     0.00000
- 
- 22 21  0  0  1  0  0  0  0  0999 V2000
-    2.5646    1.2464   -0.1853 O   0  0  0  0  0  0  0  0  0  0  0  0
-    2.4075   -0.0810   -0.0627 C   0  0  0  0  0  0  0  0  0  0  0  0
-    3.2308   -0.7343    0.5333 O   0  0  0  0  0  0  0  0  0  0  0  0
-    1.2042   -0.7564   -0.6685 C   0  0  1  0  0  0  0  0  0  0  0  0
-    1.1482   -0.5153   -1.7300 H   0  0  0  0  0  0  0  0  0  0  0  0
-    1.3206   -2.1715   -0.5069 O   0  0  0  0  0  0  0  0  0  0  0  0
-   -0.0635   -0.2655    0.0335 C   0  0  2  0  0  0  0  0  0  0  0  0
-    0.0098   -0.5816    1.4252 O   0  0  0  0  0  0  0  0  0  0  0  0
-   -1.2852   -0.9513   -0.5815 C   0  0  0  0  0  0  0  0  0  0  0  0
-   -2.5407   -0.3786    0.0241 C   0  0  0  0  0  0  0  0  0  0  0  0
-   -2.4660    0.4890    0.8617 O   0  0  0  0  0  0  0  0  0  0  0  0
-   -3.7419   -0.8323   -0.3670 O   0  0  0  0  0  0  0  0  0  0  0  0
-   -0.1863    1.2268   -0.1369 C   0  0  0  0  0  0  0  0  0  0  0  0
-   -0.2086    1.9459    0.8338 O   0  0  0  0  0  0  0  0  0  0  0  0
-   -0.2708    1.7571   -1.3671 O   0  0  0  0  0  0  0  0  0  0  0  0
-    3.3522    1.6345    0.2200 H   0  0  0  0  0  0  0  0  0  0  0  0
-    1.3753   -2.4589    0.4147 H   0  0  0  0  0  0  0  0  0  0  0  0
-    0.0903   -1.5274    1.6100 H   0  0  0  0  0  0  0  0  0  0  0  0
-   -1.2921   -0.7836   -1.6585 H   0  0  0  0  0  0  0  0  0  0  0  0
-   -1.2405   -2.0217   -0.3807 H   0  0  0  0  0  0  0  0  0  0  0  0
-   -4.5184   -0.4345    0.0499 H   0  0  0  0  0  0  0  0  0  0  0  0
-   -0.3481    2.7192   -1.4260 H   0  0  0  0  0  0  0  0  0  0  0  0
-  1  2  1  0  0  0  0
-  2  3  2  0  0  0  0
-  2  4  1  0  0  0  0
-  4  5  1  0  0  0  0
-  4  6  1  0  0  0  0
-  4  7  1  0  0  0  0
-  7  8  1  0  0  0  0
-  7  9  1  0  0  0  0
-  9 10  1  0  0  0  0
- 10 11  2  0  0  0  0
- 10 12  1  0  0  0  0
-  7 13  1  0  0  0  0
- 13 14  2  0  0  0  0
- 13 15  1  0  0  0  0
+      name: 'Isopropyl myristate',
+      formula: 'C17H34O2',
+      cid: 8042,
+      url: 'https://pubchem.ncbi.nlm.nih.gov/compound/8042',
+      tag: 'Ester / Cosmetic Emollient',
+      desc: 'Isopropyl myristate is the ester of isopropanol and myristic acid, commonly used as a solvent, emollient, and penetration enhancer in cosmetics and topical medicinal preparations.',
+      sdf: `C17H34O2
+  -OEChem-09222623443D
+
+ 53 52  0     0  0  0  0  0  0999 V2000
+    6.0504    0.3657   -0.4460 O   0  0  0  0  0  0  0  0  0  0  0  0
+    4.8569   -0.1223    1.4659 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.7154   -0.0878   -0.2451 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.6283   -1.1082    0.1000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.0991   -0.5897    0.1736 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2403   -0.5952   -0.2880 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.2235    0.4074   -0.1207 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8428   -1.6297    0.0272 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.6152   -0.1232    0.2300 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.2255   -1.1290   -0.3916 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.7038    0.8828   -0.1508 C   0  0  0  0  0  0  0  0  0  0  0  0
+    3.3681   -2.1031   -0.0785 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.0928    0.3694    0.2281 C   0  0  0  0  0  0  0  0  0  0  0  0
+    4.7563   -1.5923   -0.4672 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.1741    1.3805   -0.1180 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.1950   -0.3759    0.3177 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.5802    1.5367    0.1834 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.9766    1.8067   -0.3558 C   0  0  0  0  0  0  0  0  0  0  0  0
+    5.6407    2.7070   -0.0644 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.7076    0.1115   -1.3233 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.5037    0.8616    0.2615 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.6513   -1.3226    1.1754 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.8326   -2.0508   -0.4223 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.0961   -0.8150    1.2473 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.3105   -1.5323   -0.3466 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0283    0.3366    0.2502 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.2228   -0.3613   -1.3594 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.0366    1.3348    0.4346 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.1965    0.6664   -1.1866 H   0  0  0  0  0  0  0  0  0  0  0  0
+    0.6225   -2.5688   -0.4944 H   0  0  0  0  0  0  0  0  0  0  0  0
+    0.8418   -1.8480    1.1018 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.7912   -1.0694   -0.2957 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.6637   -0.3358    1.3047 H   0  0  0  0  0  0  0  0  0  0  0  0
+    2.2227   -0.9230   -1.4694 H   0  0  0  0  0  0  0  0  0  0  0  0
+    2.4176   -0.1719    0.1081 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.6650    1.0781   -1.2294 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.5146    1.8364    0.3573 H   0  0  0  0  0  0  0  0  0  0  0  0
+    3.3539   -2.3365    0.9934 H   0  0  0  0  0  0  0  0  0  0  0  0
+    3.1832   -3.0457   -0.6079 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.2973   -0.5716   -0.2958 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.1315    0.1575    1.3030 H   0  0  0  0  0  0  0  0  0  0  0  0
+    5.5017   -2.3776   -0.3001 H   0  0  0  0  0  0  0  0  0  0  0  0
+    4.7548   -1.3477   -1.5360 H   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.0166    2.3223    0.4173 H   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.1834    1.5926   -1.1919 H   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.1589    0.9923    0.1600 H   0  0  0  0  0  0  0  0  0  0  0  0
+    6.6813    1.3795    1.2649 H   0  0  0  0  0  0  0  0  0  0  0  0
+    7.9547    1.9531   -1.4413 H   0  0  0  0  0  0  0  0  0  0  0  0
+    8.4204    2.6924    0.1090 H   0  0  0  0  0  0  0  0  0  0  0  0
+    8.6301    0.9480   -0.1679 H   0  0  0  0  0  0  0  0  0  0  0  0
+    5.5051    2.8774   -1.1382 H   0  0  0  0  0  0  0  0  0  0  0  0
+    6.0227    3.6263    0.3900 H   0  0  0  0  0  0  0  0  0  0  0  0
+    4.6471    2.5045    0.3489 H   0  0  0  0  0  0  0  0  0  0  0  0
   1 16  1  0  0  0  0
-  6 17  1  0  0  0  0
-  8 18  1  0  0  0  0
-  9 19  1  0  0  0  0
-  9 20  1  0  0  0  0
- 12 21  1  0  0  0  0
- 15 22  1  0  0  0  0
+  1 17  1  0  0  0  0
+  2 16  2  0  0  0  0
+  3  4  1  0  0  0  0
+  3  5  1  0  0  0  0
+  3 20  1  0  0  0  0
+  3 21  1  0  0  0  0
+  4  6  1  0  0  0  0
+  4 22  1  0  0  0  0
+  4 23  1  0  0  0  0
+  5  7  1  0  0  0  0
+  5 24  1  0  0  0  0
+  5 25  1  0  0  0  0
+  6  8  1  0  0  0  0
+  6 26  1  0  0  0  0
+  6 27  1  0  0  0  0
+  7  9  1  0  0  0  0
+  7 28  1  0  0  0  0
+  7 29  1  0  0  0  0
+  8 10  1  0  0  0  0
+  8 30  1  0  0  0  0
+  8 31  1  0  0  0  0
+  9 11  1  0  0  0  0
+  9 32  1  0  0  0  0
+  9 33  1  0  0  0  0
+ 10 12  1  0  0  0  0
+ 10 34  1  0  0  0  0
+ 10 35  1  0  0  0  0
+ 11 13  1  0  0  0  0
+ 11 36  1  0  0  0  0
+ 11 37  1  0  0  0  0
+ 12 14  1  0  0  0  0
+ 12 38  1  0  0  0  0
+ 12 39  1  0  0  0  0
+ 13 15  1  0  0  0  0
+ 13 40  1  0  0  0  0
+ 13 41  1  0  0  0  0
+ 14 16  1  0  0  0  0
+ 14 42  1  0  0  0  0
+ 14 43  1  0  0  0  0
+ 15 44  1  0  0  0  0
+ 15 45  1  0  0  0  0
+ 15 46  1  0  0  0  0
+ 17 18  1  0  0  0  0
+ 17 19  1  0  0  0  0
+ 17 47  1  0  0  0  0
+ 18 48  1  0  0  0  0
+ 18 49  1  0  0  0  0
+ 18 50  1  0  0  0  0
+ 19 51  1  0  0  0  0
+ 19 52  1  0  0  0  0
+ 19 53  1  0  0  0  0
 M  END
 $$$$`,
     };
