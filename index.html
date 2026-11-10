@@ -247,24 +247,24 @@
 
             <figcaption class="flex items-center justify-between gap-3 border-b border-acs-line px-5 py-3">
               <span class="text-[11px] font-semibold tracking-[0.24em] uppercase text-acs-navy">Molecule of the Week</span>
-              <span id="motw-tag" class="bg-acs-gold px-2 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase text-acs-navy">Aldehyde / Flavor &amp; Fragrance</span>
+              <span id="motw-tag" class="bg-acs-gold px-2 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase text-acs-navy">Non-Kekulé Polynuclear Aromatic Hydrocarbon</span>
             </figcaption>
 
             <canvas id="molecule-canvas" class="w-full h-[300px] sm:h-[360px] bg-white"></canvas>
 
             <div class="border-t border-acs-line px-5 py-5">
               <h2 id="motw-name" class="font-display font-semibold text-2xl leading-tight text-acs-navy">
-                Benzaldehyde
+                [3]Triangulene
               </h2>
               <p class="mt-1.5 text-[13px] text-acs-slate">
-                <span id="motw-formula">C<sub>7</sub>H<sub>6</sub>O</span>
+                <span id="motw-formula">C<sub>22</sub>H<sub>12</sub></span>
                 <span class="mx-2 text-acs-rule">|</span>
-                PubChem CID <span id="motw-cid">240</span>
+                PubChem CID <span id="motw-cid">102065214</span>
               </p>
               <p id="motw-desc" class="mt-3 text-sm leading-relaxed text-acs-ink/80">
-                Benzaldehyde is the simplest aromatic aldehyde and the main component of bitter almond oil, valued as an almond flavoring and as a building block for dyes, pharmaceuticals, and fragrances.
+                [3]Triangulene is a highly reactive, triangle-shaped graphene fragment (nanographene) featuring two unpaired electrons. Due to its diradical nature, it is extremely difficult to synthesize and study, holding significant potential for future carbon-based spintronics and quantum computing.
               </p>
-              <a id="motw-link" href="https://pubchem.ncbi.nlm.nih.gov/compound/240" target="_blank" rel="noopener"
+              <a id="motw-link" href="https://pubchem.ncbi.nlm.nih.gov/compound/102065214" target="_blank" rel="noopener"
                  class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-acs-navy border-b border-acs-gold pb-0.5 hover:text-acs-ink transition-colors">
                 3D structure from PubChem (NIH)
                 <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
@@ -1014,7 +1014,7 @@
 
       { title: 'First Look Fair', category: 'Social', date: '2026-09-10', time: '10:00', endTime: '15:00', location: 'McKeldin Mall',
         desc: 'Find our table at the fall org fair. Stop by to meet the officers, ask questions, and sign up!' },
-      { title: 'Interest Meeting', category: 'Professional', date: '2026-09-14', time: '18:00', endTime: '19:00',
+      { title: 'Interesting Meeting', category: 'Professional', date: '2026-09-14', time: '18:00', endTime: '19:00',
         location: 'MTH B0421', venue: 'Mathematics Building', address: '4176 Campus Dr, College Park, MD 20742',
         desc: 'Our kickoff meeting for the year. We cover what the chapter does, how membership and service hours work, and how to get involved.' },
 
@@ -1043,22 +1043,14 @@
 
       { title: 'Taylor Lab Tour', category: 'Lab Visit', date: '2026-09-28', time: '15:00', endTime: '16:00',
         desc: 'A behind-the-scenes look at an active research group on campus, led by the people who work in it.' },
-      { title: 'NIST Neutron Lab Tour', category: 'Lab Visit', date: '2026-10-24', time: '12:00', endTime: '14:00',
-        desc: 'Tour the NIST Center for Neutron Research, a staple of chemistry, engineering, materials, and physics research.' },
+      { title: 'Lab Tour', category: 'Lab Visit', date: '2026-11-09', time: '15:00', endTime: '16:00',
+        desc: 'A second lab visit this fall. Watch our Instagram and the chapter email for the group and the meeting spot.' },
 
-      { title: 'Professional Development Workshop 1: Computational Chemistry', category: 'Professional', date: '2026-10-26',
-        desc: 'The first of two career workshops this fall, on computational chemistry — where modeling and simulation show up in real research, and how to start using the tools yourself. Watch our Instagram and the chapter email for the time and room.' },
-      { title: 'Professional Development Workshop 2: Intro to Interviews', category: 'Professional', date: '2026-11-02',
-        desc: 'The second of two career workshops this fall, an introduction to interviewing — what research, internship, and industry interviews ask for, and how to prepare for them. Watch our Instagram and the chapter email for the time and room.' },
-
-      { title: 'Mole Day Celebration', category: 'Social', date: '2026-10-23', time: '18:00', endTime: '20:00',
+      { title: 'Mole Day Celebration', category: 'Social', date: '2026-10-23', time: '17:00', endTime: '19:00',
         desc: 'Celebrate Mole Day (6.02 × 10²³) with us — food, demos, and chemistry games. Open to everyone, members or not.' },
 
-      { title: 'School Supply Drive', category: 'Outreach', date: '2026-11-16',
-        desc: 'Our service drive collecting school supplies for local schools kicks off today. Watch our Instagram and the chapter email for drop-off details — it counts toward service hours.' },
-
-      { title: 'Pie-A-Professor & End of Semester Celebration', category: 'Social', date: '2026-12-04', time: '16:00', endTime: '17:00',
-        desc: 'We close out the semester with pie, professors, and questionable aim. Everyone is welcome.' },
+      { title: 'End of Semester Celebration', category: 'Social', date: '2026-12-04', time: '16:00', endTime: '17:00',
+        desc: 'We close out the semester together with food, games, and good company. Everyone is welcome.' },
     ];
 
     /* Format a YYYY-MM-DD + HH:mm into Google Calendar UTC-less local format: YYYYMMDDTHHmmSS */
@@ -1318,44 +1310,98 @@
        and paste it in below. Drop the field and the viewer falls back to
        fetching PubChem by CID, which works whenever their API is not busy. */
     const MOTW = {
-      name: 'Benzaldehyde',
-      formula: 'C7H6O',
-      cid: 240,
-      url: 'https://pubchem.ncbi.nlm.nih.gov/compound/240',
-      tag: 'Aldehyde / Flavor & Fragrance',
-      desc: 'Benzaldehyde is the simplest aromatic aldehyde and the main component of bitter almond oil, valued as an almond flavoring and as a building block for dyes, pharmaceuticals, and fragrances.',
-      sdf: `C7H6O
-  -OEChem-09302619463D
+      name: '[3]Triangulene',
+      formula: 'C22H12',
+      // PubChem files triangulene as CID 102065214, whose record is the
+      // closed-shell C22H14 form — the C22H12 diradical above is the molecule
+      // being featured, and PubChem has no record of its own for it. The CID is
+      // kept because it is the right skeleton to draw and link; do not "correct"
+      // the formula to C22H14 to match the linked page.
+      cid: 102065214,
+      url: 'https://pubchem.ncbi.nlm.nih.gov/compound/102065214',
+      tag: 'Non-Kekulé Polynuclear Aromatic Hydrocarbon',
+      desc: '[3]Triangulene is a highly reactive, triangle-shaped graphene fragment (nanographene) featuring two unpaired electrons. Due to its diradical nature, it is extremely difficult to synthesize and study, holding significant potential for future carbon-based spintronics and quantum computing.',
+      sdf: `102065214
+  -OEChem-11092621383D
 
- 14 14  0     0  0  0  0  0  0999 V2000
-    2.8466   -0.3870    0.0002 O   0  0  0  0  0  0  0  0  0  0  0  0
-    0.5644    0.2371    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
-   -0.3437    1.2960    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
-    0.1013   -1.0787    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
-   -1.7147    1.0393    0.0001 C   0  0  0  0  0  0  0  0  0  0  0  0
-   -1.2698   -1.3354   -0.0001 C   0  0  0  0  0  0  0  0  0  0  0  0
-   -2.1777   -0.2764    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
-    1.9937    0.5050   -0.0003 C   0  0  0  0  0  0  0  0  0  0  0  0
-    0.0016    2.3267    0.0000 H   0  0  0  0  0  0  0  0  0  0  0  0
-    0.7902   -1.9194   -0.0001 H   0  0  0  0  0  0  0  0  0  0  0  0
-   -2.4218    1.8637    0.0001 H   0  0  0  0  0  0  0  0  0  0  0  0
-   -1.6308   -2.3599   -0.0001 H   0  0  0  0  0  0  0  0  0  0  0  0
-   -3.2452   -0.4764    0.0000 H   0  0  0  0  0  0  0  0  0  0  0  0
-    2.2986    1.5653   -0.0006 H   0  0  0  0  0  0  0  0  0  0  0  0
-  1  8  2  0  0  0  0
-  2  3  2  0  0  0  0
-  2  4  1  0  0  0  0
-  2  8  1  0  0  0  0
-  3  5  1  0  0  0  0
-  3  9  1  0  0  0  0
-  4  6  2  0  0  0  0
-  4 10  1  0  0  0  0
-  5  7  2  0  0  0  0
-  5 11  1  0  0  0  0
-  6  7  1  0  0  0  0
-  6 12  1  0  0  0  0
-  7 13  1  0  0  0  0
-  8 14  1  0  0  0  0
+ 36 41  0     0  0  0  0  0  0999 V2000
+    0.0131    0.0000    0.0001 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4612   -0.0005   -0.0001 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7201   -1.2266    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7192    1.2271    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.1760   -1.2138   -0.0003 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.1768    1.2123    0.0002 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0464   -2.4667   -0.0001 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0446    2.4667    0.0001 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4621   -2.5431   -0.0006 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4639    2.5421    0.0008 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.1346   -1.2200    0.0002 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.1338    1.2214    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.8201    0.0010    0.0002 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.5793   -1.2044   -0.0003 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.5801    1.2019    0.0002 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7733   -3.6670    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7707    3.6674   -0.0003 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.8397   -2.4336    0.0003 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.8380    2.4356   -0.0003 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.2776   -0.0015    0.0001 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.1630   -3.6497    0.0002 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.1604    3.6512   -0.0004 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.7762   -3.1001   -0.8925 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.7767   -3.1008    0.8908 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.7782    3.0987    0.8930 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.7790    3.0998   -0.8904 H   0  0  0  0  0  0  0  0  0  0  0  0
+    3.9103    0.0014    0.0002 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.1327   -2.1403   -0.0005 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.1341    2.1374    0.0005 H   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2534   -4.6219   -0.0002 H   0  0  0  0  0  0  0  0  0  0  0  0
+    0.2502    4.6220   -0.0003 H   0  0  0  0  0  0  0  0  0  0  0  0
+    3.9279   -2.4421    0.0005 H   0  0  0  0  0  0  0  0  0  0  0  0
+    3.9262    2.4448   -0.0004 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.3635   -0.0018    0.0001 H   0  0  0  0  0  0  0  0  0  0  0  0
+    2.7194   -4.5822    0.0002 H   0  0  0  0  0  0  0  0  0  0  0  0
+    2.7162    4.5841   -0.0006 H   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0  0  0  0
+  1  3  2  0  0  0  0
+  1  4  1  0  0  0  0
+  2  5  2  0  0  0  0
+  2  6  1  0  0  0  0
+  3  7  1  0  0  0  0
+  3 11  1  0  0  0  0
+  4  8  1  0  0  0  0
+  4 12  2  0  0  0  0
+  5  9  1  0  0  0  0
+  5 14  1  0  0  0  0
+  6 10  1  0  0  0  0
+  6 15  2  0  0  0  0
+  7  9  1  0  0  0  0
+  7 16  2  0  0  0  0
+  8 10  1  0  0  0  0
+  8 17  2  0  0  0  0
+  9 23  1  0  0  0  0
+  9 24  1  0  0  0  0
+ 10 25  1  0  0  0  0
+ 10 26  1  0  0  0  0
+ 11 13  2  0  0  0  0
+ 11 18  1  0  0  0  0
+ 12 13  1  0  0  0  0
+ 12 19  1  0  0  0  0
+ 13 27  1  0  0  0  0
+ 14 20  2  0  0  0  0
+ 14 28  1  0  0  0  0
+ 15 20  1  0  0  0  0
+ 15 29  1  0  0  0  0
+ 16 21  1  0  0  0  0
+ 16 30  1  0  0  0  0
+ 17 22  1  0  0  0  0
+ 17 31  1  0  0  0  0
+ 18 21  2  0  0  0  0
+ 18 32  1  0  0  0  0
+ 19 22  2  0  0  0  0
+ 19 33  1  0  0  0  0
+ 20 34  1  0  0  0  0
+ 21 35  1  0  0  0  0
+ 22 36  1  0  0  0  0
 M  END
 $$$$`,
     };
